@@ -19,7 +19,7 @@ public class Skill {
     private String level;
 
     @ManyToMany
-    @JoinTable(name = "user_skils",
+    @JoinTable(name = "user_skills",
             joinColumns = @JoinColumn(name = "skill_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new LinkedHashSet<>();
