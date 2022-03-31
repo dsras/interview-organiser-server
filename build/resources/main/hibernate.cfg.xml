@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-configuration>
+    <session-factory>
+        <property name="hbm2ddl.auto">update</property>
+        <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="connection.url">http://gradprogram2022.cjl67xjo081e.ap-south-1.rds.amazonaws.com/</property>
+        <property name="connection.username">iTracker</property>
+        <property name="connection.password">Accolite123</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="show_sql">true</property>
+    </session-factory>
+</hibernate-configuration>

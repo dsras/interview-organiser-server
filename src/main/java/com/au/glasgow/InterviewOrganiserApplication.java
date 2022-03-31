@@ -7,7 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class InterviewOrganiserApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(InterviewOrganiserApplication.class, args);
+
+		try {
+			SpringApplication.run(InterviewOrganiserApplication.class, args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
