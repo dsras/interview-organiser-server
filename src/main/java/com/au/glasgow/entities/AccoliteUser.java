@@ -5,7 +5,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "accolite_user")
-public class User {
+public class AccoliteUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)

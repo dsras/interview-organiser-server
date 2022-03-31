@@ -1,6 +1,5 @@
 package com.au.glasgow.service;
 
-import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserRepository;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
 import org.springframework.beans.factory.annotation.Autowired;
