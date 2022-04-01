@@ -11,7 +11,7 @@ public class UserSkill {
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private AccoliteUser user;
+    private User user;
 
     @MapsId("skillId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -26,11 +26,11 @@ public class UserSkill {
         this.skill = skill;
     }
 
-    public AccoliteUser getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(AccoliteUser user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

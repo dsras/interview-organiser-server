@@ -8,6 +8,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+
+/*
+request model
+to accept request for available interviewers
+ */
 @Getter
 @Setter
 public class AvailableUsersRequest {

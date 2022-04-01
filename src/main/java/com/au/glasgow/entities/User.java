@@ -5,7 +5,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "accolite_user")
-public class AccoliteUser {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
@@ -18,13 +18,13 @@ public class AccoliteUser {
     private String userpassword;
 
     @Column(name = "user_email", nullable = false, length = 80)
-    private String userEmail;
+    private String email;
 
     @Column(name = "user_mobile")
-    private Long userMobile;
+    private Long mobile;
 
     @Column(name = "user_name", nullable = false, length = 30)
-    private String userName;
+    private String name;
 
     @Column(name = "business_title", nullable = false, length = 30)
     private String businessTitle;
@@ -103,28 +103,28 @@ public class AccoliteUser {
         this.businessTitle = businessTitle;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Long getUserMobile() {
-        return userMobile;
+    public Long getMobile() {
+        return mobile;
     }
 
-    public void setUserMobile(Long userMobile) {
-        this.userMobile = userMobile;
+    public void setMobile(Long mobile) {
+        this.mobile = mobile;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUserpassword() {

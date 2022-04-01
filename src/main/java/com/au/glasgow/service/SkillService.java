@@ -1,5 +1,6 @@
 package com.au.glasgow.service;
 
+import com.au.glasgow.entities.Skill;
 import com.au.glasgow.repository.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -11,7 +11,7 @@ public class UserRole {
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private AccoliteUser user;
+    private User user;
 
     @MapsId("roleId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -26,11 +26,11 @@ public class UserRole {
         this.role = role;
     }
 
-    public AccoliteUser getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(AccoliteUser user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

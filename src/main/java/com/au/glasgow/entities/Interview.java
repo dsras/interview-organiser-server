@@ -16,11 +16,11 @@ public class Interview {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "organiser_id", nullable = false)
-    private AccoliteUser organiser;
+    private User organiser;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "interviewer_id", nullable = false)
-    private AccoliteUser interviewer;
+    private User interviewer;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "applicant_id", nullable = false)
@@ -101,19 +101,19 @@ public class Interview {
         this.applicant = applicant;
     }
 
-    public AccoliteUser getInterviewer() {
+    public User getInterviewer() {
         return interviewer;
     }
 
-    public void setInterviewer(AccoliteUser interviewer) {
+    public void setInterviewer(User interviewer) {
         this.interviewer = interviewer;
     }
 
-    public AccoliteUser getOrganiser() {
+    public User getOrganiser() {
         return organiser;
     }
 
-    public void setOrganiser(AccoliteUser organiser) {
+    public void setOrganiser(User organiser) {
         this.organiser = organiser;
     }
 

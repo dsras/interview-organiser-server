@@ -1,8 +1,10 @@
 package com.au.glasgow.service;
 
+import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserRepository;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,4 +51,11 @@ public class UserService implements ServiceInt<User>{
         return null;
     }
 
+    public User getByEmail(String email) {
+        return userRepository.getByEmail(email);
+    }
+
+    public User getByUsername(String username){
+        return userRepository.getByUsername(username);
+    }
 }

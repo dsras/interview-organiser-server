@@ -4,7 +4,6 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,7 +11,7 @@ import java.util.Objects;
 
 @Embeddable
 public class UserAvailabilityId implements Serializable {
-    private static final long serialVersionUID = 469383672752962575L;
+    private static final long serialVersionUID = 5091416534027691520L;
     @Column(name = "user_id", nullable = false)
     private Integer userId;
     @Column(name = "availabile_date", nullable = false)
