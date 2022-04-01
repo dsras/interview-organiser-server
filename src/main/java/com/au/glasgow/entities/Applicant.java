@@ -10,48 +10,48 @@ public class Applicant {
     @Column(name = "app_id", nullable = false)
     private Integer id;
 
-    @Column(name = "app_firstname", nullable = false)
-    private String appFirstname;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    @Column(name = "app_lastame", nullable = false)
-    private String appLastame;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
-    @Column(name = "app_email", nullable = false)
-    private String appEmail;
+    @Column(name = "email", nullable = false)
+    private String email;
 
-    @Column(name = "app_mobile")
-    private Long appMobile;
+    @Column(name = "mobile")
+    private Long mobile;
 
-    public Long getAppMobile() {
-        return appMobile;
+    public Long getMobile() {
+        return mobile;
     }
 
-    public void setAppMobile(Long appMobile) {
-        this.appMobile = appMobile;
+    public void setMobile(Long mobile) {
+        this.mobile = mobile;
     }
 
-    public String getAppEmail() {
-        return appEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAppEmail(String appEmail) {
-        this.appEmail = appEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getAppLastame() {
-        return appLastame;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setAppLastame(String appLastame) {
-        this.appLastame = appLastame;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getAppFirstname() {
-        return appFirstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setAppFirstname(String appFirstname) {
-        this.appFirstname = appFirstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public Integer getId() {

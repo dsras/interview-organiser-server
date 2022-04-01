@@ -1,8 +1,14 @@
 package com.au.glasgow.service;
 
 import com.au.glasgow.entities.UserAvailability;
+import com.au.glasgow.repository.AvailabilityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class AvailabilityService implements ServiceInt<UserAvailability> {
+
+    @Autowired
+    private AvailabilityRepository availabilityRepository;
+
     @Override
     public UserAvailability getById(Integer id) {
         return null;

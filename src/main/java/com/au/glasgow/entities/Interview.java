@@ -3,8 +3,6 @@ package com.au.glasgow.entities;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "interview")
@@ -14,21 +12,17 @@ public class Interview {
     @Column(name = "interview_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "organiser_id", nullable = false)
-    private User organiser;
+    @Column(name = "organiser_id", nullable = false)
+    private Integer organiserId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "interviewer_id", nullable = false)
-    private User interviewer;
+    @Column(name = "interviewer_id", nullable = false)
+    private Integer interviewerId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "applicant_id", nullable = false)
-    private Applicant applicant;
+    @Column(name = "applicant_id", nullable = false)
+    private Integer applicantId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "role_applied", nullable = false)
-    private Role roleApplied;
+    @Column(name = "role_applied", nullable = false)
+    private Integer roleApplied;
 
     @Column(name = "interview_date", nullable = false)
     private LocalDate interviewDate;
@@ -41,17 +35,6 @@ public class Interview {
 
     @Column(name = "confirmed", nullable = false)
     private Integer confirmed;
-
-    @OneToMany(mappedBy = "interview")
-    private Set<InterviewApplicant> interviewApplicants = new LinkedHashSet<>();
-
-    public Set<InterviewApplicant> getInterviewApplicants() {
-        return interviewApplicants;
-    }
-
-    public void setInterviewApplicants(Set<InterviewApplicant> interviewApplicants) {
-        this.interviewApplicants = interviewApplicants;
-    }
 
     public Integer getConfirmed() {
         return confirmed;
@@ -85,36 +68,36 @@ public class Interview {
         this.interviewDate = interviewDate;
     }
 
-    public Role getRoleApplied() {
+    public Integer getRoleApplied() {
         return roleApplied;
     }
 
-    public void setRoleApplied(Role roleApplied) {
+    public void setRoleApplied(Integer roleApplied) {
         this.roleApplied = roleApplied;
     }
 
-    public Applicant getApplicant() {
-        return applicant;
+    public Integer getApplicantId() {
+        return applicantId;
     }
 
-    public void setApplicant(Applicant applicant) {
-        this.applicant = applicant;
+    public void setApplicantId(Integer applicantId) {
+        this.applicantId = applicantId;
     }
 
-    public User getInterviewer() {
-        return interviewer;
+    public Integer getInterviewerId() {
+        return interviewerId;
     }
 
-    public void setInterviewer(User interviewer) {
-        this.interviewer = interviewer;
+    public void setInterviewerId(Integer interviewerId) {
+        this.interviewerId = interviewerId;
     }
 
-    public User getOrganiser() {
-        return organiser;
+    public Integer getOrganiserId() {
+        return organiserId;
     }
 
-    public void setOrganiser(User organiser) {
-        this.organiser = organiser;
+    public void setOrganiserId(Integer organiserId) {
+        this.organiserId = organiserId;
     }
 
     public Integer getId() {

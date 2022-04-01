@@ -1,4 +1,4 @@
-package com.au.glasgow;
+package com.au.glasgow.controller;
 
 import com.au.glasgow.entities.User;
 import com.au.glasgow.service.UserService;
