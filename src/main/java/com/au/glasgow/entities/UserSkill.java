@@ -5,15 +5,15 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user_skills")
 public class UserSkill {
-    @EmbeddedId
-    private UserSkillId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userskill_id", nullable = false)
+    private Integer id;
 
-    @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @MapsId("skillId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
@@ -34,11 +34,11 @@ public class UserSkill {
         this.user = user;
     }
 
-    public UserSkillId getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UserSkillId id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

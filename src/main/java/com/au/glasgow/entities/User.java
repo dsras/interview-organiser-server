@@ -18,13 +18,13 @@ public class User {
     private String userpassword;
 
     @Column(name = "user_email", nullable = false, length = 80)
-    private String email;
+    private String userEmail;
 
     @Column(name = "user_mobile")
-    private Long mobile;
+    private Long userMobile;
 
     @Column(name = "user_name", nullable = false, length = 30)
-    private String name;
+    private String userName;
 
     @Column(name = "business_title", nullable = false, length = 30)
     private String businessTitle;
@@ -103,28 +103,28 @@ public class User {
         this.businessTitle = businessTitle;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public Long getMobile() {
-        return mobile;
+    public Long getUserMobile() {
+        return userMobile;
     }
 
-    public void setMobile(Long mobile) {
-        this.mobile = mobile;
+    public void setUserMobile(Long userMobile) {
+        this.userMobile = userMobile;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getUserpassword() {

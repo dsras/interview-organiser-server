@@ -4,7 +4,6 @@ import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserRepository;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

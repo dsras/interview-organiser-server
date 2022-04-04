@@ -1,10 +1,7 @@
 package com.au.glasgow.controller;
 
-import com.au.glasgow.entities.User;
 import com.au.glasgow.service.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

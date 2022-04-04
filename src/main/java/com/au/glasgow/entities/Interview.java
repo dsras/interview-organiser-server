@@ -12,17 +12,21 @@ public class Interview {
     @Column(name = "interview_id", nullable = false)
     private Integer id;
 
-    @Column(name = "organiser_id", nullable = false)
-    private Integer organiserId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "organiser_id", nullable = false)
+    private User organiser;
 
-    @Column(name = "interviewer_id", nullable = false)
-    private Integer interviewerId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "interviewer_id", nullable = false)
+    private User interviewer;
 
-    @Column(name = "applicant_id", nullable = false)
-    private Integer applicantId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "applicant_id", nullable = false)
+    private Applicant applicant;
 
-    @Column(name = "role_applied", nullable = false)
-    private Integer roleApplied;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "role_applied", nullable = false)
+    private Role roleApplied;
 
     @Column(name = "interview_date", nullable = false)
     private LocalDate interviewDate;
@@ -68,36 +72,36 @@ public class Interview {
         this.interviewDate = interviewDate;
     }
 
-    public Integer getRoleApplied() {
+    public Role getRoleApplied() {
         return roleApplied;
     }
 
-    public void setRoleApplied(Integer roleApplied) {
+    public void setRoleApplied(Role roleApplied) {
         this.roleApplied = roleApplied;
     }
 
-    public Integer getApplicantId() {
-        return applicantId;
+    public Applicant getApplicant() {
+        return applicant;
     }
 
-    public void setApplicantId(Integer applicantId) {
-        this.applicantId = applicantId;
+    public void setApplicant(Applicant applicant) {
+        this.applicant = applicant;
     }
 
-    public Integer getInterviewerId() {
-        return interviewerId;
+    public User getInterviewer() {
+        return interviewer;
     }
 
-    public void setInterviewerId(Integer interviewerId) {
-        this.interviewerId = interviewerId;
+    public void setInterviewer(User interviewer) {
+        this.interviewer = interviewer;
     }
 
-    public Integer getOrganiserId() {
-        return organiserId;
+    public User getOrganiser() {
+        return organiser;
     }
 
-    public void setOrganiserId(Integer organiserId) {
-        this.organiserId = organiserId;
+    public void setOrganiser(User organiser) {
+        this.organiser = organiser;
     }
 
     public Integer getId() {
