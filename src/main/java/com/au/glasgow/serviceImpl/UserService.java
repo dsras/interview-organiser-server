@@ -1,15 +1,20 @@
-package com.au.glasgow.service;
+package com.au.glasgow.serviceImpl;
 
+import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserRepository;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
+import com.au.glasgow.service.ServiceInt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;s
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
-public class UserService implements ServiceInt<User>{
+public class UserService implements ServiceInt<User> {
 
     @Autowired
     private UserRepository userRepository;
@@ -46,8 +51,7 @@ public class UserService implements ServiceInt<User>{
     (2) have availability on this date between these times
     (3) do not have interviews booked on this date between these times */
     public List<User> getAvailableUsers(AvailableUsersRequest availableUsersRequest){
-
-        return null;
+        return userRepository.getAvailableUser(availableUsersRequest);
     }
 
     public User getByEmail(String email) {
@@ -56,5 +60,13 @@ public class UserService implements ServiceInt<User>{
 
     public User getByUsername(String username){
         return userRepository.getByUsername(username);
+    }
+
+    public Set<SimpleGrantedAuthority> getAuthority(User user) {
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        userRepository.getRolesByUsername(user.getUsername()).forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+        });
+        return authorities;
     }
 }

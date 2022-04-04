@@ -1,7 +1,8 @@
-package com.au.glasgow.service;
+package com.au.glasgow.serviceImpl;
 
 import com.au.glasgow.entities.Skill;
 import com.au.glasgow.repository.SkillRepository;
+import com.au.glasgow.service.ServiceInt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

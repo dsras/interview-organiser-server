@@ -1,5 +1,10 @@
 package com.au.glasgow.entities;
 
+import com.au.glasgow.utility.DateHandler;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -29,12 +34,16 @@ public class Interview {
     private Role roleApplied;
 
     @Column(name = "interview_date", nullable = false)
+    @JsonFormat(pattern="dd-MM-yyyy")
+//    @JsonDeserialize(using = DateHandler.class)
     private LocalDate interviewDate;
 
     @Column(name = "time_start", nullable = false)
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime timeStart;
 
     @Column(name = "time_end", nullable = false)
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime timeEnd;
 
     @Column(name = "confirmed", nullable = false)
