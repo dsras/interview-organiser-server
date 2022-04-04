@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
+
 /*
 user controller
 handles user-related requests
@@ -62,6 +64,7 @@ public class UserController {
 
     /* create new user */
     @PostMapping("/new")
+    @PermitAll
     public User newUser(@RequestBody User newUser) {
         return userService.save(newUser);
     }

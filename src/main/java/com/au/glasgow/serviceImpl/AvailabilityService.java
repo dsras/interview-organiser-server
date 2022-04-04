@@ -1,5 +1,6 @@
 package com.au.glasgow.serviceImpl;
 
+import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.repository.AvailabilityRepository;
 import com.au.glasgow.service.ServiceInt;
 import org.springframework.beans.factory.annotation.Autowired;
