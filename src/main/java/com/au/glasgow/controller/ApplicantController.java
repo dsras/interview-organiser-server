@@ -1,10 +1,9 @@
 package com.au.glasgow.controller;
 
 import com.au.glasgow.entities.Applicant;
-import com.au.glasgow.service.ApplicantService;
+import com.au.glasgow.serviceImpl.ApplicantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,16 +19,24 @@ public class ApplicantController {
         return "Welcome";
     }
 
-
 //    /* get user by <some field>  - CHANGE USERNAME TO SOME OTHER FIELD */
 //    @GetMapping("/applicant")
-//    public ResponseEntity<Applicant> getApplicant(@RequestParam(value="username", required = true) String username){
-//        return new ResponseEntity<Applicant>(applicantService.getByUsername(username), HttpStatus.OK);
+//    @PreAuthorize("hasAnyRole('ADMIN','RECRUITER')")
+//    public Applicant getApplicant(@RequestParam(value="username", required = true) String username){
+//        return applicantService.getByUsername(username);
 //    }
 
-    /* create new user */
+    /* create new user
+    * JSON format for POST request body:
+    * {
+    *   "firstName" : "Anna",
+    *   "lastName" : "Brown",
+    *   "email" : "ab@gmail.com"
+    * }
+    * */
     @PostMapping("/new")
-    public ResponseEntity<Applicant> newApplicant(@RequestBody Applicant applicant) {
-        return new ResponseEntity<Applicant>(applicantService.save(applicant), HttpStatus.CREATED);
+    @PreAuthorize("hasAnyRole('ADMIN','RECRUITER')")
+    public Applicant newApplicant(@RequestBody Applicant applicant) {
+        return applicantService.save(applicant);
     }
 }

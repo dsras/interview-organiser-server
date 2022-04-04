@@ -1,10 +1,10 @@
 package com.au.glasgow.controller;
 
 import com.au.glasgow.entities.User;
-import com.au.glasgow.service.UserService;
+import com.au.glasgow.requestModels.AvailableUsersRequest;
+import com.au.glasgow.serviceImpl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /*
@@ -52,29 +52,35 @@ public class UserController {
     }
 
 
-    /* get user by username */
+    /* get user by username
+    * access: all */
     @GetMapping("/user")
-    public ResponseEntity<User> getUser(@RequestParam(value="username", required = true) String username){
-        return new ResponseEntity<User>(userService.getByUsername(username), HttpStatus.OK);
+    @PreAuthorize("hasRole('ADMIN', 'RECRUITER', 'USER')")
+    public User getUser(@RequestParam(value="username", required = true) String username){
+        return userService.getByUsername(username);
     }
 
     /* create new user */
     @PostMapping("/new")
-    public ResponseEntity<User> newUser(@RequestBody User newUser) {
-        return new ResponseEntity<User>(userService.save(newUser), HttpStatus.CREATED);
+    public User newUser(@RequestBody User newUser) {
+        return userService.save(newUser);
     }
 
-//    @PostMapping("/users")
-//    public List<User> getAvailableUsers(@RequestBody AvailableUsersRequest availableUsersRequest){
-//        /*
-//        need a service method to call
-//        that takes this request
-//        finds skills by ID
-//        finds interviewers that
-//        (1) have these skills
-//        (2) have availability on this date between these times
-//        (3) do not have interviews booked on this date between these times
-//         */
-//        return null;
-//    }
+    /* get interviewers available for interview
+    * access: only admins and recruiters */
+    @PostMapping("/available")
+    @PreAuthorize("hasAnyRole('ADMIN','RECRUITER')")
+    public AvailableUsersRequest getAvailableUsers(@RequestBody AvailableUsersRequest availableUsersRequest){
+        AvailableUsersRequest test = availableUsersRequest;
+        /*
+        need a service method to call
+        that takes this request
+        finds skills by ID
+        finds interviewers that
+        (1) have these skills
+        (2) have availability on this date between these times
+        (3) do not have interviews booked on this date between these times
+         */
+        return test;
+    }
 }

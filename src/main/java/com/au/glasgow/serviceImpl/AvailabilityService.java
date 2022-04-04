@@ -1,9 +1,12 @@
-package com.au.glasgow.service;
+package com.au.glasgow.serviceImpl;
 
 import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.repository.AvailabilityRepository;
+import com.au.glasgow.service.ServiceInt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AvailabilityService implements ServiceInt<UserAvailability> {
 
     @Autowired
@@ -21,7 +24,8 @@ public class AvailabilityService implements ServiceInt<UserAvailability> {
 
     @Override
     public <S extends UserAvailability> UserAvailability save(UserAvailability entity) {
-        return null;
+
+        return availabilityRepository.save(entity);
     }
 
     @Override

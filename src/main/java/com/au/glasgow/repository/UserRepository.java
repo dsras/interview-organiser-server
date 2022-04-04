@@ -1,13 +1,14 @@
 package com.au.glasgow.repository;
 
+import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
@@ -18,13 +19,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("FROM User WHERE username = :username")
     User getByUsername(@Param("username")String username);
 
-//    @Query("From User u, UserAvailability a, Interview i " +
-//            "WHERE u = a.user AND ")
-//    ResponseEntity<List<User>> getAvailableUser(AvailableUsersRequest availableUsersRequest);
-//    @Query
-//    public List<User> getAvailableUsers(AvailableUsersRequest availableUsersRequest){
-//        Query query= createQuery("from Student where name = :name and university= :university");
-//        query.setParameter("university", "RTGU");
-//        query.setParameter("name", "John");
-//    }
+    @Query("SELECT a.user from UserAvailability a")
+//            "UserAvailability a, Interview i " +
+//            "WHERE u = a.user AND u.id = i.interviewerId")
+    List<User> getAvailableUser(AvailableUsersRequest availableUsersRequest);
+
+    @Query("SELECT r from Role r WHERE r.id = (SELECT ur.id from UserRole ur WHERE ur.user.username = ?1")
+    Set<Role> getRolesByUsername(String username);
+
 }
