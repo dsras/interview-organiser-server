@@ -3,7 +3,11 @@ package com.au.glasgow.controller;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
 import com.au.glasgow.serviceImpl.UserService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -52,8 +56,8 @@ public class UserController {
 
     /* test method */
     @GetMapping("/welcome")
-    public String welcome(){
-        return "Welcome";
+    public ResponseEntity<String> welcome(){
+        return new ResponseEntity<String>("Welcome", HttpStatus.OK);
 //        return SecurityContextHolder.getContext().getAuthentication();
     }
 
