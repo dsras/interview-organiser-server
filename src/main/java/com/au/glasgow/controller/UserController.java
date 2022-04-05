@@ -1,18 +1,28 @@
 package com.au.glasgow.controller;
 
+import com.au.glasgow.config.TokenProvider;
+import com.au.glasgow.dto.AuthToken;
+import com.au.glasgow.dto.LoginUser;
 import com.au.glasgow.entities.User;
+import com.au.glasgow.exception.InvalidTokenException;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
+import com.au.glasgow.service.TokenValidationService;
 import com.au.glasgow.serviceImpl.UserService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.PermitAll;
-import java.security.Principal;
+import javax.persistence.EntityNotFoundException;
+import java.util.regex.Pattern;
 
 /*
 user controller
@@ -22,38 +32,27 @@ handles user-related requests
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    /*
-    requests:
-    GET:
-    - profile details
-    - skills
-    - availability (for time period)
-    - scheduled interviews (for time period)
-
-    POST
-    - create user (? unsure how this happens atm)
-    - add skill
-    - add availability
-
-    PUT
-    - update skill
-
-    extra:
-    PUT
-    - edit availability
-
-    DELETE
-    - delete availability
-
-     */
 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TokenValidationService tokenValidationService;
+
+    private TokenProvider tokenProvider;
+    private AuthenticationManager authenticationManager;
+    private final String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@accolitedigital.com";
+
+    public UserController(AuthenticationManager authenticationManager, TokenProvider tokenProvider, UserService userService) {
+        this.authenticationManager = authenticationManager;
+        this.tokenProvider = tokenProvider;
+        this.userService = userService;
+    }
+
     /* test method */
     @GetMapping("/welcome")
     public String welcome(){
-        return "Welcome";
+        return JSONObject.quote("Welcome");
 //        return SecurityContextHolder.getContext().getAuthentication();
     }
 
@@ -62,8 +61,8 @@ public class UserController {
     * access: all */
     @GetMapping("/user")
     @PreAuthorize("hasRole('ADMIN', 'RECRUITER', 'USER')")
-    public User getUser(@RequestParam(value="username", required = true) String username){
-        return userService.getByUsername(username);
+    public UserDetails getUser(@RequestParam(value="username", required = true) String username){
+        return userService.loadUserByUsername(username);
     }
 
     /* create new user */
@@ -88,5 +87,27 @@ public class UserController {
         (3) do not have interviews booked on this date between these times
          */
         return test;
+    }
+
+    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser)
+            throws AuthenticationException, InvalidTokenException {
+        if (Pattern.compile(regex).matcher(loginUser.getUsername()).matches()) {
+            if (tokenValidationService.isTokenValid(loginUser.getUsername(),loginUser.getPassword())) {
+                if (userService.checkIfUserExists(loginUser)) {
+                    return ResponseEntity.ok(new AuthToken(tokenProvider.generateTokenFromGoogleToken(loginUser.getUsername(),loginUser.getPassword())));
+                } else {
+                    throw new EntityNotFoundException("User Not Registered with RaFT");
+                }
+            } else {
+                throw new InvalidTokenException("for username " + loginUser.getUsername());
+            }
+        } else {
+            final Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            final String token = tokenProvider.generateToken(authentication);
+            return ResponseEntity.ok(new AuthToken(token));
+        }
     }
 }

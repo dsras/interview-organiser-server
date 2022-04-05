@@ -1,6 +1,7 @@
 package com.au.glasgow.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
@@ -15,6 +16,9 @@ public class Role {
 
     @Column(name = "role_name", nullable = false, length = 100)
     private String roleName;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+    private Set<User> users;
 
     public String getRoleName() {
         return roleName;

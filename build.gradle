@@ -17,14 +17,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'mysql:mysql-connector-java:8.0.28'
 	implementation 'org.projectlombok:lombok:1.18.20'
+	implementation 'junit:junit:4.13.1'
+	testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.6.2'
+	testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.15'
+	implementation 'org.mockito:mockito-core:3.8.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation group: 'org.hibernate.orm', name: 'hibernate-gradle-plugin', version: '6.0.0.Alpha6'
 	implementation 'org.springframework.boot:spring-boot-starter-security:2.6.5'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	implementation group: 'com.google.api-client', name: 'google-api-client', version: '1.33.4'
+	implementation group: 'org.json', name: 'json', version: '20220320'
 }
-
 
 tasks.named('test') {
 	useJUnitPlatform()

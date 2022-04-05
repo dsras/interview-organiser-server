@@ -16,8 +16,8 @@ public class UserAvailability {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "availabile_date", nullable = false)
-    private LocalDate availabileDate;
+    @Column(name = "available_date", nullable = false)
+    private LocalDate availableDate;
 
     @Column(name = "available_from", nullable = false)
     private LocalTime availableFrom;
@@ -41,12 +41,12 @@ public class UserAvailability {
         this.availableFrom = availableFrom;
     }
 
-    public LocalDate getAvailabileDate() {
-        return availabileDate;
+    public LocalDate getAvailableDate() {
+        return availableDate;
     }
 
-    public void setAvailabileDate(LocalDate availabileDate) {
-        this.availabileDate = availabileDate;
+    public void setAvailableDate(LocalDate availabileDate) {
+        this.availableDate = availabileDate;
     }
 
     public User getUser() {

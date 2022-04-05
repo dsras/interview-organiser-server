@@ -2,6 +2,7 @@ package com.au.glasgow.entities;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Set;
 
 @Entity
 @Table(name = "accolite_user")
@@ -46,6 +47,12 @@ public class User {
 
     @Column(name = "prior_experience")
     private Integer priorExperience;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "USER_ROLES",
+            joinColumns = @JoinColumn(name = "USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+    private Set<Role> roles;
 
     public Integer getPriorExperience() {
         return priorExperience;

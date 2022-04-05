@@ -29,9 +29,8 @@ public class Interview {
     @JoinColumn(name = "applicant_id", nullable = false)
     private Applicant applicant;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "role_applied", nullable = false)
-    private Role roleApplied;
+    @Column(name = "role_applied", nullable = false)
+    private String roleApplied;
 
     @Column(name = "interview_date", nullable = false)
     @JsonFormat(pattern="dd-MM-yyyy")
@@ -81,11 +80,11 @@ public class Interview {
         this.interviewDate = interviewDate;
     }
 
-    public Role getRoleApplied() {
+    public String getRoleApplied() {
         return roleApplied;
     }
 
-    public void setRoleApplied(Role roleApplied) {
+    public void setRoleApplied(String roleApplied) {
         this.roleApplied = roleApplied;
     }
 

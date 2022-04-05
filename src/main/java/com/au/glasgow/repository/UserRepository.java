@@ -23,7 +23,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 //            "WHERE u = a.user AND u.id = i.interviewerId")
     List<User> getAvailableUser(AvailableUsersRequest availableUsersRequest);
 
-//    @Query("SELECT r from Role r WHERE r.id = (SELECT ur.id from UserRole ur WHERE ur.user.username = ?1)")
-    Set<Role> getRolesByUsername(String username);
+    @Query("select r " +
+           "from Role r " +
+           "where r in (select u.role from UserRole u where u.user.username = :username)")
+    Set<Role> getRolesByUsername(@Param("username") String username);
+
 
 }

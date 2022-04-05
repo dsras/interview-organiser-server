@@ -1,12 +1,17 @@
 package com.au.glasgow.serviceImpl;
 
+import com.au.glasgow.dto.LoginUser;
 import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserRepository;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
 import com.au.glasgow.service.ServiceInt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -14,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class UserService implements ServiceInt<User> {
+public class UserService implements ServiceInt<User>, UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;
@@ -58,7 +63,15 @@ public class UserService implements ServiceInt<User> {
         return userRepository.getByEmail(email);
     }
 
-    public User getByUsername(String username){
+    public boolean checkIfUserExists(LoginUser loginUser){
+        User user = findOne(loginUser.getUsername());
+        if (null == user) {
+            return false;
+        }
+        return true;
+    };
+
+    public User findOne(String username) {
         return userRepository.getByUsername(username);
     }
 
@@ -68,5 +81,15 @@ public class UserService implements ServiceInt<User> {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
         });
         return authorities;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.getByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Invalid username or password.");
+        }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getUserpassword(),
+                getAuthority(user));
     }
 }
