@@ -5,9 +5,14 @@ import com.au.glasgow.requestModels.AvailableUsersRequest;
 import com.au.glasgow.serviceImpl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
+import java.security.Principal;
 
 /*
 user controller
@@ -40,8 +45,6 @@ public class UserController {
     DELETE
     - delete availability
 
-
-    nb: all editing of profile details is done through Google account
      */
 
     @Autowired
@@ -51,6 +54,7 @@ public class UserController {
     @GetMapping("/welcome")
     public String welcome(){
         return "Welcome";
+//        return SecurityContextHolder.getContext().getAuthentication();
     }
 
 
@@ -64,7 +68,6 @@ public class UserController {
 
     /* create new user */
     @PostMapping("/new")
-    @PermitAll
     public User newUser(@RequestBody User newUser) {
         return userService.save(newUser);
     }

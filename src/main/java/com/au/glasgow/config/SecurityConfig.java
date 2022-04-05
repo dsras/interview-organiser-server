@@ -9,7 +9,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //csrf auto enabled, disable to permit all post requests
-        http.csrf().disable();
+//        http.csrf().disable();
+        //permit all requests
         http.authorizeRequests().anyRequest().permitAll();
     }
 }
