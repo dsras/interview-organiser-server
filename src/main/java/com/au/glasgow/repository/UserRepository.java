@@ -12,7 +12,7 @@ import java.util.Set;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     /* custom methods */
-    @Query("FROM User WHERE email = :email")
+    @Query("FROM User WHERE userEmail = :email")
     User getByEmail(@Param("email") String email);
 
     @Query("FROM User WHERE username = :username")

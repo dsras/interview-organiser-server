@@ -10,6 +10,6 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     /* custom methods */
 
     // NOT TESTED YET
-    @Query("FROM Role WHERE name = :name")
+    @Query("FROM Role WHERE roleName = :name")
     Role getByName(@Param("name") String name);
 }

@@ -2,6 +2,7 @@ package com.au.glasgow.entities;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -52,10 +53,18 @@ public class User {
     @JoinTable(name = "USER_ROLES",
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-    private Set<Role> roles;
+    private List<Role> roles;
 
     public Integer getPriorExperience() {
         return priorExperience;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public void setPriorExperience(Integer priorExperience) {

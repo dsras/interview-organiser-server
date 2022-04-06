@@ -1,19 +1,23 @@
 package com.au.glasgow.serviceImpl;
 
 import com.au.glasgow.dto.LoginUser;
+import com.au.glasgow.dto.UserResponse;
 import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserRepository;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
 import com.au.glasgow.service.ServiceInt;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +27,9 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public User getById(Integer id) {
@@ -35,18 +42,12 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
     }
 
     @Override
-    public <S extends User> User save(User entity) {
-        return userRepository.save(entity);
-    }
-
-    @Override
     public <S extends User> Iterable<S> saveAll(Iterable<S> entities) {
         return null;
     }
 
 
     /* custom methods */
-
 
     /* getAvailableUsers
     takes an AvailableUsersRequest object
@@ -64,7 +65,9 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
     }
 
     public boolean checkIfUserExists(LoginUser loginUser){
+        System.err.println("IN USERSERVICE.CHECKIFUSEREXISTS");
         User user = findOne(loginUser.getUsername());
+        System.err.println("IN USERSERVICE: "+user.getUsername());
         if (null == user) {
             return false;
         }
@@ -72,6 +75,7 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
     };
 
     public User findOne(String username) {
+        System.err.println("IN USERSERVICE.FINDONE");
         return userRepository.getByUsername(username);
     }
 
@@ -91,5 +95,28 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getUserpassword(),
                 getAuthority(user));
+    }
+
+    @Override
+    public User save(User user) {
+        User nUser = new User();
+        BeanUtils.copyProperties(user, nUser);
+        System.err.println("USER PASSWORD: "+user.getUserpassword());
+        System.err.println("USER ROLES: "+user.getRoles());
+        nUser.setUserpassword(encoder().encode(user.getUserpassword()));
+        Role role = roleService.getByName("USER");
+        List<Role> roleSet = new ArrayList<>();
+        roleSet.add(role);
+        if (user.getRoles() != null) {
+            for (Role roles : user.getRoles()) {
+                roleSet.add(roleService.getByName(roles.getRoleName()));
+            }
+            nUser.setRoles(roleSet);
+        }
+        return userRepository.save(nUser);
+    }
+
+    public BCryptPasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
     }
 }

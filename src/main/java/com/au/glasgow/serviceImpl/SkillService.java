@@ -6,6 +6,8 @@ import com.au.glasgow.service.ServiceInt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SkillService implements ServiceInt<Skill> {
 
@@ -31,4 +33,7 @@ public class SkillService implements ServiceInt<Skill> {
     public <S extends Skill> Iterable<S> saveAll(Iterable<S> entities) {
         return null;
     }
+
+    /* custom methods */
+    public List<Skill> getByName(String name){ return skillRepository.getSkillsByName(name);}
 }
