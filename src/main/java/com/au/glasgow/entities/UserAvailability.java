@@ -32,6 +32,8 @@ public class UserAvailability {
         this.availableTo=availableTo;
     }
 
+    public UserAvailability(){}
+
     public LocalTime getAvailableTo() {
         return availableTo;
     }

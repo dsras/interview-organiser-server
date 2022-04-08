@@ -7,30 +7,22 @@ import com.au.glasgow.requestModels.AvailabilityRequest;
 import com.au.glasgow.requestModels.AvailabilityRequestWrapper;
 import com.au.glasgow.service.ServiceInt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class AvailabilityService implements ServiceInt<UserAvailability> {
+public class AvailabilityService{
 
     @Autowired
     private AvailabilityRepository availabilityRepository;
 
-    @Override
-    public UserAvailability getById(Integer id) {
-        return null;
-    }
-
-    @Override
-    public Iterable<UserAvailability> getById(Iterable<Integer> ids) {
-        return null;
-    }
-
-    @Override
-    public <S extends UserAvailability> UserAvailability save(UserAvailability entity) { return null; }
-
+    /* create new availability */
     public AvailabilityRequest save(AvailabilityRequestWrapper newAvailability) {
         User user = newAvailability.getUser();
         LocalDate date = newAvailability.getDate();
@@ -41,8 +33,14 @@ public class AvailabilityService implements ServiceInt<UserAvailability> {
         return new AvailabilityRequest(date, startTime, endTime);
     }
 
-    @Override
-    public <S extends UserAvailability> Iterable<S> saveAll(Iterable<S> entities) {
-        return null;
+    /* get user's availability */
+    public List<AvailabilityRequest> get(String username){
+        List<AvailabilityRequest> availabilityRequests = new ArrayList<>();
+        for (UserAvailability av : availabilityRepository.getByUsername(username)) {
+            AvailabilityRequest tempReq = new AvailabilityRequest(av.getAvailableDate(), av.getAvailableFrom(), av.getAvailableTo());
+            availabilityRequests.add(tempReq);
+        }
+        return availabilityRequests;
     }
+
 }

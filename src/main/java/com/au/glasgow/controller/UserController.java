@@ -5,6 +5,7 @@ import com.au.glasgow.dto.AuthToken;
 import com.au.glasgow.dto.LoginUser;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.exception.InvalidTokenException;
+import com.au.glasgow.requestModels.AvailabilityRequest;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
 import com.au.glasgow.service.TokenValidationService;
 import com.au.glasgow.serviceImpl.UserService;
@@ -22,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /*
@@ -59,10 +61,8 @@ public class UserController {
 //        return SecurityContextHolder.getContext().getAuthentication().toString();
     }
 
-    /* get user by username
-    * access: all */
+    /* get user by username */
     @GetMapping("/user")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserDetails getUser(@RequestParam(value="username", required = true) String username){
         return userService.loadUserByUsername(username);
     }
@@ -73,10 +73,8 @@ public class UserController {
         return userService.save(newUser);
     }
 
-    /* get interviewers available for interview
-    * access: only admins and recruiters */
+    /* get interviewers available for interview */
     @PostMapping("/available")
-    @PreAuthorize("hasAnyRole('ADMIN','RECRUITER')")
     public AvailableUsersRequest getAvailableUsers(@RequestBody AvailableUsersRequest availableUsersRequest){
         AvailableUsersRequest test = availableUsersRequest;
         /*
