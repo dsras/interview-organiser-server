@@ -25,7 +25,6 @@ public class TokenValidationService {
      * @return
      */
     public boolean isTokenValid(String userName, String token) {
-        System.err.println("IN TOKENVALIDATIONSERVICE.ISTOKENVALID");
         GoogleIdToken idTokenVerified = null;
         try {
             idTokenVerified = getTokenPayload(token);
@@ -44,7 +43,6 @@ public class TokenValidationService {
      * @throws Exception
      */
     public GoogleIdToken getTokenPayload(String token) throws Exception {
-        System.err.println("IN TOKENVALIDATIONSERVICE.GETTOKENPAYLOAD");
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                 .setAudience(Collections.singletonList(clientId)).build();
         GoogleIdToken idTokenVerified = null;

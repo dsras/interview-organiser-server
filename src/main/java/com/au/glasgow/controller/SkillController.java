@@ -5,6 +5,7 @@ import com.au.glasgow.serviceImpl.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class SkillController {
     }
 
     @GetMapping("/skill")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECRUITER', 'USER')")
     public ResponseEntity<List<Skill>> newSkill(@RequestParam(value="name") String name){
         return new ResponseEntity<>(skillService.getByName(name),HttpStatus.OK);
     }

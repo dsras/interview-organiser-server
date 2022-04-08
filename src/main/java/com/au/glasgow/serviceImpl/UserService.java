@@ -1,15 +1,14 @@
 package com.au.glasgow.serviceImpl;
 
 import com.au.glasgow.dto.LoginUser;
-import com.au.glasgow.dto.UserResponse;
 import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserRepository;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
 import com.au.glasgow.service.ServiceInt;
+import javassist.Loader;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,10 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService implements ServiceInt<User>, UserDetailsService{
@@ -65,9 +61,8 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
     }
 
     public boolean checkIfUserExists(LoginUser loginUser){
-        System.err.println("IN USERSERVICE.CHECKIFUSEREXISTS");
         User user = findOne(loginUser.getUsername());
-        System.err.println("IN USERSERVICE: "+user.getUsername());
+        System.err.println("IN USERSERVICE CHECK IF USER EXISTS: "+user.getUsername());
         if (null == user) {
             return false;
         }
@@ -75,7 +70,6 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
     };
 
     public User findOne(String username) {
-        System.err.println("IN USERSERVICE.FINDONE");
         return userRepository.getByUsername(username);
     }
 
@@ -84,6 +78,11 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
         userRepository.getRolesByUsername(user.getUsername()).forEach(role -> {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
         });
+        System.err.println("AUTHORITIES IN USERSERVICE");
+        Iterator<SimpleGrantedAuthority> it = authorities.iterator();
+        while(it.hasNext()) {
+            System.out.println(it.next());
+        }
         return authorities;
     }
 
@@ -101,8 +100,6 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
     public User save(User user) {
         User nUser = new User();
         BeanUtils.copyProperties(user, nUser);
-        System.err.println("USER PASSWORD: "+user.getUserpassword());
-        System.err.println("USER ROLES: "+user.getRoles());
         nUser.setUserpassword(encoder().encode(user.getUserpassword()));
         Role role = roleService.getByName("USER");
         List<Role> roleSet = new ArrayList<>();

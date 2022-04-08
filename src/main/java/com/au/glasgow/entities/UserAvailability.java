@@ -25,6 +25,13 @@ public class UserAvailability {
     @Column(name = "available_to", nullable = false)
     private LocalTime availableTo;
 
+    public UserAvailability(User user, LocalDate availableDate, LocalTime availableFrom, LocalTime availableTo){
+        this.user=user;
+        this.availableDate=availableDate;
+        this.availableFrom=availableFrom;
+        this.availableTo=availableTo;
+    }
+
     public LocalTime getAvailableTo() {
         return availableTo;
     }

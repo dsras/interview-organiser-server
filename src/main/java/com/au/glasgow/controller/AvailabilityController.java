@@ -1,5 +1,6 @@
 package com.au.glasgow.controller;
 
+import com.au.glasgow.requestModels.AvailabilityRequestWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.au.glasgow.requestModels.AvailabilityRequest;
 import com.au.glasgow.serviceImpl.AvailabilityService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/availability")
 public class AvailabilityController {
+
+    private String username = "emer.sweeney@accolitedigital.com";
 
     @Autowired
     private AvailabilityService availabilityService;
@@ -26,12 +29,10 @@ public class AvailabilityController {
     /* create new availability
     * should return availability (need to handle request & create availability) */
     @PostMapping("/new")
-    @PreAuthorize("hasAnyRole('USER')")
     public AvailabilityRequest newAvailability(@RequestBody AvailabilityRequest newAvailability) {
-//        User user = userService.getById(newAvailability.getUserId());
-//        UserAvailability availability =
-//        return availabilityService.save(newAvailability);
-        return newAvailability;
+//        return SecurityContextHolder.getContext().getAuthentication().toString();
+        AvailabilityRequestWrapper wrapper = new AvailabilityRequestWrapper(newAvailability, userService.findOne(username));
+        return availabilityService.save(wrapper);
     }
 
 }

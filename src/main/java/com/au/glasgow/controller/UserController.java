@@ -3,7 +3,6 @@ package com.au.glasgow.controller;
 import com.au.glasgow.config.TokenProvider;
 import com.au.glasgow.dto.AuthToken;
 import com.au.glasgow.dto.LoginUser;
-import com.au.glasgow.dto.UserResponse;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.exception.InvalidTokenException;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
@@ -34,6 +33,9 @@ handles user-related requests
 @RequestMapping("/users")
 public class UserController {
 
+    /* for testing until authentication works */
+    private String username = "emer.sweeney@accolitedigital.com";
+
     @Autowired
     private UserService userService;
 
@@ -54,14 +56,13 @@ public class UserController {
     @GetMapping("/welcome")
     public String welcome(){
         return JSONObject.quote("Welcome");
-//        return SecurityContextHolder.getContext().getAuthentication();
+//        return SecurityContextHolder.getContext().getAuthentication().toString();
     }
 
     /* get user by username
     * access: all */
     @GetMapping("/user")
-    @PreAuthorize("hasRole('ADMIN', 'RECRUITER', 'USER')")
-//    @PreAuthorize("hasRole('RECRUITER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserDetails getUser(@RequestParam(value="username", required = true) String username){
         return userService.loadUserByUsername(username);
     }
@@ -93,22 +94,18 @@ public class UserController {
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser)
             throws AuthenticationException, InvalidTokenException {
-        System.err.println("IN USERCONTROLLER.GENERATETOKEN");
         if (Pattern.compile(regex).matcher(loginUser.getUsername()).matches()) {
-            System.err.println("IN USERCONTROLLER USERNAME PATTERN MATCHING");
             if (tokenValidationService.isTokenValid(loginUser.getUsername(),loginUser.getPassword())) {
-                System.err.println("IN USERCONTROLLER TOKEN IS VALID LOOP");
                 if (userService.checkIfUserExists(loginUser)) {
-                    System.err.println("IN USERCONTROLLER USER EXISTS LOOP");
-                    return ResponseEntity.ok(new AuthToken(tokenProvider.generateTokenFromGoogleToken(loginUser.getUsername(),loginUser.getPassword())));
+                    AuthToken token = new AuthToken(tokenProvider.generateTokenFromGoogleToken(loginUser.getUsername(),loginUser.getPassword()));
+                    return ResponseEntity.ok(token);
                 } else {
-                    throw new EntityNotFoundException("User Not Registered with RaFT");
+                    throw new EntityNotFoundException("User Not Registered");
                 }
             } else {
                 throw new InvalidTokenException("for username " + loginUser.getUsername());
             }
         } else {
-            System.err.println("IN USERCONTROLLER FINAL ELSE BLOCK");
             final Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);

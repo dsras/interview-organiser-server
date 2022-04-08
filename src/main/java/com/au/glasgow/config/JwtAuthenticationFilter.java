@@ -15,6 +15,7 @@ import com.au.glasgow.service.TokenValidationService;
 import com.au.glasgow.serviceImpl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+@Order(Integer.MIN_VALUE)
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Value("${jwt.header.string}")
@@ -46,6 +48,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws IOException, ServletException {
         String header = req.getHeader(HEADER_STRING);
+        System.err.println("REQ:" + req.getRequestURI());
+        System.err.println("IN JWTAUTHENTICATIONFILTER: " + header);
         String username = null;
         String authToken = null;
         if (header != null && header.startsWith(TOKEN_PREFIX)) {
@@ -64,6 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
                         logger.info("authenticated user " + username + ", setting security context");
+                        logger.info("authenticated user authorities " + authentication);
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                 } else { // Conventional Login
@@ -79,9 +84,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             logger.warn("Couldn't find bearer string, header will be ignored");
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
             if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthenticationToken(authToken,
                         SecurityContextHolder.getContext().getAuthentication(), userDetails);
