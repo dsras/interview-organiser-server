@@ -2,7 +2,7 @@ package com.au.glasgow.repository;
 
 import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
-import com.au.glasgow.requestModels.AvailableUsersRequest;
+import com.au.glasgow.dto.AvailableUsersRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

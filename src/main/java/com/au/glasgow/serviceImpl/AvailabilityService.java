@@ -3,13 +3,10 @@ package com.au.glasgow.serviceImpl;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.repository.AvailabilityRepository;
-import com.au.glasgow.requestModels.AvailabilityRequest;
-import com.au.glasgow.requestModels.AvailabilityRequestWrapper;
-import com.au.glasgow.service.ServiceInt;
+import com.au.glasgow.dto.AvailabilityRequest;
+import com.au.glasgow.dto.AvailabilityRequestWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

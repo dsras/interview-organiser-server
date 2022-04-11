@@ -1,4 +1,4 @@
-package com.au.glasgow.requestModels;
+package com.au.glasgow.dto;
 
 import com.au.glasgow.entities.User;
 

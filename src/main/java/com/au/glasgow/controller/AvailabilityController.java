@@ -1,13 +1,12 @@
 package com.au.glasgow.controller;
 
-import com.au.glasgow.requestModels.AvailabilityRequestWrapper;
+import com.au.glasgow.dto.AvailabilityRequestWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.au.glasgow.requestModels.AvailabilityRequest;
+import com.au.glasgow.dto.AvailabilityRequest;
 import com.au.glasgow.serviceImpl.AvailabilityService;
 import com.au.glasgow.serviceImpl.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -41,4 +41,10 @@ public class InterviewInterviewer {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public InterviewInterviewer(){}
+    public InterviewInterviewer(Interview interview, User interviewer){
+        this.interview=interview;
+        this.interviewer=interviewer;
+    }
 }

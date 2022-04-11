@@ -5,15 +5,12 @@ import com.au.glasgow.dto.AuthToken;
 import com.au.glasgow.dto.LoginUser;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.exception.InvalidTokenException;
-import com.au.glasgow.requestModels.AvailabilityRequest;
-import com.au.glasgow.requestModels.AvailableUsersRequest;
+import com.au.glasgow.dto.AvailableUsersRequest;
 import com.au.glasgow.service.TokenValidationService;
 import com.au.glasgow.serviceImpl.UserService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 import java.util.regex.Pattern;
 
 /*

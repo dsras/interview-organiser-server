@@ -1,4 +1,4 @@
-package com.au.glasgow.requestModels;
+package com.au.glasgow.dto;
 
 import com.au.glasgow.entities.Applicant;
 import com.au.glasgow.entities.Interview;
@@ -40,7 +40,19 @@ public class InterviewResponse {
     @JsonProperty("confirmed")
     private Integer confirmed;
 
-    /* setters */
+    public InterviewResponse(Interview interview, List<User> interviewerList, Skill skill) {
+        this.interviewId = interview.getId();
+        this.organiser = interview.getOrganiser().getUserName();
+        this.applicant = interview.getApplicant().getName();
+        this.skill = skill.getSkillName()+" "+skill.getSkillLevel();
+        this.date = interview.getInterviewDate();
+        this.startTime = interview.getTimeStart();
+        this.endTime = interview.getTimeEnd();
+        this.confirmed = interview.getConfirmed();
+        this.interviewers = interviewerList.stream()
+                .map(x -> x.getUserName())
+                .collect(Collectors.toList());
+    }
 
     public void setInterviewId(Integer interviewId) {
         this.interviewId = interviewId;
@@ -77,20 +89,5 @@ public class InterviewResponse {
     public void setConfirmed(Integer confirmed) {
         this.confirmed = confirmed;
     }
-
-    public InterviewResponse(Interview interview, List<User> interviewerList, Skill skill) {
-        this.interviewId = interview.getId();
-        this.organiser = interview.getOrganiser().getUserName();
-        this.applicant = interview.getApplicant().getName();
-        this.skill = skill.getSkillName()+" "+skill.getSkillLevel();
-        this.date = interview.getInterviewDate();
-        this.startTime = interview.getTimeStart();
-        this.endTime = interview.getTimeEnd();
-        this.confirmed = interview.getConfirmed();
-        this.interviewers = interviewerList.stream()
-                .map(x -> x.getUserName())
-                .collect(Collectors.toList());
-    }
-
 
 }

@@ -4,7 +4,7 @@ import com.au.glasgow.dto.LoginUser;
 import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserRepository;
-import com.au.glasgow.requestModels.AvailableUsersRequest;
+import com.au.glasgow.dto.AvailableUsersRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,8 +33,6 @@ public class UserService implements UserDetailsService{
         return userRepository.findAllById(ids);
     }
 
-    /* custom methods */
-
     /* getAvailableUsers
     takes an AvailableUsersRequest object
     finds skills by ID
@@ -46,10 +44,12 @@ public class UserService implements UserDetailsService{
         return userRepository.getAvailableUser(availableUsersRequest);
     }
 
+    /* find user by email */
     public User getByEmail(String email) {
         return userRepository.getByEmail(email);
     }
 
+    /* check if user exists */
     public boolean checkIfUserExists(LoginUser loginUser){
         User user = findOne(loginUser.getUsername());
         if (null == user) {
@@ -58,6 +58,7 @@ public class UserService implements UserDetailsService{
         return true;
     };
 
+    /* find user with username */
     public User findOne(String username) {
         return userRepository.getByUsername(username);
     }
@@ -75,6 +76,7 @@ public class UserService implements UserDetailsService{
         return authorities;
     }
 
+    /* load user by username */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.getByUsername(username);
@@ -85,6 +87,7 @@ public class UserService implements UserDetailsService{
                 getAuthority(user));
     }
 
+    /* save new user */
     public User save(User user) {
         User nUser = new User();
         BeanUtils.copyProperties(user, nUser);
@@ -101,6 +104,7 @@ public class UserService implements UserDetailsService{
         return userRepository.save(nUser);
     }
 
+    /* password encoder */
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }

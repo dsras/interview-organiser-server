@@ -1,19 +1,15 @@
 package com.au.glasgow.serviceImpl;
 
-import com.au.glasgow.entities.Applicant;
-import com.au.glasgow.entities.Interview;
-import com.au.glasgow.entities.Skill;
-import com.au.glasgow.entities.User;
+import com.au.glasgow.entities.*;
+import com.au.glasgow.repository.InterviewInterviewerRepository;
 import com.au.glasgow.repository.InterviewRepository;
-import com.au.glasgow.requestModels.InterviewRequestWrapper;
-import com.au.glasgow.requestModels.InterviewResponse;
+import com.au.glasgow.dto.InterviewRequestWrapper;
+import com.au.glasgow.dto.InterviewResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +17,9 @@ public class InterviewService{
 
     @Autowired
     InterviewRepository interviewRepository;
+
+    @Autowired
+    InterviewInterviewerRepository interviewInterviewerRepository;
 
     @Autowired
     UserService userService;
@@ -31,19 +30,11 @@ public class InterviewService{
     @Autowired
     SkillService skillService;
 
-    public Interview getById(Integer id){ return interviewRepository.getById(id);}
+    public Interview getById(Integer id){
+        return interviewRepository.getById(id);
+    }
 
-//    public InterviewResponse save(InterviewRequestWrapper newInterview) {
-//        User organiser = newInterview.getUser();
-//        List<User> interviewers = userService.getByIds(newInterview.getInterviewerIds());
-//        Applicant applicant = applicantService.getById(newInterview.getApplicantId());
-//        LocalDate date = newInterview.getDate();
-//        LocalTime startTime = newInterview.getStartTime();
-//        LocalTime endTime = newInterview.getEndTime();
-//
-//        Interview i = interviewRepository.save(new Interview(organiser, applicant, date, startTime, endTime));
-//    }
-
+    /* confirm interview has happened and return InterviewResponse representing confirmed interview */
     public InterviewResponse confirm(Integer id){
         Interview i = interviewRepository.getById(id);
         i.confirm();
@@ -55,7 +46,7 @@ public class InterviewService{
         return new InterviewResponse(i, interviewers, skill);
     }
 
-    /* save Interview and return new InterviewResponse*/
+    /* save Interview and return new InterviewResponse representing new interview */
     public InterviewResponse save(InterviewRequestWrapper wrapper) {
         System.err.println(wrapper.getInterviewerIds());
         Applicant applicant = applicantService.getById(wrapper.getApplicantId());
@@ -66,6 +57,21 @@ public class InterviewService{
         Interview interview = new Interview(wrapper.getUser(), applicant, wrapper.getDate(),
                 wrapper.getStartTime(), wrapper.getStartTime());
         interview = interviewRepository.save(interview);
+        for (User u : interviewers) {
+            interviewInterviewerRepository.save(new InterviewInterviewer(interview, u));
+        }
         return new InterviewResponse(interview,  interviewers, skill);
+    }
+
+    /* find all interviews that interviewer is participating in
+    return list of InterviewResponse objects representing these interviews */
+    public List<InterviewResponse> findByInterviewer(User user){
+        List<Interview> interviews = interviewRepository.findAllByInterviewer(user);
+        List<InterviewResponse> response = new ArrayList<>();
+        for (Interview i : interviews){
+            response.add(new InterviewResponse(i, interviewRepository.findInterviewers(i.getId()),
+                    interviewRepository.getSkillsByInterview(i.getId())));
+        }
+        return response;
     }
 }

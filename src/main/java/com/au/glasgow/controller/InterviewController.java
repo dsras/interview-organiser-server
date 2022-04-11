@@ -1,7 +1,9 @@
 package com.au.glasgow.controller;
 
+import com.au.glasgow.dto.InterviewRequest;
+import com.au.glasgow.dto.InterviewRequestWrapper;
+import com.au.glasgow.dto.InterviewResponse;
 import com.au.glasgow.entities.Interview;
-import com.au.glasgow.requestModels.*;
 import com.au.glasgow.serviceImpl.InterviewService;
 import com.au.glasgow.serviceImpl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/interviews")
@@ -26,15 +28,8 @@ public class InterviewController {
     @Autowired
     private UserService userService;
 
-    /* get interview by ID
-    * NOT WORKING YET
-    NEED SERIALIZER FOR DATE AND TIME IN INTERVIEW POJO??
-     */
-    @GetMapping("/interview")
-    public Interview getInterview(@RequestParam(value="id") Integer id){
-        return interviewService.getById(id);
-    }
 
+    /* confirm interview has happened */
     @GetMapping("confirm")
     public ResponseEntity<InterviewResponse> confirmInterview(@RequestParam(value="id") Integer id){
         return new ResponseEntity<>(interviewService.confirm(id), HttpStatus.OK);
@@ -45,5 +40,11 @@ public class InterviewController {
     public ResponseEntity<InterviewResponse> newInterview(@RequestBody InterviewRequest newInterview) {
         InterviewRequestWrapper wrapper = new InterviewRequestWrapper(newInterview, userService.findOne(username));
         return new ResponseEntity<>(interviewService.save(wrapper), HttpStatus.CREATED);
+    }
+
+    /* find all interviews the interviewer is involved in */
+    @GetMapping("/findByInterviewer")
+    public ResponseEntity<List<InterviewResponse>> findByInterviewers(){
+        return new ResponseEntity<>(interviewService.findByInterviewer(userService.findOne(username)), HttpStatus.OK);
     }
 }
