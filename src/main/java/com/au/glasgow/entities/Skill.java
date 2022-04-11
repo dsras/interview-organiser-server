@@ -15,4 +15,16 @@ public class Skill {
 
     @Column(name = "skill_level", nullable = false, length = 30)
     private String skillLevel;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public String getSkillLevel() {
+        return skillLevel;
+    }
 }

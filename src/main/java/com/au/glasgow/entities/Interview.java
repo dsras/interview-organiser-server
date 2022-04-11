@@ -15,7 +15,7 @@ public class Interview {
     @Column(name = "interview_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "organiser_id", nullable = false)
     private User organiser;
 
@@ -37,6 +37,37 @@ public class Interview {
 
     @OneToMany(mappedBy = "interview")
     private Set<InterviewInterviewer> interviewInterviewers = new LinkedHashSet<>();
+
+    public Integer getId() {
+        return id;
+    }
+
+    public User getOrganiser() {
+        return organiser;
+    }
+
+    public Applicant getApplicant() {
+        return applicant;
+    }
+
+    public LocalDate getInterviewDate() {
+        return interviewDate;
+    }
+
+    public LocalTime getTimeStart() {
+        return timeStart;
+    }
+
+    public LocalTime getTimeEnd() {
+        return timeEnd;
+    }
+
+    public Integer getConfirmed() {
+        return confirmed;
+    }
+
+    public Interview() {
+    }
 
     public Set<InterviewInterviewer> getInterviewInterviewers() {
         return interviewInterviewers;

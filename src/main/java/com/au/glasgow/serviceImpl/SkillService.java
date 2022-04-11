@@ -21,4 +21,6 @@ public class SkillService {
     public List<Skill> findAll(){
         return skillRepository.findAll();
     }
+
+    public Skill getById(Integer id){return skillRepository.getById(id);}
 }

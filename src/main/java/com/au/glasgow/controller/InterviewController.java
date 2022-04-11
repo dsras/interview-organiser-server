@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/interviews")
 public class InterviewController {
@@ -34,14 +36,14 @@ public class InterviewController {
     }
 
     @GetMapping("confirm")
-    public ResponseEntity<Interview> confirmInterview(@RequestParam(value="id") Integer id){
+    public ResponseEntity<InterviewResponse> confirmInterview(@RequestParam(value="id") Integer id){
         return new ResponseEntity<>(interviewService.confirm(id), HttpStatus.OK);
     }
 
-//    /* create new interview */
-//    @PostMapping("/new")
-//    public ResponseEntity<InterviewResponse> newInterview(@RequestBody InterviewRequest newInterview) {
-//        InterviewRequestWrapper wrapper = new InterviewRequestWrapper(newInterview, userService.findOne(username));
-//        return new ResponseEntity<>(interviewService.save(wrapper), HttpStatus.CREATED);
-//    }
+    /* create new interview */
+    @PostMapping("/new")
+    public ResponseEntity<InterviewResponse> newInterview(@RequestBody InterviewRequest newInterview) {
+        InterviewRequestWrapper wrapper = new InterviewRequestWrapper(newInterview, userService.findOne(username));
+        return new ResponseEntity<>(interviewService.save(wrapper), HttpStatus.CREATED);
+    }
 }

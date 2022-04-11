@@ -65,5 +65,9 @@ public class User {
 
     public List<Role> getRoles(){ return roles;}
 
+    public String getUserName() {
+        return userName;
+    }
+
     public void setRoles(List<Role> roles){this.roles = roles;}
 }

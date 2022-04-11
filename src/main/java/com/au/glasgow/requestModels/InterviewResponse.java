@@ -1,10 +1,15 @@
 package com.au.glasgow.requestModels;
 
+import com.au.glasgow.entities.Applicant;
+import com.au.glasgow.entities.Interview;
+import com.au.glasgow.entities.Skill;
+import com.au.glasgow.entities.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InterviewResponse {
 
@@ -72,4 +77,20 @@ public class InterviewResponse {
     public void setConfirmed(Integer confirmed) {
         this.confirmed = confirmed;
     }
+
+    public InterviewResponse(Interview interview, List<User> interviewers, Skill skill) {
+        this.interviewId = interview.getId();
+        this.organiser = interview.getOrganiser().getUserName();
+        this.applicant = interview.getApplicant().getName();
+        this.skill = skill.getSkillName()+" "+skill.getSkillLevel();
+        this.date = interview.getInterviewDate();
+        this.startTime = interview.getTimeStart();
+        this.endTime = interview.getTimeEnd();
+        this.confirmed = interview.getConfirmed();
+        this.interviewers = interviewers.stream()
+                .map(i -> i.getUserName())
+                .collect(Collectors.toList());
+    }
+
+
 }
