@@ -37,6 +37,7 @@ public class UserController {
 
     /* for testing until authentication works */
     private String username = "emer.sweeney@accolitedigital.com";
+    //        return SecurityContextHolder.getContext().getAuthentication().toString();
 
     @Autowired
     private UserService userService;
@@ -52,13 +53,6 @@ public class UserController {
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
         this.userService = userService;
-    }
-
-    /* test method */
-    @GetMapping("/welcome")
-    public String welcome(){
-        return JSONObject.quote("Welcome");
-//        return SecurityContextHolder.getContext().getAuthentication().toString();
     }
 
     /* get user by username */
@@ -111,7 +105,6 @@ public class UserController {
             return ResponseEntity.ok(new AuthToken(token));
         }
     }
-
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<Integer> saveUser(@RequestBody User user) {

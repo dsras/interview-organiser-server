@@ -9,31 +9,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SkillService implements ServiceInt<Skill> {
+public class SkillService {
 
     @Autowired
     private SkillRepository skillRepository;
 
-    @Override
-    public Skill getById(Integer id) {
-        return null;
+    public List<Skill> getByName(String name){
+        return skillRepository.getSkillsByName(name);
     }
 
-    @Override
-    public Iterable<Skill> getById(Iterable<Integer> ids) {
-        return null;
+    public List<Skill> findAll(){
+        return skillRepository.findAll();
     }
-
-    @Override
-    public <S extends Skill> Skill save(Skill entity) {
-        return skillRepository.save(entity);
-    }
-
-    @Override
-    public <S extends Skill> Iterable<S> saveAll(Iterable<S> entities) {
-        return null;
-    }
-
-    /* custom methods */
-    public List<Skill> getByName(String name){ return skillRepository.getSkillsByName(name);}
 }

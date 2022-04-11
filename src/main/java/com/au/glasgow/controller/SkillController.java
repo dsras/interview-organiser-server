@@ -17,21 +17,22 @@ public class SkillController {
     @Autowired
     private SkillService skillService;
 
-    /* get all skills */
-    @GetMapping("")
-    public List<Skill> allSkills(){
-        return null;
-    }
-
-    /* add new skill to db */
+    /* test methods
+    //add new skill
     @PostMapping("/new")
     public Skill newSkill(@RequestBody Skill newSkill){
         return skillService.save(newSkill);
     }
 
+    //get skills by name
     @GetMapping("/skill")
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECRUITER', 'USER')")
-    public ResponseEntity<List<Skill>> newSkill(@RequestParam(value="name") String name){
+    public ResponseEntity<List<Skill>> getSkillsByName(@RequestParam(value="name") String name){
         return new ResponseEntity<>(skillService.getByName(name),HttpStatus.OK);
+    }
+    */
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Skill>> findAllSkills(){
+        return new ResponseEntity<>(skillService.findAll(), HttpStatus.OK);
     }
 }

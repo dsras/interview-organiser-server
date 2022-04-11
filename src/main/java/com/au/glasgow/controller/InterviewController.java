@@ -1,51 +1,47 @@
 package com.au.glasgow.controller;
 
 import com.au.glasgow.entities.Interview;
+import com.au.glasgow.requestModels.*;
 import com.au.glasgow.serviceImpl.InterviewService;
+import com.au.glasgow.serviceImpl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/interviews")
 public class InterviewController {
 
+    /* testing stuff
+     * return SecurityContextHolder.getContext().getAuthentication().toString(); */
+    private String username = "emer.sweeney@accolitedigital.com";
+    /* end of testing stuff */
+
     @Autowired
     private InterviewService interviewService;
 
-    /* test method */
-    @GetMapping("/welcome")
-    public String welcome(){
-        return "Welcome";
-    }
+    @Autowired
+    private UserService userService;
 
     /* get interview by ID
     * NOT WORKING YET
     NEED SERIALIZER FOR DATE AND TIME IN INTERVIEW POJO??
      */
     @GetMapping("/interview")
-    @PreAuthorize("hasAnyRole('ADMIN','USER','RECRUITER')")
-    public Interview getInterview(@RequestParam(value="id", required = true) Integer id){
+    public Interview getInterview(@RequestParam(value="id") Integer id){
         return interviewService.getById(id);
     }
 
-    /* create new interview
-    * JSON format for POST request:
-    * {
-    *   "interviewerId" : 1,
-    *   "organiserId" : 2,
-    *   "applicantId" : 1,
-    *   "roleApplied" : 1,
-    *   "interviewDate" : "04-04-2022",
-    *   "timeStart" : "09:00",
-    *   "timeEnd" : "10:00",
-    *   "confirmed" : 0
-    * }
-    * need to change confirmed to default 0 (tinyint) so we don't need to add it
-    * */
-    @PostMapping("/new")
-    @PreAuthorize("hasAnyRole('ADMIN','RECRUITER')")
-    public Interview newInterview(@RequestBody Interview newInterview) {
-        return interviewService.save(newInterview);
+    @GetMapping("confirm")
+    public ResponseEntity<Interview> confirmInterview(@RequestParam(value="id") Integer id){
+        return new ResponseEntity<>(interviewService.confirm(id), HttpStatus.OK);
     }
+
+//    /* create new interview */
+//    @PostMapping("/new")
+//    public ResponseEntity<InterviewResponse> newInterview(@RequestBody InterviewRequest newInterview) {
+//        InterviewRequestWrapper wrapper = new InterviewRequestWrapper(newInterview, userService.findOne(username));
+//        return new ResponseEntity<>(interviewService.save(wrapper), HttpStatus.CREATED);
+//    }
 }

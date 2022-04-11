@@ -55,115 +55,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private List<Role> roles;
 
-    public Integer getPriorExperience() {
-        return priorExperience;
-    }
+    public Integer getId() { return id;}
 
-    public List<Role> getRoles() {
-        return roles;
-    }
+    public String getUsername() {return username;}
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
+    public String getUserpassword() {return userpassword;}
 
-    public void setPriorExperience(Integer priorExperience) {
-        this.priorExperience = priorExperience;
-    }
+    public void setUserpassword(String userpassword) { this.userpassword=userpassword;}
 
-    public String getLocation() {
-        return location;
-    }
+    public List<Role> getRoles(){ return roles;}
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
-
-    public Instant getDateOfJoining() {
-        return dateOfJoining;
-    }
-
-    public void setDateOfJoining(Instant dateOfJoining) {
-        this.dateOfJoining = dateOfJoining;
-    }
-
-    public String getBusinessUnit() {
-        return businessUnit;
-    }
-
-    public void setBusinessUnit(String businessUnit) {
-        this.businessUnit = businessUnit;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-    public String getBusinessTitle() {
-        return businessTitle;
-    }
-
-    public void setBusinessTitle(String businessTitle) {
-        this.businessTitle = businessTitle;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Long getUserMobile() {
-        return userMobile;
-    }
-
-    public void setUserMobile(Long userMobile) {
-        this.userMobile = userMobile;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserpassword() {
-        return userpassword;
-    }
-
-    public void setUserpassword(String userpassword) {
-        this.userpassword = userpassword;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public void setRoles(List<Role> roles){this.roles = roles;}
 }

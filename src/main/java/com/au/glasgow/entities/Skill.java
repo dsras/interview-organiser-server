@@ -15,28 +15,4 @@ public class Skill {
 
     @Column(name = "skill_level", nullable = false, length = 30)
     private String skillLevel;
-
-    public String getSkillLevel() {
-        return skillLevel;
-    }
-
-    public void setSkillLevel(String skillLevel) {
-        this.skillLevel = skillLevel;
-    }
-
-    public String getSkillName() {
-        return skillName;
-    }
-
-    public void setSkillName(String skillName) {
-        this.skillName = skillName;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }

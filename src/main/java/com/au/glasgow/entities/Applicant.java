@@ -1,6 +1,8 @@
 package com.au.glasgow.entities;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "applicant")
@@ -21,6 +23,28 @@ public class Applicant {
 
     @Column(name = "mobile")
     private Long mobile;
+
+    @Column(name = "skill_id", nullable = false)
+    private Integer skillId;
+
+    @OneToMany(mappedBy = "applicant")
+    private Set<Interview> interviews = new LinkedHashSet<>();
+
+    public Set<Interview> getInterviews() {
+        return interviews;
+    }
+
+    public void setInterviews(Set<Interview> interviews) {
+        this.interviews = interviews;
+    }
+
+    public Integer getSkillId() {
+        return skillId;
+    }
+
+    public void setSkillId(Integer skillId) {
+        this.skillId = skillId;
+    }
 
     public Long getMobile() {
         return mobile;

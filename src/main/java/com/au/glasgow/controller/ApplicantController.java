@@ -19,13 +19,6 @@ public class ApplicantController {
         return "Welcome";
     }
 
-//    /* get user by <some field>  - CHANGE USERNAME TO SOME OTHER FIELD */
-//    @GetMapping("/applicant")
-//    @PreAuthorize("hasAnyRole('ADMIN','RECRUITER')")
-//    public Applicant getApplicant(@RequestParam(value="username", required = true) String username){
-//        return applicantService.getByUsername(username);
-//    }
-
     /* create new user
     * JSON format for POST request body:
     * {
@@ -35,7 +28,6 @@ public class ApplicantController {
     * }
     * */
     @PostMapping("/new")
-    @PreAuthorize("hasAnyRole('ADMIN','RECRUITER')")
     public Applicant newApplicant(@RequestBody Applicant applicant) {
         return applicantService.save(applicant);
     }

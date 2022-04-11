@@ -33,44 +33,20 @@ public class UserAvailability {
     }
 
     public UserAvailability(){}
-
     public LocalTime getAvailableTo() {
         return availableTo;
     }
-
-    public void setAvailableTo(LocalTime availableTo) {
-        this.availableTo = availableTo;
-    }
-
     public LocalTime getAvailableFrom() {
         return availableFrom;
     }
-
-    public void setAvailableFrom(LocalTime availableFrom) {
-        this.availableFrom = availableFrom;
-    }
-
     public LocalDate getAvailableDate() {
         return availableDate;
     }
-
-    public void setAvailableDate(LocalDate availabileDate) {
-        this.availableDate = availabileDate;
-    }
-
     public User getUser() {
         return user;
     }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }

@@ -5,8 +5,6 @@ import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserRepository;
 import com.au.glasgow.requestModels.AvailableUsersRequest;
-import com.au.glasgow.service.ServiceInt;
-import javassist.Loader;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class UserService implements ServiceInt<User>, UserDetailsService{
+public class UserService implements UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;
@@ -27,21 +25,13 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
     @Autowired
     private RoleService roleService;
 
-    @Override
     public User getById(Integer id) {
         return userRepository.getById(id);
     }
 
-    @Override
-    public Iterable<User> getById(Iterable<Integer> ids) {
-        return null;
+    public List<User> getByIds(List<Integer> ids){
+        return userRepository.findAllById(ids);
     }
-
-    @Override
-    public <S extends User> Iterable<S> saveAll(Iterable<S> entities) {
-        return null;
-    }
-
 
     /* custom methods */
 
@@ -62,7 +52,6 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
 
     public boolean checkIfUserExists(LoginUser loginUser){
         User user = findOne(loginUser.getUsername());
-        System.err.println("IN USERSERVICE CHECK IF USER EXISTS: "+user.getUsername());
         if (null == user) {
             return false;
         }
@@ -73,12 +62,12 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
         return userRepository.getByUsername(username);
     }
 
+    /* get permissions for user by retrieving roles from database*/
     public Set<SimpleGrantedAuthority> getAuthority(User user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         userRepository.getRolesByUsername(user.getUsername()).forEach(role -> {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
         });
-        System.err.println("AUTHORITIES IN USERSERVICE");
         Iterator<SimpleGrantedAuthority> it = authorities.iterator();
         while(it.hasNext()) {
             System.out.println(it.next());
@@ -96,7 +85,6 @@ public class UserService implements ServiceInt<User>, UserDetailsService{
                 getAuthority(user));
     }
 
-    @Override
     public User save(User user) {
         User nUser = new User();
         BeanUtils.copyProperties(user, nUser);

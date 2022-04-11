@@ -3,11 +3,11 @@ package com.au.glasgow.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "interview_applicant")
-public class InterviewApplicant {
+@Table(name = "interview_interviewer")
+public class InterviewInterviewer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "interapp_id", nullable = false)
+    @Column(name = "interview_interviewer_id", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -15,27 +15,15 @@ public class InterviewApplicant {
     private Interview interview;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "app_id", nullable = false)
-    private Applicant app;
+    @JoinColumn(name = "interviewer_id", nullable = false)
+    private User interviewer;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "skill_id", nullable = false)
-    private Skill skill;
-
-    public Skill getSkill() {
-        return skill;
+    public User getInterviewer() {
+        return interviewer;
     }
 
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-    }
-
-    public Applicant getApp() {
-        return app;
-    }
-
-    public void setApp(Applicant app) {
-        this.app = app;
+    public void setInterviewer(User interviewer) {
+        this.interviewer = interviewer;
     }
 
     public Interview getInterview() {
