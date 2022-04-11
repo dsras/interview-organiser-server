@@ -78,7 +78,7 @@ public class InterviewResponse {
         this.confirmed = confirmed;
     }
 
-    public InterviewResponse(Interview interview, List<User> interviewers, Skill skill) {
+    public InterviewResponse(Interview interview, List<User> interviewerList, Skill skill) {
         this.interviewId = interview.getId();
         this.organiser = interview.getOrganiser().getUserName();
         this.applicant = interview.getApplicant().getName();
@@ -87,8 +87,8 @@ public class InterviewResponse {
         this.startTime = interview.getTimeStart();
         this.endTime = interview.getTimeEnd();
         this.confirmed = interview.getConfirmed();
-        this.interviewers = interviewers.stream()
-                .map(i -> i.getUserName())
+        this.interviewers = interviewerList.stream()
+                .map(x -> x.getUserName())
                 .collect(Collectors.toList());
     }
 

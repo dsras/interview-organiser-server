@@ -57,13 +57,15 @@ public class InterviewService{
 
     /* save Interview and return new InterviewResponse*/
     public InterviewResponse save(InterviewRequestWrapper wrapper) {
+        System.err.println(wrapper.getInterviewerIds());
         Applicant applicant = applicantService.getById(wrapper.getApplicantId());
         Skill skill = skillService.getById(wrapper.getSkillId());
         List<User> interviewers = wrapper.getInterviewerIds().stream()
-                .map(i -> userService.getById(i))
+                .map(x -> userService.getById(x))
                 .collect(Collectors.toList());
         Interview interview = new Interview(wrapper.getUser(), applicant, wrapper.getDate(),
                 wrapper.getStartTime(), wrapper.getStartTime());
+        interview = interviewRepository.save(interview);
         return new InterviewResponse(interview,  interviewers, skill);
     }
 }
