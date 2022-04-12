@@ -2,6 +2,7 @@ package com.au.glasgow.entities;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -37,7 +38,7 @@ public class User {
     private String businessUnit;
 
     @Column(name = "date_of_joining")
-    private Instant dateOfJoining;
+    private LocalDate dateOfJoining;
 
     @Column(name = "designation")
     private String designation;
@@ -82,7 +83,7 @@ public class User {
         return businessUnit;
     }
 
-    public Instant getDateOfJoining() {
+    public LocalDate getDateOfJoining() {
         return dateOfJoining;
     }
 

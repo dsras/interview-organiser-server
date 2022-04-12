@@ -74,8 +74,13 @@ public class AvailabilityService{
         }
     }
 
-//    public void clear(){
-//        availabilityRepository
-//    }
+    /* delete all availabilities - for Thorfinn testing */
+    public void clear(){
+        List<UserAvailability> availabilities = availabilityRepository.findAll();
+        for (UserAvailability a : availabilities){
+            availabilityRepository.delete(a);
+        }
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.au.glasgow.controller;
 
 import com.au.glasgow.dto.AvailabilityRequestWrapper;
+import com.au.glasgow.entities.UserAvailability;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.au.glasgow.dto.AvailabilityRequest;
 import com.au.glasgow.service.AvailabilityService;
@@ -39,8 +40,15 @@ public class AvailabilityController {
         return new ResponseEntity<>(availabilityService.get(username), HttpStatus.OK);
     }
 
-//    @GetMapping("/clear")
-//    public void clearAvailability(){
+    /* clear all availability - for Thorfinn testing */
+    @GetMapping("/clear")
+    public void clearAvailability(){
+        availabilityService.clear();
+    }
+
+//    /* get skill by ID */
+//    @GetMapping("/findBySkill")
+//    public List<UserAvailability> findBySkill(Integer skillId){
 //
 //    }
 

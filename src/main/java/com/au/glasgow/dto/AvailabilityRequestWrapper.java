@@ -1,11 +1,13 @@
 package com.au.glasgow.dto;
 
 import com.au.glasgow.entities.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class AvailabilityRequestWrapper {
+
     private AvailabilityRequest availabilityRequest;
     private User user;
 
