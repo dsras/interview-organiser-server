@@ -1,5 +1,7 @@
 package com.au.glasgow.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -30,6 +32,7 @@ public class Applicant {
     @OneToMany(mappedBy = "applicant")
     private Set<Interview> interviews = new LinkedHashSet<>();
 
+    @JsonIgnore
     public Set<Interview> getInterviews() {
         return interviews;
     }
@@ -86,5 +89,6 @@ public class Applicant {
         this.id = id;
     }
 
+    @JsonIgnore
     public String getName(){ return firstName+" "+lastName;}
 }

@@ -26,9 +26,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //csrf auto enabled, disable to permit all post requests
+//        csrf auto enabled, disable to permit all post requests
         http.csrf().disable();
-        //permit all requests
+//        permit all requests
         http.authorizeRequests().anyRequest().permitAll();
 
 //        http.csrf().disable()
@@ -36,6 +36,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/users/authenticate", "/users/register").permitAll().and()
 ////                .anyRequest().authenticated().and()
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+//        http.csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/users/authenticate", "/users/register").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
     }
 

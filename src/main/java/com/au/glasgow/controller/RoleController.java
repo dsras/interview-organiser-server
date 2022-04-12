@@ -1,7 +1,7 @@
 package com.au.glasgow.controller;
 
 import com.au.glasgow.entities.Role;
-import com.au.glasgow.serviceImpl.RoleService;
+import com.au.glasgow.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

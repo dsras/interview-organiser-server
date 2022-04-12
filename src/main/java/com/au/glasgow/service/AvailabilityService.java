@@ -1,4 +1,4 @@
-package com.au.glasgow.serviceImpl;
+package com.au.glasgow.service;
 
 import com.au.glasgow.dto.InterviewRequestWrapper;
 import com.au.glasgow.entities.User;
@@ -28,7 +28,7 @@ public class AvailabilityService{
         LocalTime startTime = newAvailability.getStartTime();
         LocalTime endTime = newAvailability.getEndTime();
 
-        UserAvailability av = availabilityRepository.save(new UserAvailability(user, date, startTime, endTime));
+        availabilityRepository.save(new UserAvailability(user, date, startTime, endTime));
         return new AvailabilityRequest(date, startTime, endTime);
     }
 
@@ -73,5 +73,9 @@ public class AvailabilityService{
             }
         }
     }
+
+//    public void clear(){
+//        availabilityRepository
+//    }
 
 }

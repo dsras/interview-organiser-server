@@ -1,4 +1,4 @@
-package com.au.glasgow.serviceImpl;
+package com.au.glasgow.service;
 
 import com.au.glasgow.entities.*;
 import com.au.glasgow.repository.InterviewInterviewerRepository;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class InterviewService {
@@ -33,19 +32,14 @@ public class InterviewService {
     @Autowired
     SkillService skillService;
 
-    /* get Interview by ID */
-    public Interview getById(Integer id) {
-        return interviewRepository.getById(id);
-    }
-
     /* confirm interview has happened and return InterviewResponse representing confirmed interview */
     public InterviewResponse confirm(Integer id) {
         Interview i = interviewRepository.getById(id);
         i.confirm();
         i = interviewRepository.save(i);
         List<User> interviewers = i.getInterviewInterviewers().stream()
-                .map(x -> x.getInterviewer())
-                .collect(Collectors.toList());
+                .map(InterviewInterviewer::getInterviewer)
+                .toList();
         Skill skill = skillService.getById(i.getApplicant().getSkillId());
         return new InterviewResponse(i, interviewers, skill);
     }
@@ -63,7 +57,7 @@ public class InterviewService {
         Skill skill = skillService.getById(wrapper.getSkillId());
         List<User> interviewers = wrapper.getInterviewerIds().stream()
                 .map(x -> userService.getById(x))
-                .collect(Collectors.toList());
+                .toList();
         Interview interview = new Interview(wrapper.getUser(), applicant, wrapper.getDate(),
                 wrapper.getStartTime(), wrapper.getEndTime());
         interview = interviewRepository.save(interview);

@@ -3,7 +3,6 @@ package com.au.glasgow.entities;
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "accolite_user")
@@ -63,11 +62,45 @@ public class User {
 
     public void setUserpassword(String userpassword) { this.userpassword=userpassword;}
 
-    public List<Role> getRoles(){ return roles;}
-
-    public String getUserName() {
-        return userName;
+    public String getUserEmail() {
+        return userEmail;
     }
+
+    public Long getUserMobile() {
+        return userMobile;
+    }
+
+    public String getBusinessTitle() {
+        return businessTitle;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public String getBusinessUnit() {
+        return businessUnit;
+    }
+
+    public Instant getDateOfJoining() {
+        return dateOfJoining;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public Integer getPriorExperience() {
+        return priorExperience;
+    }
+
+    public List<Role> getRoles(){return roles;}
+
+    public String getUserName() {return userName;}
 
     public void setRoles(List<Role> roles){this.roles = roles;}
 }

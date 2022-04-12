@@ -1,6 +1,12 @@
 package com.au.glasgow.config;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.au.glasgow.entities.Role;
 import io.jsonwebtoken.ExpiredJwtException;
 
 import javax.annotation.Resource;
@@ -9,14 +15,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.au.glasgow.entities.User;
 import com.au.glasgow.exception.InvalidTokenException;
 import com.au.glasgow.service.TokenValidationService;
-import com.au.glasgow.serviceImpl.UserService;
+import com.au.glasgow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -62,11 +68,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     if (!tokenValidationService.isTokenValid(username, token)) {
                         throw new InvalidTokenException();
                     } else {
-                        User user = userService.getByEmail(username);
-                        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-                        UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthenticationToken(
-                                authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+//                        User user = userService.getByEmail(username);
+//                        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+//                        UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthenticationToken(
+//                                authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
+//                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+                        Set<Role> roles = new HashSet<>();
+                        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+                        Role role1 = new Role();
+                        role1.setName("ROLE_ADMIN");
+                        roles.add(role1);
+                        for (Role role : roles) {
+                            authorities.add(new SimpleGrantedAuthority(role.getName()));
+                        }
+                        UsernamePasswordAuthenticationToken authentication =
+                                new UsernamePasswordAuthenticationToken("dummy", "", authorities);
                         logger.info("authenticated user " + username + ", setting security context");
                         logger.info("authenticated user authorities " + authentication);
                         SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -15,17 +15,17 @@ public class Role {
     private String description;
 
     @Column(name = "role_name", nullable = false, length = 100)
-    private String roleName;
+    private String name;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     private Set<User> users;
 
-    public String getRoleName() {
-        return roleName;
+    public String getName() {
+        return name;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setName(String roleName) {
+        this.name = roleName;
     }
 
     public String getDescription() {

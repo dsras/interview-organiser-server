@@ -16,7 +16,7 @@ to accept request for available interviewers
  */
 @Getter
 @Setter
-public class AvailableUsersRequest {
+public class FindInterviewersRequest {
 
     @JsonProperty("date")
     private LocalDate date;
@@ -28,7 +28,7 @@ public class AvailableUsersRequest {
     private LocalTime endTime;
     @JsonProperty("skills")
     private List<Integer> skills;
-    public AvailableUsersRequest() {
+    public FindInterviewersRequest() {
     }
 
     /*
@@ -36,7 +36,7 @@ public class AvailableUsersRequest {
     list of skill IDs (would need to store IDs in UI)
     get skills by ID from repo
      */
-    public AvailableUsersRequest(LocalDate date, LocalTime startTime, LocalTime endTime, List<Integer> skillIds) {
+    public FindInterviewersRequest(LocalDate date, LocalTime startTime, LocalTime endTime, List<Integer> skillIds) {
         this.date=date;
         this.startTime=startTime;
         this.endTime=endTime;

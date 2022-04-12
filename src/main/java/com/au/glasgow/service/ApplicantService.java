@@ -1,8 +1,7 @@
-package com.au.glasgow.serviceImpl;
+package com.au.glasgow.service;
 
 import com.au.glasgow.entities.Applicant;
 import com.au.glasgow.repository.ApplicantRepository;
-import com.au.glasgow.service.ServiceInt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +26,10 @@ public class ApplicantService{
     /* save Applicant */
     public Applicant save(Applicant applicant){
         return applicantRepository.save(applicant);
+    }
+
+    /* get applicant by email */
+    public Applicant getApplicantByEmail(String email) {
+        return applicantRepository.getApplicantByEmail(email);
     }
 }

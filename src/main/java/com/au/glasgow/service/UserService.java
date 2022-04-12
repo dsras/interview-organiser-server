@@ -1,10 +1,10 @@
-package com.au.glasgow.serviceImpl;
+package com.au.glasgow.service;
 
 import com.au.glasgow.dto.LoginUser;
 import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserRepository;
-import com.au.glasgow.dto.AvailableUsersRequest;
+import com.au.glasgow.dto.FindInterviewersRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,23 +25,29 @@ public class UserService implements UserDetailsService{
     @Autowired
     private RoleService roleService;
 
+
+    /* get qualified Interviewers available for Interview */
+    public List<User> getAvailableUsers(FindInterviewersRequest findInterviewersRequest){
+    /* finds interviewers that
+        (1) have these skills
+        (2) have availability on this date between these times */
+        return userRepository.getAvailableUser(findInterviewersRequest);
+    }
+
+    /* check if user exists */
+    public boolean checkIfUserExists(LoginUser loginUser){
+        User user = findOne(loginUser.getUsername());
+        return null != user;
+    }
+
+    /* get user by username */
+    public User findOne(String username) {
+        return userRepository.getByUsername(username);
+    }
+
+    /* get user by id */
     public User getById(Integer id) {
         return userRepository.getById(id);
-    }
-
-    public List<User> getByIds(List<Integer> ids){
-        return userRepository.findAllById(ids);
-    }
-
-    /* getAvailableUsers
-    takes an AvailableUsersRequest object
-    finds skills by ID
-    finds interviewers that
-    (1) have these skills
-    (2) have availability on this date between these times
-    (3) do not have interviews booked on this date between these times */
-    public List<User> getAvailableUsers(AvailableUsersRequest availableUsersRequest){
-        return userRepository.getAvailableUser(availableUsersRequest);
     }
 
     /* find user by email */
@@ -49,29 +55,13 @@ public class UserService implements UserDetailsService{
         return userRepository.getByEmail(email);
     }
 
-    /* check if user exists */
-    public boolean checkIfUserExists(LoginUser loginUser){
-        User user = findOne(loginUser.getUsername());
-        if (null == user) {
-            return false;
-        }
-        return true;
-    };
-
-    /* find user with username */
-    public User findOne(String username) {
-        return userRepository.getByUsername(username);
-    }
-
     /* get permissions for user by retrieving roles from database*/
     public Set<SimpleGrantedAuthority> getAuthority(User user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        userRepository.getRolesByUsername(user.getUsername()).forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
-        });
-        Iterator<SimpleGrantedAuthority> it = authorities.iterator();
-        while(it.hasNext()) {
-            System.out.println(it.next());
+        userRepository.getRolesByUsername(user.getUsername()).forEach(
+                role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName())));
+        for (SimpleGrantedAuthority authority : authorities) {
+            System.out.println(authority);
         }
         return authorities;
     }
@@ -97,7 +87,7 @@ public class UserService implements UserDetailsService{
         roleSet.add(role);
         if (user.getRoles() != null) {
             for (Role roles : user.getRoles()) {
-                roleSet.add(roleService.getByName(roles.getRoleName()));
+                roleSet.add(roleService.getByName(roles.getName()));
             }
             nUser.setRoles(roleSet);
         }
@@ -107,5 +97,10 @@ public class UserService implements UserDetailsService{
     /* password encoder */
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    /* get user details by username */
+    public User getUserDetailsByUsername(String username){
+        return userRepository.getUserDetailsByUsername(username);
     }
 }

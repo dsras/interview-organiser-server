@@ -8,4 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ApplicantRepository extends JpaRepository<Applicant, Integer> {
 
+    @Query("FROM Applicant WHERE email = :email")
+    Applicant getApplicantByEmail(@Param("email")String email);
+
 }

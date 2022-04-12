@@ -9,7 +9,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.au.glasgow.entities.User;
-import com.au.glasgow.serviceImpl.UserService;
+import com.au.glasgow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -89,15 +89,11 @@ public class TokenProvider implements Serializable {
                                                                final UserDetails userDetails) {
 
         final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
-
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
-
         final Claims claims = claimsJws.getBody();
-
         final Collection<? extends GrantedAuthority> authorities = Arrays
                 .stream(claims.get(AUTHORITIES_KEY).toString().split(",")).map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
 
