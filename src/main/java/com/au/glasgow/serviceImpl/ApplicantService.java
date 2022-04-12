@@ -7,28 +7,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ApplicantService implements ServiceInt<Applicant> {
+public class ApplicantService{
 
     @Autowired
     private ApplicantRepository applicantRepository;
 
-    @Override
-    public Applicant getById(Integer id) {
-        return applicantRepository.getById(id);
+    /* get Applicant by ID */
+    public Applicant getById(Integer applicantId){
+        return applicantRepository.getById(applicantId);
     }
 
-    @Override
-    public Iterable<Applicant> getById(Iterable<Integer> ids) {
-        return applicantRepository.findAllById(ids);
+    /* update applicant skill */
+    public Applicant updateSkill(Integer applicantId, Integer skillId){
+        Applicant a = applicantRepository.getById(applicantId);
+        a.setSkillId(skillId);
+        return applicantRepository.save(a);
     }
 
-    @Override
-    public <S extends Applicant> Applicant save(Applicant applicant) {
+    /* save Applicant */
+    public Applicant save(Applicant applicant){
         return applicantRepository.save(applicant);
-    }
-
-    @Override
-    public <S extends Applicant> Iterable<S> saveAll(Iterable<S> applicants) {
-        return applicantRepository.saveAll(applicants);
     }
 }

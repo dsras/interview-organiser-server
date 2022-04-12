@@ -6,6 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/*
+represents an interview and interviewers in a format easily sent in request by front-end
+i.e. with all interviewers, applicant and skill being assessed
+Interview and InterviewInterviewer entries created from this and Applicant skill updated
+ */
 public class InterviewRequest {
 
     @JsonProperty("interviewer_ids")
@@ -26,7 +31,6 @@ public class InterviewRequest {
     @JsonProperty("end_time")
     private LocalTime endTime;
 
-    /* getters */
     public List<Integer> getInterviewerIds() {
         return interviewerIds;
     }

@@ -33,6 +33,15 @@ public class UserAvailability {
     }
 
     public UserAvailability(){}
+
+    public void setAvailableFrom(LocalTime availableFrom) {
+        this.availableFrom = availableFrom;
+    }
+
+    public void setAvailableTo(LocalTime availableTo) {
+        this.availableTo = availableTo;
+    }
+
     public LocalTime getAvailableTo() {
         return availableTo;
     }

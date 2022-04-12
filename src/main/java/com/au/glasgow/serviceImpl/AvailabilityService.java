@@ -1,5 +1,6 @@
 package com.au.glasgow.serviceImpl;
 
+import com.au.glasgow.dto.InterviewRequestWrapper;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.repository.AvailabilityRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,38 @@ public class AvailabilityService{
             availabilityRequests.add(tempReq);
         }
         return availabilityRequests;
+    }
+
+
+    /* amend availability of user to reflect new booking */
+    public void amendAvailability(InterviewRequestWrapper wrapper) {
+        List<UserAvailability> currentAvailability = availabilityRepository.getInTimeInterval(wrapper.getDate(),
+                wrapper.getStartTime(), wrapper.getEndTime());
+        for (UserAvailability a : currentAvailability) {
+            /* if availability perfectly matches interview times: */
+            if (ChronoUnit.MINUTES.between(wrapper.getStartTime(), wrapper.getEndTime())
+                    == ChronoUnit.MINUTES.between(a.getAvailableFrom(), a.getAvailableTo())){
+                /* delete availability */
+                availabilityRepository.delete(a);
+            }/* if available before interview: */
+            else if (a.getAvailableFrom().isBefore(wrapper.getStartTime())) {
+                /* and available after: */
+                if (a.getAvailableTo().isAfter(wrapper.getEndTime())) {
+                    /* create new availability from interview end time until availability end time */
+                    availabilityRepository.save(new UserAvailability(a.getUser(), a.getAvailableDate(),
+                            wrapper.getEndTime(), a.getAvailableTo()));
+                }
+                /* update existing availability to end at interview start time */
+                a.setAvailableTo(wrapper.getStartTime());
+                availabilityRepository.save(a);
+            } else { /* if not available before interview but available after: */
+                if (a.getAvailableTo().isAfter(wrapper.getEndTime())){
+                    /* update existing availability to start at interview end time */
+                    a.setAvailableFrom(wrapper.getEndTime());
+                    availabilityRepository.save(a);
+                }
+            }
+        }
     }
 
 }

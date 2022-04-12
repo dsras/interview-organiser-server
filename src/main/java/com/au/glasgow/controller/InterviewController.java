@@ -4,6 +4,7 @@ import com.au.glasgow.dto.InterviewRequest;
 import com.au.glasgow.dto.InterviewRequestWrapper;
 import com.au.glasgow.dto.InterviewResponse;
 import com.au.glasgow.entities.Interview;
+import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.serviceImpl.InterviewService;
 import com.au.glasgow.serviceImpl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

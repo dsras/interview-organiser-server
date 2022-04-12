@@ -11,6 +11,20 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+represents an interview in a format easily received by front-end (with no need for retrieval of details based
+on user ID etc.)
+represents interview by:
+- interview ID
+- list of names of interviewers
+- name of organiser
+- name of applicant
+- name & level of skill being assessed
+- date
+- start time
+- end time
+- boolean indicating if interview has been confirmed to have taken place (0 => not confirmed)
+ */
 public class InterviewResponse {
 
     @JsonProperty("interview_id")

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class InterviewService{
+public class InterviewService {
 
     @Autowired
     InterviewRepository interviewRepository;
@@ -25,17 +25,21 @@ public class InterviewService{
     UserService userService;
 
     @Autowired
+    AvailabilityService availabilityService;
+
+    @Autowired
     ApplicantService applicantService;
 
     @Autowired
     SkillService skillService;
 
-    public Interview getById(Integer id){
+    /* get Interview by ID */
+    public Interview getById(Integer id) {
         return interviewRepository.getById(id);
     }
 
     /* confirm interview has happened and return InterviewResponse representing confirmed interview */
-    public InterviewResponse confirm(Integer id){
+    public InterviewResponse confirm(Integer id) {
         Interview i = interviewRepository.getById(id);
         i.confirm();
         i = interviewRepository.save(i);
@@ -48,26 +52,37 @@ public class InterviewService{
 
     /* save Interview and return new InterviewResponse representing new interview */
     public InterviewResponse save(InterviewRequestWrapper wrapper) {
-        System.err.println(wrapper.getInterviewerIds());
+        /* amend availability to reflect new booking */
+        availabilityService.amendAvailability(wrapper);
+
+        /* update Applicant skill */
+        applicantService.updateSkill(wrapper.getApplicantId(), wrapper.getSkillId());
+
+        /* create Interview entry */
         Applicant applicant = applicantService.getById(wrapper.getApplicantId());
         Skill skill = skillService.getById(wrapper.getSkillId());
         List<User> interviewers = wrapper.getInterviewerIds().stream()
                 .map(x -> userService.getById(x))
                 .collect(Collectors.toList());
         Interview interview = new Interview(wrapper.getUser(), applicant, wrapper.getDate(),
-                wrapper.getStartTime(), wrapper.getStartTime());
+                wrapper.getStartTime(), wrapper.getEndTime());
         interview = interviewRepository.save(interview);
+
+        /* create InterviewInterviewer entries */
         for (User u : interviewers) {
             interviewInterviewerRepository.save(new InterviewInterviewer(interview, u));
         }
-        return new InterviewResponse(interview,  interviewers, skill);
+
+        /* return InterviewResponse */
+        return new InterviewResponse(interview, interviewers, skill);
     }
 
-    /* find all interviews that interviewer is participating in
-    return list of InterviewResponse objects representing these interviews */
+    /* find all interviews that interviewer is participating in */
     public List<InterviewResponse> findByInterviewer(User user){
         List<Interview> interviews = interviewRepository.findAllByInterviewer(user);
         List<InterviewResponse> response = new ArrayList<>();
+
+        /* create InterviewResponse objects for all Interviews */
         for (Interview i : interviews){
             response.add(new InterviewResponse(i, interviewRepository.findInterviewers(i.getId()),
                     interviewRepository.getSkillsByInterview(i.getId())));
