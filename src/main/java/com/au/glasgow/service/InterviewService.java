@@ -74,9 +74,18 @@ public class InterviewService {
     /* find all interviews that interviewer is participating in */
     public List<InterviewResponse> findByInterviewer(User user){
         List<Interview> interviews = interviewRepository.findAllByInterviewer(user);
-        List<InterviewResponse> response = new ArrayList<>();
+        return getInterviewResponseList(interviews);
+    }
 
-        /* create InterviewResponse objects for all Interviews */
+    /* find all interviews that recruiter has organised */
+    public List<InterviewResponse> findByRecruiter(User user){
+        List<Interview> interviews = interviewRepository.findAllByRecruiter(user);
+        return getInterviewResponseList(interviews);
+    }
+
+    /* create InterviewResponse objects for all Interviews */
+    private List<InterviewResponse> getInterviewResponseList(List<Interview> interviews){
+        List<InterviewResponse> response = new ArrayList<>();
         for (Interview i : interviews){
             response.add(new InterviewResponse(i, interviewRepository.findInterviewers(i.getId()),
                     interviewRepository.getSkillsByInterview(i.getId())));

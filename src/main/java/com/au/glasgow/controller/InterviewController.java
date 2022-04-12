@@ -43,7 +43,13 @@ public class InterviewController {
 
     /* find all interviews the interviewer is involved in */
     @GetMapping("/findByInterviewer")
-    public ResponseEntity<List<InterviewResponse>> findByInterviewers(){
+    public ResponseEntity<List<InterviewResponse>> findByInterviewer(){
         return new ResponseEntity<>(interviewService.findByInterviewer(userService.findOne(username)), HttpStatus.OK);
+    }
+
+    /* find all interviews the recruiter has organised */
+    @GetMapping("/findByRecruiter")
+    public ResponseEntity<List<InterviewResponse>> findByRecruiter(){
+        return new ResponseEntity<>(interviewService.findByRecruiter(userService.findOne(username)), HttpStatus.OK);
     }
 }

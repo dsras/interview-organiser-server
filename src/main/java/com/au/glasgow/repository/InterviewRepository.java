@@ -11,8 +11,11 @@ import java.util.List;
 
 public interface InterviewRepository extends JpaRepository<Interview, Integer> {
 
-    @Query("FROM Interview i, InterviewInterviewer j WHERE i = j.interview and j.interviewer = :user")
+    @Query("SELECT i FROM Interview i, InterviewInterviewer j WHERE i = j.interview and j.interviewer = :user")
     List<Interview> findAllByInterviewer(@Param("user") User user);
+
+    @Query("SELECT i FROM Interview i WHERE i.organiser = :user")
+    List<Interview> findAllByRecruiter(@Param("user") User user);
 
     @Query("SELECT i.interviewer FROM InterviewInterviewer i WHERE i.interview.id = :id")
     List<User> findInterviewers(@Param("id") Integer id);
