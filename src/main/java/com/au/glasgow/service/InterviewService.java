@@ -83,6 +83,12 @@ public class InterviewService {
         return getInterviewResponseList(interviews);
     }
 
+    /* find all interviews */
+    public List<InterviewResponse> findAll(){
+        List<Interview> interviews = interviewRepository.findAll();
+        return getInterviewResponseList(interviews);
+    }
+
     /* create InterviewResponse objects for all Interviews */
     private List<InterviewResponse> getInterviewResponseList(List<Interview> interviews){
         List<InterviewResponse> response = new ArrayList<>();

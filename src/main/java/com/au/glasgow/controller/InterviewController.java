@@ -5,6 +5,7 @@ import com.au.glasgow.dto.InterviewRequestWrapper;
 import com.au.glasgow.dto.InterviewResponse;
 import com.au.glasgow.service.InterviewService;
 import com.au.glasgow.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +52,11 @@ public class InterviewController {
     @GetMapping("/findByRecruiter")
     public ResponseEntity<List<InterviewResponse>> findByRecruiter(){
         return new ResponseEntity<>(interviewService.findByRecruiter(userService.findOne(username)), HttpStatus.OK);
+    }
+
+    /* find all interviews */
+    @GetMapping("/findAll")
+    public ResponseEntity<List<InterviewResponse>> findAll(){
+        return new ResponseEntity<>(interviewService.findAll(), HttpStatus.OK);
     }
 }
