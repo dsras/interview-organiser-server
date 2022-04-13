@@ -17,11 +17,6 @@ import java.util.List;
 @RequestMapping("/availability")
 public class AvailabilityController {
 
-    /* testing stuff
-    * return SecurityContextHolder.getContext().getAuthentication().toString(); */
-    private String username = "emer.sweeney@accolitedigital.com";
-    /* end of testing stuff */
-
     @Autowired
     private AvailabilityService availabilityService;
 
