@@ -49,7 +49,7 @@ public class AvailabilityController {
 //    /* get skill by ID */
 //    @GetMapping("/findBySkill")
 //    public List<UserAvailability> findBySkill(Integer skillId){
-//
+//        return availabilityService.findBySkill(skillId);
 //    }
 
 }

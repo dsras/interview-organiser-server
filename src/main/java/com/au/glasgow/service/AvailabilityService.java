@@ -82,5 +82,10 @@ public class AvailabilityService{
         }
     }
 
+//    /* get availability by skill */
+//    public List<UserAvailability> findBySkill(Integer skillId){
+//        return availabilityRepository.findBySkill(skillId);
+//    }
+
 
 }
