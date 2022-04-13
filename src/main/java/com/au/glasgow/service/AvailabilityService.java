@@ -1,6 +1,7 @@
 package com.au.glasgow.service;
 
 import com.au.glasgow.dto.InterviewRequestWrapper;
+import com.au.glasgow.entities.Skill;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.repository.AvailabilityRepository;
@@ -13,13 +14,18 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AvailabilityService{
 
     @Autowired
     private AvailabilityRepository availabilityRepository;
+
+    @Autowired
+    private SkillService skillService;
 
     /* create new availability */
     public AvailabilityRequest save(AvailabilityRequestWrapper newAvailability) {
@@ -82,10 +88,26 @@ public class AvailabilityService{
         }
     }
 
-//    /* get availability by skill */
-//    public List<UserAvailability> findBySkill(Integer skillId){
-//        return availabilityRepository.findBySkill(skillId);
+    /* get availability by skill */
+//    public List<UserAvailability> findBySkills(List<Integer> skillIds){
+//
+//        /* get listed skills */
+//        List<Skill> listedSkills = skillService.getByIds(skillIds);
+//
+//        /* store skills grouped by name */
+//        HashMap<String, List<Skill>> groupedSkills = new HashMap<>();
+//        for (Skill s : listedSkills){
+//            /* get other appropriate levels of each skill */
+//            groupedSkills.put(s.getSkillName(), skillService.getAppropriateLevels(s));
+//        }
+//
+//        /* get users with required skills ie users with one skill from each list */
+//
+//
+//        return availabilityRepository.findBySkills(skillIds);
 //    }
+
+
 
 
 }

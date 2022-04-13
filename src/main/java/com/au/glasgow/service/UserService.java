@@ -79,9 +79,8 @@ public class UserService implements UserDetailsService{
 
     /* save new user */
     public User save(User user) {
-        User nUser = new User();
-        BeanUtils.copyProperties(user, nUser);
-        nUser.setUserpassword(encoder().encode(user.getUserpassword()));
+        System.err.print("TESTING: "+user.getBusinessTitle());
+        user.setUserpassword(encoder().encode(user.getUserpassword()));
         Role role = roleService.getByName("USER");
         List<Role> roleSet = new ArrayList<>();
         roleSet.add(role);
@@ -89,9 +88,9 @@ public class UserService implements UserDetailsService{
             for (Role roles : user.getRoles()) {
                 roleSet.add(roleService.getByName(roles.getName()));
             }
-            nUser.setRoles(roleSet);
+            user.setRoles(roleSet);
         }
-        return userRepository.save(nUser);
+        return userRepository.save(user);
     }
 
     /* password encoder */

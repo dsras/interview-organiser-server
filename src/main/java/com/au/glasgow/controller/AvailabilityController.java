@@ -17,11 +17,6 @@ import java.util.List;
 @RequestMapping("/availability")
 public class AvailabilityController {
 
-    /* testing stuff
-    * return SecurityContextHolder.getContext().getAuthentication().toString(); */
-    private String username = "emer.sweeney@accolitedigital.com";
-    /* end of testing stuff */
-
     @Autowired
     private AvailabilityService availabilityService;
 
@@ -53,10 +48,10 @@ public class AvailabilityController {
         availabilityService.clear();
     }
 
-//    /* get skill by ID */
-//    @GetMapping("/findBySkill")
-//    public List<UserAvailability> findBySkill(Integer skillId){
-//        return availabilityService.findBySkill(skillId);
+    /* get users with required skills */
+//    @GetMapping("/findBySkills")
+//    public List<UserAvailability> findBySkill(@RequestBody List<Integer> skillIds){
+//        return availabilityService.findBySkills(skillIds);
 //    }
 
 }
