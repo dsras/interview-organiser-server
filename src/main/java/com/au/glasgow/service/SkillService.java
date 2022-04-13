@@ -13,9 +13,20 @@ public class SkillService {
     @Autowired
     private SkillRepository skillRepository;
 
-    public Skill getById(Integer id){return skillRepository.getById(id);}
+    public Skill getById(Integer id){
+        return skillRepository.getById(id);
+    }
 
-    public <S extends Skill> Skill save(Skill entity) {return skillRepository.save(entity); }
+    public <S extends Skill> Skill save(Skill entity) {
+        return skillRepository.save(entity);
+    }
 
-    public List<Skill> getAll() { return skillRepository.findAll();}
+    public List<Skill> getAll() {
+        return skillRepository.findAll();
+    }
+
+    public List<Skill> getSkillsByName(String name){
+        return skillRepository.getSkillsByName(name);
+    }
+
 }

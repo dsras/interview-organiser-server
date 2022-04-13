@@ -1,5 +1,17 @@
 package com.au.glasgow.config;
 
+import com.au.glasgow.entities.User;
+import com.au.glasgow.service.UserService;
+import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,26 +20,11 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.au.glasgow.entities.User;
-import com.au.glasgow.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Component;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
 @Component
 public class TokenProvider implements Serializable {
+
+    @Autowired
+    UserService userService;
 
     @Value("${jwt.token.validity}")
     public long TOKEN_VALIDITY;
@@ -38,18 +35,8 @@ public class TokenProvider implements Serializable {
     @Value("${jwt.authorities.key}")
     public String AUTHORITIES_KEY;
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    UserDetailsService userDetailsService;
-
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
-    }
-
-    public String getJtiFromToken(String token) {
-        return getClaimFromToken(token, Claims::getId);
     }
 
     public Date getExpirationDateFromToken(String token) {
@@ -62,7 +49,10 @@ public class TokenProvider implements Serializable {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(SIGNING_KEY).parseClaimsJws(token).getBody();
+        return Jwts.parser()
+                .setSigningKey(SIGNING_KEY)
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -71,13 +61,17 @@ public class TokenProvider implements Serializable {
     }
 
     public String generateToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities)
+        return Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS256, SIGNING_KEY).compact();
+                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY*1000))
+                .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
+                .compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
@@ -85,28 +79,22 @@ public class TokenProvider implements Serializable {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    UsernamePasswordAuthenticationToken getAuthenticationToken(final String token, final Authentication existingAuth,
-                                                               final UserDetails userDetails) {
+    UsernamePasswordAuthenticationToken getAuthenticationToken(final String token, final Authentication existingAuth, final UserDetails userDetails) {
 
         final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
+
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
+
         final Claims claims = claimsJws.getBody();
-        final Collection<? extends GrantedAuthority> authorities = Arrays
-                .stream(claims.get(AUTHORITIES_KEY).toString().split(",")).map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+
+        final Collection<? extends GrantedAuthority> authorities =
+                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
 
-    /**
-     * This method generates jwt token using verified google token
-     * set Authorities of a user
-     * set email/username from SSO in subject
-     * set jwt id - as google token
-     *
-     * @param email
-     * @param googleToken
-     * @return
-     */
     public String generateTokenFromGoogleToken(String email, String googleToken) {
         User user = userService.getByEmail(email);
         Set<SimpleGrantedAuthority> autho = userService.getAuthority(user);
@@ -117,4 +105,10 @@ public class TokenProvider implements Serializable {
                 .signWith(SignatureAlgorithm.HS256, SIGNING_KEY).compact();
     }
 
+
+    /*******************************************************************************************/
+
+    public String getJtiFromToken(String token) {
+        return getClaimFromToken(token, Claims::getId);
+    }
 }

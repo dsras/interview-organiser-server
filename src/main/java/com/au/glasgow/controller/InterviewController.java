@@ -9,6 +9,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,10 @@ public class InterviewController {
     @Autowired
     private UserService userService;
 
+    /* get username of logged in user */
+    private String getPrincipalUsername(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 
     /* confirm interview has happened */
     @GetMapping("confirm")
@@ -38,20 +43,20 @@ public class InterviewController {
     /* create new interview */
     @PostMapping("/new")
     public ResponseEntity<InterviewResponse> newInterview(@RequestBody InterviewRequest newInterview) {
-        InterviewRequestWrapper wrapper = new InterviewRequestWrapper(newInterview, userService.findOne(username));
+        InterviewRequestWrapper wrapper = new InterviewRequestWrapper(newInterview, userService.findOne(getPrincipalUsername()));
         return new ResponseEntity<>(interviewService.save(wrapper), HttpStatus.CREATED);
     }
 
     /* find all interviews the interviewer is involved in */
     @GetMapping("/findByInterviewer")
     public ResponseEntity<List<InterviewResponse>> findByInterviewer(){
-        return new ResponseEntity<>(interviewService.findByInterviewer(userService.findOne(username)), HttpStatus.OK);
+        return new ResponseEntity<>(interviewService.findByInterviewer(userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
     /* find all interviews the recruiter has organised */
     @GetMapping("/findByRecruiter")
     public ResponseEntity<List<InterviewResponse>> findByRecruiter(){
-        return new ResponseEntity<>(interviewService.findByRecruiter(userService.findOne(username)), HttpStatus.OK);
+        return new ResponseEntity<>(interviewService.findByRecruiter(userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
     /* find all interviews */
