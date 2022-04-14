@@ -34,29 +34,4 @@ public class SkillService {
         return skillRepository.findAll();
     }
 
-    /* get all skills by name */
-    public List<Skill> getSkillsByName(String name){
-        return skillRepository.getSkillsByName(name);
-    }
-
-    /* get skill of specified name and level */
-    public Skill getLevel(String name, String level){
-        return skillRepository.getLevel(name, level);
-    }
-
-    /* for a list of skills, get all other appropriate skills (ie get higher levels of those skills) */
-    public List<Skill> getAppropriateLevels(Skill skill){
-        List<Skill> appropriateSkills = new ArrayList<>();
-        appropriateSkills.add(skill);
-        /* get Senior level of skill */
-        if (!skill.getSkillLevel().equals("Senior")){
-            appropriateSkills.add(getLevel(skill.getSkillName(), "Senior"));
-        }
-        /* if skill is Junior, get Intermediate level */
-        if (skill.getSkillLevel().equals("Junior")){
-            appropriateSkills.add(getLevel(skill.getSkillName(), "Intermediate"));
-        }
-        return appropriateSkills;
-    }
-
 }

@@ -5,7 +5,6 @@ import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserRepository;
 import com.au.glasgow.dto.FindInterviewersRequest;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -79,7 +78,6 @@ public class UserService implements UserDetailsService{
 
     /* save new user */
     public User save(User user) {
-        System.err.print("TESTING: "+user.getBusinessTitle());
         user.setUserpassword(encoder().encode(user.getUserpassword()));
         Role role = roleService.getByName("USER");
         List<Role> roleSet = new ArrayList<>();

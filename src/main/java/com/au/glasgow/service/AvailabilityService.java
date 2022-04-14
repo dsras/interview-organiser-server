@@ -39,9 +39,19 @@ public class AvailabilityService{
     }
 
     /* get user's availability */
-    public List<AvailabilityRequest> get(String username){
+    public List<AvailabilityRequest> getUserAvailability(String username){
+        return getFormattedAvailability(availabilityRepository.getByUsername(username));
+    }
+
+    /* get all availability */
+    public List<AvailabilityRequest> getAllAvailability(){
+        return getFormattedAvailability(availabilityRepository.findAll());
+    }
+
+    /* convert list of UserAvailability to list of AvailabilityRequest for easy processing on front end */
+    private List<AvailabilityRequest> getFormattedAvailability(List<UserAvailability> list){
         List<AvailabilityRequest> availabilityRequests = new ArrayList<>();
-        for (UserAvailability av : availabilityRepository.getByUsername(username)) {
+        for (UserAvailability av : list) {
             AvailabilityRequest tempReq = new AvailabilityRequest(av.getAvailableDate(), av.getAvailableFrom(), av.getAvailableTo());
             availabilityRequests.add(tempReq);
         }
@@ -94,14 +104,7 @@ public class AvailabilityService{
 //        /* get listed skills */
 //        List<Skill> listedSkills = skillService.getByIds(skillIds);
 //
-//        /* store skills grouped by name */
-//        HashMap<String, List<Skill>> groupedSkills = new HashMap<>();
-//        for (Skill s : listedSkills){
-//            /* get other appropriate levels of each skill */
-//            groupedSkills.put(s.getSkillName(), skillService.getAppropriateLevels(s));
-//        }
-//
-//        /* get users with required skills ie users with one skill from each list */
+//        /* get users with all listed skills */
 //
 //
 //        return availabilityRepository.findBySkills(skillIds);
