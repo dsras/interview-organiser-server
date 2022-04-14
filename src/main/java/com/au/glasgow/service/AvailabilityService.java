@@ -7,6 +7,7 @@ import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.repository.AvailabilityRepository;
 import com.au.glasgow.dto.AvailabilityRequest;
 import com.au.glasgow.dto.AvailabilityRequestWrapper;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,9 @@ public class AvailabilityService{
 
     @Autowired
     private SkillService skillService;
+
+    @Autowired
+    private UserSkillService userSkillService;
 
     /* create new availability */
     public AvailabilityRequest save(AvailabilityRequestWrapper newAvailability) {
@@ -99,16 +103,16 @@ public class AvailabilityService{
     }
 
     /* get availability by skill */
-//    public List<UserAvailability> findBySkills(List<Integer> skillIds){
-//
-//        /* get listed skills */
-//        List<Skill> listedSkills = skillService.getByIds(skillIds);
-//
-//        /* get users with all listed skills */
-//
-//
-//        return availabilityRepository.findBySkills(skillIds);
-//    }
+    public List<AvailabilityRequest> findBySkills(List<Integer> skillIds){
+
+        /* get users with all listed skills */
+        List<User> users = userSkillService.findBySkills(skillIds, skillIds.size());
+
+        /* get availability of users found to have all skills */
+        List<UserAvailability> availabilities = availabilityRepository.getByUsers(users);
+
+        return getFormattedAvailability(availabilities);
+    }
 
 
 
