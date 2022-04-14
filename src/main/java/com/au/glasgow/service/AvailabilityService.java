@@ -1,6 +1,7 @@
 package com.au.glasgow.service;
 
 import com.au.glasgow.dto.InterviewRequestWrapper;
+import com.au.glasgow.entities.Skill;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.repository.AvailabilityRepository;
@@ -13,13 +14,18 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AvailabilityService{
 
     @Autowired
     private AvailabilityRepository availabilityRepository;
+
+    @Autowired
+    private SkillService skillService;
 
     /* create new availability */
     public AvailabilityRequest save(AvailabilityRequestWrapper newAvailability) {
@@ -33,9 +39,19 @@ public class AvailabilityService{
     }
 
     /* get user's availability */
-    public List<AvailabilityRequest> get(String username){
+    public List<AvailabilityRequest> getUserAvailability(String username){
+        return getFormattedAvailability(availabilityRepository.getByUsername(username));
+    }
+
+    /* get all availability */
+    public List<AvailabilityRequest> getAllAvailability(){
+        return getFormattedAvailability(availabilityRepository.findAll());
+    }
+
+    /* convert list of UserAvailability to list of AvailabilityRequest for easy processing on front end */
+    private List<AvailabilityRequest> getFormattedAvailability(List<UserAvailability> list){
         List<AvailabilityRequest> availabilityRequests = new ArrayList<>();
-        for (UserAvailability av : availabilityRepository.getByUsername(username)) {
+        for (UserAvailability av : list) {
             AvailabilityRequest tempReq = new AvailabilityRequest(av.getAvailableDate(), av.getAvailableFrom(), av.getAvailableTo());
             availabilityRequests.add(tempReq);
         }
@@ -82,10 +98,19 @@ public class AvailabilityService{
         }
     }
 
-//    /* get availability by skill */
-//    public List<UserAvailability> findBySkill(Integer skillId){
-//        return availabilityRepository.findBySkill(skillId);
+    /* get availability by skill */
+//    public List<UserAvailability> findBySkills(List<Integer> skillIds){
+//
+//        /* get listed skills */
+//        List<Skill> listedSkills = skillService.getByIds(skillIds);
+//
+//        /* get users with all listed skills */
+//
+//
+//        return availabilityRepository.findBySkills(skillIds);
 //    }
+
+
 
 
 }

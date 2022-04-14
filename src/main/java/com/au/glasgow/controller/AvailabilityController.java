@@ -28,7 +28,7 @@ public class AvailabilityController {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    /* add new availability for user */
+    /* add new availability for current user */
     @PostMapping("/new")
     public AvailabilityRequest newAvailability(@RequestBody AvailabilityRequest newAvailability) {
         AvailabilityRequestWrapper wrapper = new AvailabilityRequestWrapper(newAvailability,
@@ -36,10 +36,16 @@ public class AvailabilityController {
         return availabilityService.save(wrapper);
     }
 
-    /* get user's availability */
+    /* get current user's availability */
     @GetMapping("/find")
-    public ResponseEntity<List<AvailabilityRequest>> getAvailability(){
-        return new ResponseEntity<>(availabilityService.get(getPrincipalUsername()), HttpStatus.OK);
+    public ResponseEntity<List<AvailabilityRequest>> getUserAvailability(){
+        return new ResponseEntity<>(availabilityService.getUserAvailability(getPrincipalUsername()), HttpStatus.OK);
+    }
+
+    /* get all users availability slots - called by recruiter */
+    @GetMapping("/findAll")
+    public ResponseEntity<List<AvailabilityRequest>> getAllAvailability(){
+        return new ResponseEntity<>(availabilityService.getAllAvailability(), HttpStatus.OK);
     }
 
     /* clear all availability - for Thorfinn testing */
@@ -48,10 +54,10 @@ public class AvailabilityController {
         availabilityService.clear();
     }
 
-//    /* get skill by ID */
-//    @GetMapping("/findBySkill")
-//    public List<UserAvailability> findBySkill(Integer skillId){
-//        return availabilityService.findBySkill(skillId);
+//    /* get users with required skills - called by recruiter */
+//    @GetMapping("/findBySkills")
+//    public List<UserAvailability> findBySkill(@RequestBody List<Integer> skillIds){
+//        return availabilityService.findBySkills(skillIds);
 //    }
 
 }

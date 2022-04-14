@@ -21,5 +21,5 @@ public interface AvailabilityRepository extends JpaRepository<UserAvailability, 
     List<UserAvailability> getInTimeInterval(@Param("date") LocalDate date, @Param("startTime") LocalTime
             startTime, @Param("endTime") LocalTime endTime);
 
-//    List<UserAvailability> findBySkill(@Param("skill") Integer skillId);
+//    List<UserAvailability> findBySkills(@Param("skill") List<Integer> skillIds);
 }

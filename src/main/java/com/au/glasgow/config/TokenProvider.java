@@ -105,7 +105,6 @@ public class TokenProvider implements Serializable {
                 .signWith(SignatureAlgorithm.HS256, SIGNING_KEY).compact();
     }
 
-
     /*******************************************************************************************/
 
     public String getJtiFromToken(String token) {
