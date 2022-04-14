@@ -1,5 +1,8 @@
 package com.au.glasgow.dto;
 
+/*
+stores and provides access to username, password and login type of login user
+ */
 public class LoginUser {
     private String username;
     private String password;

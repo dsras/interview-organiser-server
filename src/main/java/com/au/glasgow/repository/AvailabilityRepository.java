@@ -30,4 +30,15 @@ public interface AvailabilityRepository extends JpaRepository<UserAvailability, 
     List<UserAvailability> getInTimeInterval(@Param("date") LocalDate date, @Param("startTime") LocalTime
             startTime, @Param("endTime") LocalTime endTime);
 
+    @Query("SELECT a " +
+            "FROM UserAvailability a " +
+            "WHERE a.user in :users " +
+            "AND a.availableDate >= :startDate " +
+            "AND a.availableDate <= :endDate " +
+            "AND a.availableFrom >= :startTime " +
+            "AND a.availableFrom <= :endTime ")
+    List<UserAvailability> getAvailableInterviewers(@Param("users") List<User> users, @Param("startDate") LocalDate startDate,
+                                @Param("endDate") LocalDate endDate,@Param("startTime") LocalTime startTime,
+                                @Param("endTime") LocalTime endTime);
+
 }

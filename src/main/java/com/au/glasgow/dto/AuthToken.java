@@ -1,5 +1,8 @@
 package com.au.glasgow.dto;
 
+/*
+provides access to token
+ */
 public class AuthToken {
     private String token;
 

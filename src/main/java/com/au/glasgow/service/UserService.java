@@ -1,8 +1,10 @@
 package com.au.glasgow.service;
 
+import com.au.glasgow.dto.AvailabilityRequestWrapper;
 import com.au.glasgow.dto.LoginUser;
 import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
+import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.repository.UserRepository;
 import com.au.glasgow.dto.FindInterviewersRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,11 @@ public class UserService implements UserDetailsService{
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private UserSkillService userSkillService;
+
+    @Autowired
+    private AvailabilityService availabilityService;
 
     /* get qualified Interviewers available for Interview */
     public List<User> getAvailableUsers(FindInterviewersRequest findInterviewersRequest){
@@ -54,7 +61,7 @@ public class UserService implements UserDetailsService{
         return userRepository.getByEmail(email);
     }
 
-    /* get permissions for user by retrieving roles from database*/
+    /* get permissions for user by retrieving roles from database */
     public Set<SimpleGrantedAuthority> getAuthority(User user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         userRepository.getRolesByUsername(user.getUsername()).forEach(
@@ -99,5 +106,14 @@ public class UserService implements UserDetailsService{
     /* get user details by username */
     public User getUserDetailsByUsername(String username){
         return userRepository.getUserDetailsByUsername(username);
+    }
+
+    /* get users with required skills available for interview time */
+    public List<AvailabilityRequestWrapper> getAvailableInterviewers(FindInterviewersRequest request){
+        /* get users with required skills */
+        List<Integer> skills = request.getSkills();
+        List<User> potentialInterviewers = userSkillService.findBySkills(skills, skills.size());
+        /* filter users to those available */
+        return availabilityService.getAvailableInterviewers(potentialInterviewers, request);
     }
 }

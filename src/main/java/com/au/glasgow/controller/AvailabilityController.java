@@ -57,8 +57,8 @@ public class AvailabilityController {
 
     /* get users with required skills - called by recruiter */
     @GetMapping("/findBySkills")
-    public List<AvailabilityRequest> findBySkill(@RequestParam(name = "ids") List<Integer> skillIds){
-        return availabilityService.findBySkills(skillIds);
+    public ResponseEntity<List<AvailabilityRequestWrapper>> findBySkill(@RequestParam(name = "ids") List<Integer> skillIds){
+        return new ResponseEntity<>(availabilityService.findBySkills(skillIds), HttpStatus.OK);
     }
 
 }
