@@ -116,35 +116,19 @@ public class UserController {
         return newUser;
     }
 
-    /* get user id by username */
-    public Integer getUserId() {
-        return userService.getUserIdByUsername(getPrincipalUsername());
-    }
+//    //Get skill
+//    @GetMapping("/findSkills")
+//    public ResponseEntity<List<Skill>> newSkill(){
+//        return new ResponseEntity<>(skillService.getSkillsByName(name),HttpStatus.OK);
+//    }
 
-    //Get skill by user
-
-    /* Under Construction
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping("/findSkills")
-    public ResponseEntity<List<Skill>> newSkill(){
-        return new ResponseEntity<>(skillService.getById(getUserId()));
-    }*/
-
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping("/findSkill")
-    public ResponseEntity<List<Skill>> newSkillByName(@RequestParam(value="name") String skillName){
-        return new ResponseEntity<>(skillService.getSkillsByName(skillName), HttpStatus.OK);
-    }
-
-    //Add skill by user
-    @PreAuthorize("hasRole('USER')")
+    /* add new skill to user profile */
     @PostMapping("/addSkill")
-    public UserSkill newUserSkill(@RequestParam(value="skillId") Integer skillId){
-        UserSkill newUserSkill = null;
-        newUserSkill.setUser(userService.getById(getUserId()));
-        newUserSkill.setSkill(skillService.getById(skillId));
-        return userSkillService.save(newUserSkill);
+    public Integer newSkill(@RequestBody Integer newSkillId){
+        userSkillService.save(new UserSkill(userService.findOne(getPrincipalUsername()), skillService.getById(newSkillId)));
+        return newSkillId;
     }
+
 
     //    /* get interviewers available for interview */
 //    /*

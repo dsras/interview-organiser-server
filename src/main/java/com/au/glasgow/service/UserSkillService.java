@@ -5,11 +5,13 @@ import com.au.glasgow.entities.User;
 import com.au.glasgow.entities.UserSkill;
 import com.au.glasgow.repository.UserSkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class UserSkillService{
+public class UserSkillService {
 
     @Autowired
     private UserSkillRepository userSkillRepository;
@@ -25,4 +27,7 @@ public class UserSkillService{
         return userSkillRepository.save(entity);
     }
 
+    List<User> findBySkills(List<Integer> skillIds, long listSize){
+        return userSkillRepository.findBySkills(skillIds, listSize);
+    }
 }
