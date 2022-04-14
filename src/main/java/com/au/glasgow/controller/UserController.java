@@ -122,10 +122,13 @@ public class UserController {
 //        return new ResponseEntity<>(skillService.getSkillsByName(name),HttpStatus.OK);
 //    }
 
+    /* add new skill to user profile */
     @PostMapping("/addSkill")
-    public UserSkill newSkill(@RequestBody UserSkill newSkill){
-        return userSkillService.save(newSkill);
+    public Integer newSkill(@RequestBody Integer newSkillId){
+        userSkillService.save(new UserSkill(userService.findOne(getPrincipalUsername()), skillService.getById(newSkillId)));
+        return newSkillId;
     }
+
 
     //    /* get interviewers available for interview */
 //    /*
