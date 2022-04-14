@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-    @Query("FROM Role WHERE roleName = :name")
+    @Query("FROM Role WHERE name = :name")
     Role getByName(@Param("name") String name);
 }

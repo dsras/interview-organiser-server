@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InterviewService {
@@ -39,7 +40,7 @@ public class InterviewService {
         i = interviewRepository.save(i);
         List<User> interviewers = i.getInterviewInterviewers().stream()
                 .map(InterviewInterviewer::getInterviewer)
-                .toList();
+                .collect(Collectors.toList());
         Skill skill = skillService.getById(i.getApplicant().getSkillId());
         return new InterviewResponse(i, interviewers, skill);
     }
@@ -57,7 +58,7 @@ public class InterviewService {
         Skill skill = skillService.getById(wrapper.getSkillId());
         List<User> interviewers = wrapper.getInterviewerIds().stream()
                 .map(x -> userService.getById(x))
-                .toList();
+                .collect(Collectors.toList());
         Interview interview = new Interview(wrapper.getUser(), applicant, wrapper.getDate(),
                 wrapper.getStartTime(), wrapper.getEndTime());
         interview = interviewRepository.save(interview);

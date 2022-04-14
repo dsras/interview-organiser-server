@@ -3,10 +3,11 @@ package com.au.glasgow.service;
 import com.au.glasgow.entities.UserSkill;
 import com.au.glasgow.repository.UserSkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserSkillService {
+public class UserSkillService{
 
     @Autowired
     private UserSkillRepository userSkillRepository;
@@ -18,4 +19,5 @@ public class UserSkillService {
     public <S extends UserSkill> UserSkill save(UserSkill entity) {
         return userSkillRepository.save(entity);
     }
+
 }

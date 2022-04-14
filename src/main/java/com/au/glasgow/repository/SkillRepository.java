@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface SkillRepository extends JpaRepository<Skill, Integer> {
 
-    @Query("FROM Skill WHERE skillName = :name")
-    List<Skill> getSkillsByName(@Param("name") String name);
+    @Query("FROM Skill WHERE skillName = :skillName")
+    List<Skill> getSkillsByName(@Param("skillName") String skillName);
 }

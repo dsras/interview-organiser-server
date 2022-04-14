@@ -65,7 +65,7 @@ public class InterviewResponse {
         this.confirmed = interview.getConfirmed();
         this.interviewers = interviewerList.stream()
                 .map(User::getUserName)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public void setInterviewId(Integer interviewId) {

@@ -103,4 +103,9 @@ public class UserService implements UserDetailsService{
     public User getUserDetailsByUsername(String username){
         return userRepository.getUserDetailsByUsername(username);
     }
+
+    public Integer getUserIdByUsername(String username){
+        return userRepository.getUserIdByUsername(username);
+    }
+
 }
