@@ -2,14 +2,11 @@ package com.au.glasgow.controller;
 
 import com.au.glasgow.config.TokenProvider;
 import com.au.glasgow.dto.AuthToken;
-import com.au.glasgow.dto.InterviewResponse;
 import com.au.glasgow.dto.LoginUser;
-import com.au.glasgow.entities.Interview;
 import com.au.glasgow.entities.Skill;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.entities.UserSkill;
 import com.au.glasgow.exception.InvalidTokenException;
-import com.au.glasgow.repository.SkillRepository;
 import com.au.glasgow.repository.UserSkillRepository;
 import com.au.glasgow.service.SkillService;
 import com.au.glasgow.service.TokenValidationService;
@@ -133,7 +130,8 @@ public class UserController {
     /* add new skill to user profile */
     @PostMapping("/addSkill")
     public Integer newSkill(@RequestBody Integer newSkillId){
-        userSkillService.save(new UserSkill(userService.findOne(getPrincipalUsername()), skillService.getById(newSkillId)));
+        userSkillService.save(new UserSkill(userService.findOne(getPrincipalUsername()),
+                skillService.getById(newSkillId)));
         return newSkillId;
     }
 
