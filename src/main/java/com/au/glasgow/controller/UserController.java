@@ -2,11 +2,15 @@ package com.au.glasgow.controller;
 
 import com.au.glasgow.config.TokenProvider;
 import com.au.glasgow.dto.AuthToken;
+import com.au.glasgow.dto.InterviewResponse;
 import com.au.glasgow.dto.LoginUser;
+import com.au.glasgow.entities.Interview;
 import com.au.glasgow.entities.Skill;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.entities.UserSkill;
 import com.au.glasgow.exception.InvalidTokenException;
+import com.au.glasgow.repository.SkillRepository;
+import com.au.glasgow.repository.UserSkillRepository;
 import com.au.glasgow.service.SkillService;
 import com.au.glasgow.service.TokenValidationService;
 import com.au.glasgow.service.UserService;
@@ -53,6 +57,9 @@ public class UserController {
 
     @Autowired
     private UserSkillService userSkillService;
+
+    @Autowired
+    private UserSkillRepository userSkillRepository;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
@@ -116,11 +123,12 @@ public class UserController {
         return newUser;
     }
 
-//    //Get skill
-//    @GetMapping("/findSkills")
-//    public ResponseEntity<List<Skill>> newSkill(){
-//        return new ResponseEntity<>(skillService.getSkillsByName(name),HttpStatus.OK);
-//    }
+    //Get skill
+    @GetMapping("/findSkills")
+    public ResponseEntity<List<Skill>> findSkill(){
+        Integer id = userService.findOne(getPrincipalUsername()).getId();
+        return new ResponseEntity<>(userSkillRepository.findByUser(id), HttpStatus.OK);
+    }
 
     /* add new skill to user profile */
     @PostMapping("/addSkill")
