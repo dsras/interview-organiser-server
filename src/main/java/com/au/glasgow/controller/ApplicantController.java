@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/applicants")
 public class ApplicantController {
@@ -22,7 +24,14 @@ public class ApplicantController {
 
     //Get applicant details by email
     @GetMapping("/findApplicant")
-    public ResponseEntity<Applicant> getApplicantByEmail(@RequestParam(value="email") String email){
+    public ResponseEntity<Applicant> getApplicantByEmail(@RequestParam(value = "email") String email) {
         return new ResponseEntity<>(applicantService.getApplicantByEmail(email), HttpStatus.CREATED);
+    }
+
+    /* get all applicants */
+    //    @PreAuthorize("hasRole('RECRUITER')")
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Applicant>> getAllApplicants() {
+        return new ResponseEntity<>(applicantService.getAllApplicants(), HttpStatus.OK);
     }
 }
