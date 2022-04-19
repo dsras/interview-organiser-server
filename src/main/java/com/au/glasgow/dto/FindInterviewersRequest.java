@@ -18,8 +18,10 @@ to accept request for available interviewers
 @Setter
 public class FindInterviewersRequest {
 
-    @JsonProperty("date")
-    private LocalDate date;
+    @JsonProperty("start_date")
+    private LocalDate startDate;
+    @JsonProperty("end_date")
+    private LocalDate endDate;
     @JsonProperty("start_time")
     @JsonFormat(pattern = "HH:mm")
     private LocalTime startTime;
@@ -28,21 +30,18 @@ public class FindInterviewersRequest {
     private LocalTime endTime;
     @JsonProperty("skills")
     private List<Integer> skills;
-    public FindInterviewersRequest() {
-    }
-
-    /*
-    how to generate skills
-    list of skill IDs (would need to store IDs in UI)
-    get skills by ID from repo
-     */
-    public FindInterviewersRequest(LocalDate date, LocalTime startTime, LocalTime endTime, List<Integer> skillIds) {
-        this.date=date;
+    public FindInterviewersRequest() {}
+    public FindInterviewersRequest(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, List<Integer> skillIds) {
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.startTime=startTime;
         this.endTime=endTime;
         this.skills=skillIds;
     }
 
     public LocalTime getStartTime(){return startTime;}
-    public LocalDate getDate(){return date;}
+    public LocalTime getEndTime(){ return endTime;}
+    public LocalDate getStartDate(){return startDate;}
+    public LocalDate getEndDate(){return endDate;}
+    public List<Integer> getSkills(){return skills;}
 }

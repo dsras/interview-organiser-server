@@ -18,6 +18,12 @@ public class UserSkill {
     @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
 
+    public UserSkill(){}
+    public UserSkill(User user, Skill skill){
+        this.user=user;
+        this.skill=skill;
+    }
+
     public Skill getSkill() {
         return skill;
     }

@@ -2,9 +2,11 @@ package com.au.glasgow.controller;
 
 import com.au.glasgow.config.TokenProvider;
 import com.au.glasgow.dto.AuthToken;
+import com.au.glasgow.dto.AvailabilityRequestWrapper;
+import com.au.glasgow.dto.FindInterviewersRequest;
 import com.au.glasgow.dto.LoginUser;
-import com.au.glasgow.entities.Skill;
 import com.au.glasgow.entities.User;
+import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.entities.UserSkill;
 import com.au.glasgow.exception.InvalidTokenException;
 import com.au.glasgow.service.SkillService;
@@ -120,7 +122,6 @@ public class UserController {
     public Integer getUserId() {
         return userService.getUserIdByUsername(getPrincipalUsername());
     }
-
     //Get skill by user
 
     /* Under Construction
@@ -130,32 +131,19 @@ public class UserController {
         return new ResponseEntity<>(skillService.getById(getUserId()));
     }*/
 
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping("/findSkill")
-    public ResponseEntity<List<Skill>> newSkillByName(@RequestParam(value="name") String skillName){
-        return new ResponseEntity<>(skillService.getSkillsByName(skillName), HttpStatus.OK);
-    }
-
-    //Add skill by user
-    @PreAuthorize("hasRole('USER')")
+    /* add new skill to user profile */
     @PostMapping("/addSkill")
-    public UserSkill newUserSkill(@RequestParam(value="skillId") Integer skillId){
-        UserSkill newUserSkill = null;
-        newUserSkill.setUser(userService.getById(getUserId()));
-        newUserSkill.setSkill(skillService.getById(skillId));
-        return userSkillService.save(newUserSkill);
+    public Integer newSkill(@RequestBody Integer newSkillId){
+        userSkillService.save(new UserSkill(userService.findOne(getPrincipalUsername()), skillService.getById(newSkillId)));
+        return newSkillId;
     }
 
-    //    /* get interviewers available for interview */
-//    /*
-//    ### POST request: interviewers with required skills available for time interval on certain date
-//    - request body: a [FindInterviewers] object
-//    - response body: list (of variable length) of [AvailableInterviewer] objects
-//    (a list of the available interviewers, IDs needed for POST request to created interview)
-//     */
-//    @PostMapping("/findInterviewers")
-//    public FindInterviewersRequest findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest){
-//        return findInterviewersRequest;
-//
+    /* get interviewers with required skills available for interview slot */
+    @PostMapping("/findInterviewers")
+    @PreAuthorize("hasRole('RECRUITER')")
+    public ResponseEntity<List<AvailabilityRequestWrapper>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
+        return new ResponseEntity<>(userService.getAvailableInterviewers(findInterviewersRequest), HttpStatus.OK);
+    }
+
 
 }

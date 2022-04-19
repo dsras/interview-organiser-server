@@ -1,5 +1,6 @@
 package com.au.glasgow.service;
 
+import com.au.glasgow.dto.FindInterviewersRequest;
 import com.au.glasgow.dto.InterviewRequestWrapper;
 import com.au.glasgow.entities.Skill;
 import com.au.glasgow.entities.User;
@@ -7,6 +8,7 @@ import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.repository.AvailabilityRepository;
 import com.au.glasgow.dto.AvailabilityRequest;
 import com.au.glasgow.dto.AvailabilityRequestWrapper;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,10 @@ public class AvailabilityService{
 
     @Autowired
     private SkillService skillService;
+
+    @Autowired
+    private UserSkillService userSkillService;
+
 
     /* create new availability */
     public AvailabilityRequest save(AvailabilityRequestWrapper newAvailability) {
@@ -47,17 +53,6 @@ public class AvailabilityService{
     public List<AvailabilityRequest> getAllAvailability(){
         return getFormattedAvailability(availabilityRepository.findAll());
     }
-
-    /* convert list of UserAvailability to list of AvailabilityRequest for easy processing on front end */
-    private List<AvailabilityRequest> getFormattedAvailability(List<UserAvailability> list){
-        List<AvailabilityRequest> availabilityRequests = new ArrayList<>();
-        for (UserAvailability av : list) {
-            AvailabilityRequest tempReq = new AvailabilityRequest(av.getAvailableDate(), av.getAvailableFrom(), av.getAvailableTo());
-            availabilityRequests.add(tempReq);
-        }
-        return availabilityRequests;
-    }
-
 
     /* amend availability of user to reflect new booking */
     public void amendAvailability(InterviewRequestWrapper wrapper) {
@@ -99,18 +94,43 @@ public class AvailabilityService{
     }
 
     /* get availability by skill */
-//    public List<UserAvailability> findBySkills(List<Integer> skillIds){
-//
-//        /* get listed skills */
-//        List<Skill> listedSkills = skillService.getByIds(skillIds);
-//
-//        /* get users with all listed skills */
-//
-//
-//        return availabilityRepository.findBySkills(skillIds);
-//    }
+    public List<AvailabilityRequestWrapper> findBySkills(List<Integer> skillIds){
 
+        /* get users with all listed skills */
+        List<User> users = userSkillService.findBySkills(skillIds, skillIds.size());
 
+        /* get availability of users found to have all skills */
+        List<UserAvailability> availabilities = availabilityRepository.getByUsers(users);
 
+        return getAvailabilityWrappers(availabilities);
+    }
 
+    /* get interviewers available in time slot from list of qualified interviewers */
+    public List<AvailabilityRequestWrapper> getAvailableInterviewers(List<User> users, FindInterviewersRequest request){;
+        List<UserAvailability> availabilities = availabilityRepository.getAvailableInterviewers(users,
+                request.getStartDate(), request.getEndDate(), request.getStartTime(), request.getEndTime());
+        return getAvailabilityWrappers(availabilities);
+    }
+
+    /* convert list of UserAvailability to list of AvailabilityRequest for easy processing on front end */
+    private List<AvailabilityRequest> getFormattedAvailability(List<UserAvailability> list){
+        List<AvailabilityRequest> availabilityRequests = new ArrayList<>();
+        for (UserAvailability av : list) {
+            AvailabilityRequest tempReq = new AvailabilityRequest(av.getAvailableDate(), av.getAvailableFrom(), av.getAvailableTo());
+            availabilityRequests.add(tempReq);
+        }
+        return availabilityRequests;
+    }
+
+    /* convert list of UserAvailability to list of AvailabilityRequestWrappers */
+    private List<AvailabilityRequestWrapper> getAvailabilityWrappers(List<UserAvailability> list){
+        List<AvailabilityRequestWrapper> availabilityRequests = new ArrayList<>();
+        for (UserAvailability av : list) {
+            AvailabilityRequest avReq = new AvailabilityRequest(av.getAvailableDate(), av.getAvailableFrom(),
+                    av.getAvailableTo());
+            AvailabilityRequestWrapper tempReq = new AvailabilityRequestWrapper(avReq, av.getUser());
+            availabilityRequests.add(tempReq);
+        }
+        return availabilityRequests;
+    }
 }

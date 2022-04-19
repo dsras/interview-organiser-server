@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/*
+for accepting new availability from front-end and providing access to date and time of availability slots
+ */
 public class AvailabilityRequest {
 
     @JsonProperty("date")
