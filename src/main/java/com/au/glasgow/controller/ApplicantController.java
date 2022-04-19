@@ -3,6 +3,8 @@ package com.au.glasgow.controller;
 import com.au.glasgow.entities.Applicant;
 import com.au.glasgow.service.ApplicantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,13 +16,13 @@ public class ApplicantController {
 
     //Create new applicant
     @PostMapping("/new")
-    public Applicant newApplicant(@RequestBody Applicant newApplicant) {
-        return applicantService.save(newApplicant);
+    public ResponseEntity<Applicant> newApplicant(@RequestBody Applicant newApplicant) {
+        return new ResponseEntity<>(applicantService.save(newApplicant), HttpStatus.CREATED);
     }
 
     //Get applicant details by email
     @GetMapping("/findApplicant")
-    public Applicant getApplicantByEmail(@RequestParam(value="email") String email){
-        return applicantService.getApplicantByEmail(email);
+    public ResponseEntity<Applicant> getApplicantByEmail(@RequestParam(value="email") String email){
+        return new ResponseEntity<>(applicantService.getApplicantByEmail(email), HttpStatus.CREATED);
     }
 }

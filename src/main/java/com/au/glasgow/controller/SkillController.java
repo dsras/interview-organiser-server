@@ -18,8 +18,8 @@ public class SkillController {
 
     /* add new skill to db */
     @PostMapping("/new")
-    public Skill newSkill(@RequestBody Skill newSkill){
-        return skillService.save(newSkill);
+    public ResponseEntity<Skill> newSkill(@RequestBody Skill newSkill){
+        return new ResponseEntity<>(skillService.save(newSkill), HttpStatus.CREATED);
     }
 
     //Get all skills
