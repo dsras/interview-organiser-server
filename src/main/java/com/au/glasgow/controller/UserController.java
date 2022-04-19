@@ -133,7 +133,7 @@ public class UserController {
 
     /* get interviewers with required skills available for interview slot */
     @PostMapping("/findInterviewers")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('RECRUITER')")
     public ResponseEntity<List<AvailabilityRequestWrapper>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
         return new ResponseEntity<>(userService.getAvailableInterviewers(findInterviewersRequest), HttpStatus.OK);
     }
