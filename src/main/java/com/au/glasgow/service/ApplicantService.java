@@ -5,6 +5,8 @@ import com.au.glasgow.repository.ApplicantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ApplicantService{
 
@@ -31,5 +33,10 @@ public class ApplicantService{
     /* get applicant by email */
     public Applicant getApplicantByEmail(String email) {
         return applicantRepository.getApplicantByEmail(email);
+    }
+
+    /* get all applicants */
+    public List<Applicant> getAllApplicants(){
+        return applicantRepository.findAll();
     }
 }
