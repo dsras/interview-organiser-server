@@ -30,7 +30,7 @@ public class ApplicantController {
     }
 
     /* get all applicants */
-//    @PreAuthorize("hasRole('RECRUITER')")
+    @PreAuthorize("hasRole('RECRUITER')")
     @GetMapping("/findAll")
     public ResponseEntity<List<Applicant>> getAllApplicants(){
         return new ResponseEntity<>(applicantService.getAllApplicants(), HttpStatus.OK);
