@@ -108,6 +108,10 @@ public class UserService implements UserDetailsService{
         return userRepository.getUserDetailsByUsername(username);
     }
 
+    public Integer getUserIdByUsername(String username){
+        return userRepository.getUserIdByUsername(username);
+    }
+
     /* get users with required skills available for interview time */
     public List<AvailabilityRequestWrapper> getAvailableInterviewers(FindInterviewersRequest request){
         /* get users with required skills */

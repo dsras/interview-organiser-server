@@ -118,11 +118,18 @@ public class UserController {
         return newUser;
     }
 
-//    //Get skill
-//    @GetMapping("/findSkills")
-//    public ResponseEntity<List<Skill>> newSkill(){
-//        return new ResponseEntity<>(skillService.getSkillsByName(name),HttpStatus.OK);
-//    }
+    /* get user id by username */
+    public Integer getUserId() {
+        return userService.getUserIdByUsername(getPrincipalUsername());
+    }
+    //Get skill by user
+
+    /* Under Construction
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/findSkills")
+    public ResponseEntity<List<Skill>> newSkill(){
+        return new ResponseEntity<>(skillService.getById(getUserId()));
+    }*/
 
     /* add new skill to user profile */
     @PostMapping("/addSkill")
