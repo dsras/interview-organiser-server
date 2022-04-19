@@ -26,7 +26,7 @@ public class Applicant {
     @Column(name = "mobile")
     private Long mobile;
 
-    @Column(name = "skill_id", nullable = false)
+    @Column(name = "skill_id")
     private Integer skillId;
 
     @OneToMany(mappedBy = "applicant")
