@@ -1,6 +1,7 @@
 package com.au.glasgow.controller;
 
 import com.au.glasgow.dto.AvailabilityRequestWrapper;
+import com.au.glasgow.entities.User;
 import com.au.glasgow.entities.UserAvailability;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.au.glasgow.dto.AvailabilityRequest;
@@ -54,10 +55,10 @@ public class AvailabilityController {
         availabilityService.clear();
     }
 
-//    /* get users with required skills - called by recruiter */
-//    @GetMapping("/findBySkills")
-//    public List<UserAvailability> findBySkill(@RequestBody List<Integer> skillIds){
-//        return availabilityService.findBySkills(skillIds);
-//    }
+    /* get users with required skills - called by recruiter */
+    @GetMapping("/findBySkills")
+    public List<AvailabilityRequest> findBySkill(@RequestParam(name = "ids") List<Integer> skillIds){
+        return availabilityService.findBySkills(skillIds);
+    }
 
 }
