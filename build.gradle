@@ -21,7 +21,6 @@ dependencies {
 	testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.6.2'
-	testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.15'
 	implementation 'org.mockito:mockito-core:3.8.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation group: 'org.hibernate.orm', name: 'hibernate-gradle-plugin', version: '6.0.0.Alpha6'
@@ -31,6 +30,6 @@ dependencies {
 	implementation group: 'org.json', name: 'json', version: '20220320'
 }
 
-tasks.named('test') {
+test{
 	useJUnitPlatform()
 }

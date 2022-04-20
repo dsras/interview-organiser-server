@@ -104,4 +104,15 @@ public class User {
     public String getUserName() {return userName;}
 
     public void setRoles(List<Role> roles){this.roles = roles;}
+
+    public User(Integer id, String username, String userpassword, String userEmail, String userName, String businessTitle) {
+        this.id=id;
+        this.username = username;
+        this.userpassword = userpassword;
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.businessTitle = businessTitle;
+    }
+
+    public User(){}
 }

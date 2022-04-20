@@ -2,6 +2,8 @@ package com.au.glasgow.controller;
 
 import com.au.glasgow.config.TokenProvider;
 import com.au.glasgow.dto.AuthToken;
+import com.au.glasgow.dto.AvailabilityRequestWrapper;
+import com.au.glasgow.dto.FindInterviewersRequest;
 import com.au.glasgow.dto.LoginUser;
 import com.au.glasgow.entities.Skill;
 import com.au.glasgow.entities.User;
@@ -136,16 +138,10 @@ public class UserController {
     }
 
 
-    //    /* get interviewers available for interview */
-//    /*
-//    ### POST request: interviewers with required skills available for time interval on certain date
-//    - request body: a [FindInterviewers] object
-//    - response body: list (of variable length) of [AvailableInterviewer] objects
-//    (a list of the available interviewers, IDs needed for POST request to created interview)
-//     */
-//    @PostMapping("/findInterviewers")
-//    public FindInterviewersRequest findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest){
-//        return findInterviewersRequest;
-//
+    /* get interviewers with required skills available for interview slot */
+    @PostMapping("/findInterviewers")
+    public ResponseEntity<List<AvailabilityRequestWrapper>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
+        return new ResponseEntity<>(userService.getAvailableInterviewers(findInterviewersRequest), HttpStatus.OK);
+    }
 
 }
