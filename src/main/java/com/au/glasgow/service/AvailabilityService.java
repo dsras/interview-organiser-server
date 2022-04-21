@@ -57,7 +57,11 @@ public class AvailabilityService{
 
     /* get all availability */
     public List<UserAvailability> getAllAvailability(){
-        return availabilityRepository.findAll();
+        List<UserAvailability> availability = availabilityRepository.findAll();
+        for (UserAvailability a : availability){
+            a.setInterviewer();
+        }
+        return availability;
     }
 
     /* amend availability of user to reflect new booking */
@@ -91,14 +95,6 @@ public class AvailabilityService{
         }
     }
 
-    /* delete all availabilities - for Thorfinn testing */
-    public void clear(){
-        List<UserAvailability> availabilities = availabilityRepository.findAll();
-        for (UserAvailability a : availabilities){
-            availabilityRepository.delete(a);
-        }
-    }
-
     /* get availability by skill */
     public List<UserAvailability> findBySkills(List<Integer> skillIds){
 
@@ -107,7 +103,9 @@ public class AvailabilityService{
 
         /* get availability of users found to have all skills */
         List<UserAvailability> availabilities = availabilityRepository.getByUsers(users);
-
+        for (UserAvailability a : availabilities){
+            a.setInterviewer();
+        }
         return availabilities;
     }
 
@@ -139,4 +137,12 @@ public class AvailabilityService{
 //        }
 //        return availabilityRequests;
 //    }
+
+    /* delete all availabilities - for Thorfinn testing */
+    public void clear(){
+        List<UserAvailability> availabilities = availabilityRepository.findAll();
+        for (UserAvailability a : availabilities){
+            availabilityRepository.delete(a);
+        }
+    }
 }
