@@ -1,8 +1,6 @@
 package com.au.glasgow.dto;
 
-import com.au.glasgow.entities.Applicant;
 import com.au.glasgow.entities.Interview;
-import com.au.glasgow.entities.Skill;
 import com.au.glasgow.entities.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
