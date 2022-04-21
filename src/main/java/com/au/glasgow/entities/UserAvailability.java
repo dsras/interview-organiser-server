@@ -70,6 +70,9 @@ public class UserAvailability {
     public Integer getId() {
         return id;
     }
+    public void setInterviewer(){
+        this.interviewer = user.getUserName();
+    }
 
 
 }

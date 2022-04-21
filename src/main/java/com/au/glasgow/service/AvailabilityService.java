@@ -48,7 +48,11 @@ public class AvailabilityService{
 
     /* get user's availability */
     public List<UserAvailability> getUserAvailability(String username){
-        return availabilityRepository.getByUsername(username);
+        List<UserAvailability> availability = availabilityRepository.getByUsername(username);
+        for (UserAvailability a : availability){
+            a.setInterviewer();
+        }
+        return availability;
     }
 
     /* get all availability */
