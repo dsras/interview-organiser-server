@@ -113,7 +113,7 @@ public class UserService implements UserDetailsService{
     }
 
     /* get users with required skills available for interview time */
-    public List<AvailabilityRequestWrapper> getAvailableInterviewers(FindInterviewersRequest request){
+    public List<UserAvailability> getAvailableInterviewers(FindInterviewersRequest request){
         /* get users with required skills */
         List<Integer> skills = request.getSkills();
         List<User> potentialInterviewers = userSkillService.findBySkills(skills, skills.size());

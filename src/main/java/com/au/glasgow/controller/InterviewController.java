@@ -33,7 +33,7 @@ public class InterviewController {
     @PostMapping("/new")
     public ResponseEntity<InterviewResponse> newInterview(@RequestBody InterviewRequest newInterview) {
         InterviewRequestWrapper wrapper = new InterviewRequestWrapper
-                (newInterview, userService.findOne("emer.sweeney@accolitedigital.com"));
+                (newInterview, userService.findOne(getPrincipalUsername()));
         return new ResponseEntity<>(interviewService.save(wrapper), HttpStatus.CREATED);
     }
 

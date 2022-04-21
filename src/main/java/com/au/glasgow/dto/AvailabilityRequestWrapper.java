@@ -28,8 +28,12 @@ public class AvailabilityRequestWrapper {
         return user.getUserName();
     }
 
-    public LocalDate getDate(){
-        return availabilityRequest.getDate();
+    public LocalDate getStartDate(){
+        return availabilityRequest.getStartDate();
+    }
+
+    public LocalDate getEndDate(){
+        return availabilityRequest.getEndDate();
     }
 
     public LocalTime getStartTime(){

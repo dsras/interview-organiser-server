@@ -10,15 +10,24 @@ for accepting new availability from front-end and providing access to date and t
  */
 public class AvailabilityRequest {
 
-    @JsonProperty("date")
-    private LocalDate date;
+    @JsonProperty("start_date")
+    private LocalDate startDate;
+
+    @JsonProperty("end_date")
+    private LocalDate endDate;
+
     @JsonProperty("start_time")
     private LocalTime startTime;
+
     @JsonProperty("end_time")
     private LocalTime endTime;
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
     public LocalTime getStartTime() {
@@ -29,8 +38,9 @@ public class AvailabilityRequest {
         return endTime;
     }
 
-    public AvailabilityRequest(LocalDate date, LocalTime startTime, LocalTime endTime) {
-        this.date = date;
+    public AvailabilityRequest(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        this.startDate=startDate;
+        this.endDate=endDate;
         this.startTime=startTime;
         this.endTime=endTime;
     }

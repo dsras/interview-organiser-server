@@ -7,6 +7,7 @@ import com.au.glasgow.dto.FindInterviewersRequest;
 import com.au.glasgow.dto.LoginUser;
 import com.au.glasgow.entities.Skill;
 import com.au.glasgow.entities.User;
+import com.au.glasgow.entities.UserAvailability;
 import com.au.glasgow.entities.UserSkill;
 import com.au.glasgow.exception.InvalidTokenException;
 import com.au.glasgow.repository.UserSkillRepository;
@@ -140,7 +141,7 @@ public class UserController {
 
     /* get interviewers with required skills available for interview slot */
     @PostMapping("/findInterviewers")
-    public ResponseEntity<List<AvailabilityRequestWrapper>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
+    public ResponseEntity<List<UserAvailability>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
         return new ResponseEntity<>(userService.getAvailableInterviewers(findInterviewersRequest), HttpStatus.OK);
     }
 

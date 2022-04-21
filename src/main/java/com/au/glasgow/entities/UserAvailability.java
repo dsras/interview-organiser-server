@@ -1,5 +1,8 @@
 package com.au.glasgow.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,26 +13,36 @@ public class UserAvailability {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "availability_id", nullable = false)
+    @JsonProperty("availability_id")
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(name = "available_date", nullable = false)
+    @JsonProperty("date")
     private LocalDate availableDate;
 
     @Column(name = "available_from", nullable = false)
+    @JsonProperty("start_time")
     private LocalTime availableFrom;
 
     @Column(name = "available_to", nullable = false)
+    @JsonProperty("end_time")
     private LocalTime availableTo;
+
+    @Transient
+    @JsonProperty("interviewer")
+    private String interviewer;
 
     public UserAvailability(User user, LocalDate availableDate, LocalTime availableFrom, LocalTime availableTo){
         this.user=user;
         this.availableDate=availableDate;
         this.availableFrom=availableFrom;
         this.availableTo=availableTo;
+        this.interviewer=user.getUserName();
     }
 
     public UserAvailability(){}
@@ -57,5 +70,6 @@ public class UserAvailability {
     public Integer getId() {
         return id;
     }
+
 
 }
