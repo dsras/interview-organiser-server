@@ -36,12 +36,6 @@ public class InterviewResponse {
     @JsonProperty("organiser")
     private String organiser;
 
-    @JsonProperty("applicant")
-    private String applicant;
-
-    @JsonProperty("skill")
-    private String skill;
-
     @JsonProperty("date")
     private LocalDate date;
 
@@ -51,57 +45,27 @@ public class InterviewResponse {
     @JsonProperty("end_time")
     private LocalTime endTime;
 
-    @JsonProperty("confirmed")
-    private Integer confirmed;
+    @JsonProperty("status")
+    private String status;
 
-    public InterviewResponse(Interview interview, List<User> interviewerList, Skill skill) {
+    @JsonProperty("outcome")
+    private String outcome;
+
+    @JsonProperty("additional_info")
+    private String info;
+
+    public InterviewResponse(Interview interview, List<User> interviewerList) {
         this.interviewId = interview.getId();
         this.organiser = interview.getOrganiser().getUserName();
-        this.applicant = interview.getApplicant().getName();
-        this.skill = skill.getSkillName()+" "+skill.getSkillLevel();
         this.date = interview.getInterviewDate();
         this.startTime = interview.getTimeStart();
         this.endTime = interview.getTimeEnd();
-        this.confirmed = interview.getConfirmed();
+        this.status = interview.getStatus();
+        this.outcome = interview.getOutcome();
+        this.info = interview.getInfo();
         this.interviewers = interviewerList.stream()
                 .map(User::getUserName).collect(Collectors.toList());
 
-    }
-
-    public void setInterviewId(Integer interviewId) {
-        this.interviewId = interviewId;
-    }
-
-    public void setInterviewers(List<String> interviewers) {
-        this.interviewers = interviewers;
-    }
-
-    public void setOrganiser(String organiser) {
-        this.organiser = organiser;
-    }
-
-    public void setApplicant(String applicant) {
-        this.applicant = applicant;
-    }
-
-    public void setSkill(String skill) {
-        this.skill = skill;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public void setConfirmed(Integer confirmed) {
-        this.confirmed = confirmed;
     }
 
 }

@@ -19,10 +19,6 @@ public class Interview {
     @JoinColumn(name = "organiser_id", nullable = false)
     private User organiser;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "applicant_id", nullable = false)
-    private Applicant applicant;
-
     @Column(name = "interview_date", nullable = false)
     private LocalDate interviewDate;
 
@@ -32,8 +28,14 @@ public class Interview {
     @Column(name = "time_end", nullable = false)
     private LocalTime timeEnd;
 
-    @Column(name = "confirmed", nullable = false)
-    private Integer confirmed;
+    @Column(name = "status", nullable = true)
+    private String status;
+
+    @Column(name = "outcome", nullable = true)
+    private String outcome;
+
+    @Column(name = "additional_info",  nullable = true)
+    private String info;
 
     @OneToMany(mappedBy = "interview")
     private Set<InterviewInterviewer> interviewInterviewers = new LinkedHashSet<>();
@@ -44,10 +46,6 @@ public class Interview {
 
     public User getOrganiser() {
         return organiser;
-    }
-
-    public Applicant getApplicant() {
-        return applicant;
     }
 
     public LocalDate getInterviewDate() {
@@ -62,10 +60,6 @@ public class Interview {
         return timeEnd;
     }
 
-    public Integer getConfirmed() {
-        return confirmed;
-    }
-
     public Interview() {
     }
 
@@ -77,16 +71,31 @@ public class Interview {
         this.interviewInterviewers = interviewInterviewers;
     }
 
-    public Interview(User organiser, Applicant applicant, LocalDate interviewDate, LocalTime timeStart, LocalTime timeEnd) {
+    public Interview(User organiser, LocalDate interviewDate, LocalTime timeStart, LocalTime timeEnd, String info) {
         this.organiser = organiser;
-        this.applicant = applicant;
         this.interviewDate = interviewDate;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
-        this.confirmed = 0;
+        this.info = info;
     }
 
-    public void confirm(){
-        this.confirmed=1;
+    public String getInfo() {
+        return info;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getOutcome() {
+        return outcome;
+    }
+
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
     }
 }

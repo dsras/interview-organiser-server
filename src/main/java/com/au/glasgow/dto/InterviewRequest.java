@@ -8,19 +8,12 @@ import java.util.List;
 
 /*
 represents an interview and interviewers in a format easily sent in request by front-end
-i.e. with all interviewers, applicant and skill being assessed
-Interview and InterviewInterviewer entries created from this and Applicant skill updated
+Interview and InterviewInterviewer entries created from this
  */
 public class InterviewRequest {
 
     @JsonProperty("interviewer_ids")
     private List<Integer> interviewerIds;
-
-    @JsonProperty("applicant_id")
-    private Integer applicantId;
-
-    @JsonProperty("skill_id")
-    private Integer skillId;
 
     @JsonProperty("date")
     private LocalDate date;
@@ -31,16 +24,11 @@ public class InterviewRequest {
     @JsonProperty("end_time")
     private LocalTime endTime;
 
+    @JsonProperty("additional_info")
+    private String info;
+
     public List<Integer> getInterviewerIds() {
         return interviewerIds;
-    }
-
-    public Integer getApplicantId() {
-        return applicantId;
-    }
-
-    public Integer getSkillId() {
-        return skillId;
     }
 
     public LocalDate getDate() {
@@ -53,6 +41,10 @@ public class InterviewRequest {
 
     public LocalTime getEndTime() {
         return endTime;
+    }
+
+    public String getInfo() {
+        return info;
     }
 
 }

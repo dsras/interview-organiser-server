@@ -29,18 +29,6 @@ public class Applicant {
     @Column(name = "skill_id")
     private Integer skillId;
 
-    @OneToMany(mappedBy = "applicant")
-    private Set<Interview> interviews = new LinkedHashSet<>();
-
-    @JsonIgnore
-    public Set<Interview> getInterviews() {
-        return interviews;
-    }
-
-    public void setInterviews(Set<Interview> interviews) {
-        this.interviews = interviews;
-    }
-
     public Integer getSkillId() {
         return skillId;
     }

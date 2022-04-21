@@ -27,22 +27,26 @@ public class InterviewService {
     @Autowired
     AvailabilityService availabilityService;
 
-    @Autowired
-    ApplicantService applicantService;
-
-    @Autowired
-    SkillService skillService;
-
-    /* confirm interview has happened and return InterviewResponse representing confirmed interview */
-    public InterviewResponse confirm(Integer id) {
+    /* update interview status */
+    public InterviewResponse updateStatus(String status, Integer id) {
         Interview i = interviewRepository.getById(id);
-        i.confirm();
+        i.setStatus(status);
         i = interviewRepository.save(i);
         List<User> interviewers = i.getInterviewInterviewers().stream()
                 .map(InterviewInterviewer::getInterviewer)
                 .collect(Collectors.toList());
-        Skill skill = skillService.getById(i.getApplicant().getSkillId());
-        return new InterviewResponse(i, interviewers, skill);
+        return new InterviewResponse(i, interviewers);
+    }
+
+    /* update interview outcome */
+    public InterviewResponse updateOutcome(String outcome, Integer id) {
+        Interview i = interviewRepository.getById(id);
+        i.setOutcome(outcome);
+        i = interviewRepository.save(i);
+        List<User> interviewers = i.getInterviewInterviewers().stream()
+                .map(InterviewInterviewer::getInterviewer)
+                .collect(Collectors.toList());
+        return new InterviewResponse(i, interviewers);
     }
 
     /* save Interview and return new InterviewResponse representing new interview */
@@ -50,17 +54,13 @@ public class InterviewService {
         /* amend availability to reflect new booking */
         availabilityService.amendAvailability(wrapper);
 
-        /* update Applicant skill */
-        applicantService.updateSkill(wrapper.getApplicantId(), wrapper.getSkillId());
-
         /* create Interview entry */
-        Applicant applicant = applicantService.getById(wrapper.getApplicantId());
-        Skill skill = skillService.getById(wrapper.getSkillId());
+        String info = wrapper.getInfo();
         List<User> interviewers = wrapper.getInterviewerIds().stream()
                 .map(x -> userService.getById(x))
                 .collect(Collectors.toList());
-        Interview interview = new Interview(wrapper.getUser(), applicant, wrapper.getDate(),
-                wrapper.getStartTime(), wrapper.getEndTime());
+        Interview interview = new Interview(wrapper.getUser(), wrapper.getDate(),
+                wrapper.getStartTime(), wrapper.getEndTime(), info);
         interview = interviewRepository.save(interview);
 
         /* create InterviewInterviewer entries */
@@ -69,7 +69,7 @@ public class InterviewService {
         }
 
         /* return InterviewResponse */
-        return new InterviewResponse(interview, interviewers, skill);
+        return new InterviewResponse(interview, interviewers);
     }
 
     /* find all interviews that interviewer is participating in */
@@ -94,9 +94,18 @@ public class InterviewService {
     private List<InterviewResponse> getInterviewResponseList(List<Interview> interviews){
         List<InterviewResponse> response = new ArrayList<>();
         for (Interview i : interviews){
-            response.add(new InterviewResponse(i, interviewRepository.findInterviewers(i.getId()),
-                    interviewRepository.getSkillsByInterview(i.getId())));
+            response.add(new InterviewResponse(i, interviewRepository.findInterviewers(i.getId())));
         }
         return response;
+    }
+
+    /* find interviews confirmed by the interviewer */
+    public Integer getConfirmedInterviews(User user){
+        return interviewRepository.findConfirmed(user);
+    }
+
+    /* find unconfirmed interviews organised by the recruiter */
+    public List<InterviewResponse> getUnconfirmedInterviews(User user){
+        return getInterviewResponseList(interviewRepository.findUnconfirmed(user));
     }
 }

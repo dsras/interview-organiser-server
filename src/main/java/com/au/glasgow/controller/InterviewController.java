@@ -3,9 +3,9 @@ package com.au.glasgow.controller;
 import com.au.glasgow.dto.InterviewRequest;
 import com.au.glasgow.dto.InterviewRequestWrapper;
 import com.au.glasgow.dto.InterviewResponse;
+import com.au.glasgow.dto.InterviewUpdate;
 import com.au.glasgow.service.InterviewService;
 import com.au.glasgow.service.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +18,6 @@ import java.util.List;
 @RequestMapping("/interviews")
 public class InterviewController {
 
-    /* testing stuff
-     * return SecurityContextHolder.getContext().getAuthentication().toString(); */
-    private String username = "emer.sweeney@accolitedigital.com";
-    /* end of testing stuff */
-
     @Autowired
     private InterviewService interviewService;
 
@@ -34,34 +29,59 @@ public class InterviewController {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    /* confirm interview has happened */
-    @GetMapping("confirm")
-    public ResponseEntity<InterviewResponse> confirmInterview(@RequestParam(value="id") Integer id){
-        return new ResponseEntity<>(interviewService.confirm(id), HttpStatus.OK);
-    }
-
     /* create new interview */
     @PostMapping("/new")
     public ResponseEntity<InterviewResponse> newInterview(@RequestBody InterviewRequest newInterview) {
-        InterviewRequestWrapper wrapper = new InterviewRequestWrapper(newInterview, userService.findOne(getPrincipalUsername()));
+        InterviewRequestWrapper wrapper = new InterviewRequestWrapper
+                (newInterview, userService.findOne(getPrincipalUsername()));
         return new ResponseEntity<>(interviewService.save(wrapper), HttpStatus.CREATED);
     }
 
     /* find all interviews the interviewer is involved in */
     @GetMapping("/findByInterviewer")
     public ResponseEntity<List<InterviewResponse>> findByInterviewer(){
-        return new ResponseEntity<>(interviewService.findByInterviewer(userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+        return new ResponseEntity<>(interviewService.findByInterviewer
+                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
     /* find all interviews the recruiter has organised */
     @GetMapping("/findByRecruiter")
     public ResponseEntity<List<InterviewResponse>> findByRecruiter(){
-        return new ResponseEntity<>(interviewService.findByRecruiter(userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+        return new ResponseEntity<>(interviewService.findByRecruiter
+                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
     /* find all interviews */
     @GetMapping("/findAll")
     public ResponseEntity<List<InterviewResponse>> findAll(){
         return new ResponseEntity<>(interviewService.findAll(), HttpStatus.OK);
+    }
+
+    /* find all interviews confirmed by the interviewer */
+    @GetMapping("/findConfirmed")
+    public ResponseEntity<Integer> findConfirmed(){
+        return new ResponseEntity<>(interviewService.getConfirmedInterviews
+                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+    }
+
+    /* find all unconfirmed interviews organised by the recruiter */
+    @GetMapping("/findUnconfirmed")
+    public ResponseEntity<List<InterviewResponse>> findUnconfirmed(){
+        return new ResponseEntity<>(interviewService.getUnconfirmedInterviews
+                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+    }
+
+    /* update interview status (Confirmed, Candidate No Show, Panel No Show) */
+    @PostMapping("/updateStatus")
+    public ResponseEntity<InterviewResponse> updateStatus(@RequestBody InterviewUpdate statusUpdate){
+        return new ResponseEntity<>(interviewService.updateStatus
+                (statusUpdate.getUpdate(), statusUpdate.getInterviewId()), HttpStatus.OK);
+    }
+
+    /* update interview outcome (Progressed, Hired, Didn't Progress) */
+    @PostMapping("/updateOutcome")
+    public ResponseEntity<InterviewResponse> updateOutcome(@RequestBody InterviewUpdate outcomeUpdate){
+        return new ResponseEntity<>(interviewService.updateOutcome
+                (outcomeUpdate.getUpdate(), outcomeUpdate.getInterviewId()), HttpStatus.OK);
     }
 }

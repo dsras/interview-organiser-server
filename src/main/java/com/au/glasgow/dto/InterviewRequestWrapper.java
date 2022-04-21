@@ -20,11 +20,9 @@ public class InterviewRequestWrapper {
         return user;
     }
 
-    public List<Integer> getInterviewerIds() { return interviewRequest.getInterviewerIds();}
-
-    public Integer getApplicantId() { return interviewRequest.getApplicantId();}
-
-    public Integer getSkillId() { return interviewRequest.getSkillId();}
+    public List<Integer> getInterviewerIds(){
+        return interviewRequest.getInterviewerIds();
+    }
 
     public LocalDate getDate(){
         return interviewRequest.getDate();
@@ -37,4 +35,9 @@ public class InterviewRequestWrapper {
     public LocalTime getEndTime(){
         return interviewRequest.getEndTime();
     }
+
+    public String getInfo(){
+        return interviewRequest.getInfo();
+    }
+
 }
