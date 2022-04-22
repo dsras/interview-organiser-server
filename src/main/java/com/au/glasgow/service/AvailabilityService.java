@@ -42,7 +42,9 @@ public class AvailabilityService{
             newAvailabilities.add(availabilityRepository.save
                     (new UserAvailability(user, date, startTime, endTime)));
         }
-
+        for (UserAvailability a : newAvailabilities){
+            a.setInterviewer();
+        }
         return newAvailabilities;
     }
 
@@ -113,6 +115,9 @@ public class AvailabilityService{
     public List<UserAvailability> getAvailableInterviewers(List<User> users, FindInterviewersRequest request){;
         List<UserAvailability> availabilities = availabilityRepository.getAvailableInterviewers(users,
                 request.getStartDate(), request.getEndDate(), request.getStartTime(), request.getEndTime());
+        for (UserAvailability a : availabilities){
+            a.setInterviewer();
+        }
         return availabilities;
     }
 
