@@ -26,8 +26,7 @@ public class InterviewController {
 
     /* get username of logged in user */
     private String getPrincipalUsername(){
-//        return SecurityContextHolder.getContext().getAuthentication().getName();
-        return "emer.sweeney@accolitedigital.com";
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     /* create new interview */
@@ -83,6 +82,27 @@ public class InterviewController {
     @GetMapping("/findPNS")
     public ResponseEntity<List<InterviewResponse>> findPNS(){
         return new ResponseEntity<>(interviewService.findPNS
+                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+    }
+
+    /* find all interviews in last 28 days with outcome 'Progressed' organised by the recruiter */
+    @GetMapping("/findProgressed")
+    public ResponseEntity<List<InterviewResponse>> findProgressed(){
+        return new ResponseEntity<>(interviewService.findProgressed
+                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+    }
+
+    /* find all interviews in last 28 days with outcome 'Didn't Progress' organised by the recruiter */
+    @GetMapping("/findNotProgressed")
+    public ResponseEntity<List<InterviewResponse>> findNotProgressed(){
+        return new ResponseEntity<>(interviewService.findNotProgressed
+                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+    }
+
+    /* find all interviews in last 28 days with outcome 'Hired' organised by the recruiter */
+    @GetMapping("/findHired")
+    public ResponseEntity<List<InterviewResponse>> findHired(){
+        return new ResponseEntity<>(interviewService.findHired
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 

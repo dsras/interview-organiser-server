@@ -8,6 +8,7 @@ import com.au.glasgow.dto.InterviewResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -106,16 +107,34 @@ public class InterviewService {
 
     /* find interviews with status 'Confirmed' organised by the recruiter */
     public List<InterviewResponse> findConfirmed(User user){
-        return getInterviewResponseList(interviewRepository.findConfirmed(user));
+        return getInterviewResponseList(interviewRepository.findStatus(user, "Confirmed"));
     }
 
     /* find interviews with status 'Candidate No Show' organised by the recruiter */
     public List<InterviewResponse> findCNS(User user){
-        return getInterviewResponseList(interviewRepository.findCNS(user));
+        return getInterviewResponseList(interviewRepository.findStatus(user, "Candidate No Show"));
     }
 
     /* find interviews with status 'Panel No Show' organised by the recruiter */
     public List<InterviewResponse> findPNS(User user){
-        return getInterviewResponseList(interviewRepository.findPNS(user));
+        return getInterviewResponseList(interviewRepository.findStatus(user, "Panel No Show"));
+    }
+
+    /* find interviews with outcome 'Progressed' organised by the recruiter */
+    public List<InterviewResponse> findProgressed(User user){
+        return getInterviewResponseList(interviewRepository.findOutcome
+                (user, LocalDate.now().minusDays(28), "Progressed"));
+    }
+
+    /* find interviews with outcome 'Didn't Progress' organised by the recruiter */
+    public List<InterviewResponse> findNotProgressed(User user){
+        return getInterviewResponseList(interviewRepository.findOutcome
+                (user, LocalDate.now().minusDays(28), "Didn't Progress"));
+    }
+
+    /* find interviews with outcome 'Hired' organised by the recruiter */
+    public List<InterviewResponse> findHired(User user){
+        return getInterviewResponseList(interviewRepository.findOutcome
+                (user, LocalDate.now().minusDays(28), "Hired"));
     }
 }
