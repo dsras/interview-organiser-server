@@ -99,13 +99,23 @@ public class InterviewService {
         return response;
     }
 
-    /* find interviews confirmed by the interviewer */
-    public Integer getConfirmedInterviews(User user){
-        return interviewRepository.findConfirmed(user);
+    /* find interviews completed by the interviewer */
+    public Integer findCompleted(User user){
+        return interviewRepository.findCompleted(user);
     }
 
-    /* find unconfirmed interviews organised by the recruiter */
-    public List<InterviewResponse> getUnconfirmedInterviews(User user){
-        return getInterviewResponseList(interviewRepository.findUnconfirmed(user));
+    /* find interviews with status 'Confirmed' organised by the recruiter */
+    public List<InterviewResponse> findConfirmed(User user){
+        return getInterviewResponseList(interviewRepository.findConfirmed(user));
+    }
+
+    /* find interviews with status 'Candidate No Show' organised by the recruiter */
+    public List<InterviewResponse> findCNS(User user){
+        return getInterviewResponseList(interviewRepository.findCNS(user));
+    }
+
+    /* find interviews with status 'Panel No Show' organised by the recruiter */
+    public List<InterviewResponse> findPNS(User user){
+        return getInterviewResponseList(interviewRepository.findPNS(user));
     }
 }

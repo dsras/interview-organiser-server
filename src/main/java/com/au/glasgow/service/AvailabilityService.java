@@ -116,28 +116,6 @@ public class AvailabilityService{
         return availabilities;
     }
 
-//    /* convert list of UserAvailability to list of AvailabilityRequest for easy processing on front end */
-//    private List<AvailabilityRequest> getFormattedAvailability(List<UserAvailability> list){
-//        List<AvailabilityRequest> availabilityRequests = new ArrayList<>();
-//        for (UserAvailability av : list) {
-//            AvailabilityRequest tempReq = new AvailabilityRequest(av.getAvailableDate(), av.getAvailableFrom(), av.getAvailableTo());
-//            availabilityRequests.add(tempReq);
-//        }
-//        return availabilityRequests;
-//    }
-
-//    /* convert list of UserAvailability to list of AvailabilityRequestWrappers */
-//    private List<AvailabilityRequestWrapper> getAvailabilityWrappers(List<UserAvailability> list){
-//        List<AvailabilityRequestWrapper> availabilityRequests = new ArrayList<>();
-//        for (UserAvailability av : list) {
-//            AvailabilityRequest avReq = new AvailabilityRequest(av.getAvailableDate(), av.getAvailableFrom(),
-//                    av.getAvailableTo());
-//            AvailabilityRequestWrapper tempReq = new AvailabilityRequestWrapper(avReq, av.getUser());
-//            availabilityRequests.add(tempReq);
-//        }
-//        return availabilityRequests;
-//    }
-
     /* delete all availabilities - for Thorfinn testing */
     public void clear(){
         List<UserAvailability> availabilities = availabilityRepository.findAll();

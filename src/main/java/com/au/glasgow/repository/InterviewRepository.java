@@ -20,10 +20,20 @@ public interface InterviewRepository extends JpaRepository<Interview, Integer> {
     @Query("SELECT i.interviewer FROM InterviewInterviewer i WHERE i.interview.id = :id")
     List<User> findInterviewers(@Param("id") Integer id);
 
-    @Query("SELECT COUNT(i) FROM Interview i, InterviewInterviewer j WHERE i = j.interview and i.status = 'Confirmed' and j.interviewer = :user")
-    Integer findConfirmed(@Param("user") User user);
+    @Query("SELECT COUNT(i) FROM Interview i, InterviewInterviewer j WHERE i = j.interview " +
+            "and i.status = 'Confirmed' and j.interviewer = :user")
+    Integer findCompleted(@Param("user") User user);
 
-    @Query("SELECT i FROM Interview i WHERE i.status='Candidate No Show' and i.interviewDate <= current_date and i.organiser = :user")
-    List<Interview> findUnconfirmed(@Param("user") User user);
+    @Query("SELECT i FROM Interview i WHERE i.status='Confirmed' " +
+            "and i.interviewDate <= current_date and i.organiser = :user")
+    List<Interview> findConfirmed(@Param("user") User user);
+
+    @Query("SELECT i FROM Interview i WHERE i.status='Candidate No Show' " +
+            "and i.interviewDate <= current_date and i.organiser = :user")
+    List<Interview> findCNS(@Param("user") User user);
+
+    @Query("SELECT i FROM Interview i WHERE i.status='Panel No Show' " +
+            "and i.interviewDate <= current_date and i.organiser = :user")
+    List<Interview> findPNS(@Param("user") User user);
 
 }

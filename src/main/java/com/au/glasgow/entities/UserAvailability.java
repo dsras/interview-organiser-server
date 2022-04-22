@@ -37,12 +37,17 @@ public class UserAvailability {
     @JsonProperty("interviewer")
     private String interviewer;
 
+    @Transient
+    @JsonProperty("interviewer_id")
+    private Integer interviewerId;
+
     public UserAvailability(User user, LocalDate availableDate, LocalTime availableFrom, LocalTime availableTo){
         this.user=user;
         this.availableDate=availableDate;
         this.availableFrom=availableFrom;
         this.availableTo=availableTo;
         this.interviewer=user.getUserName();
+        this.interviewerId= user.getId();
     }
 
     public UserAvailability(){}
@@ -58,20 +63,26 @@ public class UserAvailability {
     public LocalTime getAvailableTo() {
         return availableTo;
     }
+
     public LocalTime getAvailableFrom() {
         return availableFrom;
     }
+
     public LocalDate getAvailableDate() {
         return availableDate;
     }
+
     public User getUser() {
         return user;
     }
+
     public Integer getId() {
         return id;
     }
+
     public void setInterviewer(){
         this.interviewer = user.getUserName();
+        this.interviewerId= user.getId();
     }
 
 

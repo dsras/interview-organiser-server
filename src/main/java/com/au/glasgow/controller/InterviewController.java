@@ -26,7 +26,8 @@ public class InterviewController {
 
     /* get username of logged in user */
     private String getPrincipalUsername(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+//        return SecurityContextHolder.getContext().getAuthentication().getName();
+        return "emer.sweeney@accolitedigital.com";
     }
 
     /* create new interview */
@@ -57,17 +58,31 @@ public class InterviewController {
         return new ResponseEntity<>(interviewService.findAll(), HttpStatus.OK);
     }
 
-    /* find all interviews confirmed by the interviewer */
-    @GetMapping("/findConfirmed")
-    public ResponseEntity<Integer> findConfirmed(){
-        return new ResponseEntity<>(interviewService.getConfirmedInterviews
+    /* find all interviews with status 'Confirmed' completed by the interviewer */
+    @GetMapping("/findCompleted")
+    public ResponseEntity<Integer> findCompleted(){
+        return new ResponseEntity<>(interviewService.findCompleted
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
-    /* find all unconfirmed interviews organised by the recruiter */
-    @GetMapping("/findUnconfirmed")
-    public ResponseEntity<List<InterviewResponse>> findUnconfirmed(){
-        return new ResponseEntity<>(interviewService.getUnconfirmedInterviews
+    /* find all interviews with status 'Confirmed' organised by the recruiter */
+    @GetMapping("/findConfirmed")
+    public ResponseEntity<List<InterviewResponse>> findConfirmed(){
+        return new ResponseEntity<>(interviewService.findConfirmed
+                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+    }
+
+    /* find all interviews with status 'Candidate No Show' organised by the recruiter */
+    @GetMapping("/findCNS")
+    public ResponseEntity<List<InterviewResponse>> findCNS(){
+        return new ResponseEntity<>(interviewService.findCNS
+                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+    }
+
+    /* find all interviews with status 'Panel No Show' organised by the recruiter */
+    @GetMapping("/findPNS")
+    public ResponseEntity<List<InterviewResponse>> findPNS(){
+        return new ResponseEntity<>(interviewService.findPNS
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 

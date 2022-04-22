@@ -138,7 +138,6 @@ public class UserController {
         return newSkillId;
     }
 
-
     /* get interviewers with required skills available for interview slot */
     @PostMapping("/findInterviewers")
     public ResponseEntity<List<UserAvailability>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
