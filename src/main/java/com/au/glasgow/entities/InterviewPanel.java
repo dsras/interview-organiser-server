@@ -3,11 +3,11 @@ package com.au.glasgow.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "interview_interviewer")
-public class InterviewInterviewer {
+@Table(name = "interview_panel")
+public class InterviewPanel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "interview_interviewer_id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -42,8 +42,9 @@ public class InterviewInterviewer {
         this.id = id;
     }
 
-    public InterviewInterviewer(){}
-    public InterviewInterviewer(Interview interview, User interviewer){
+    public InterviewPanel(){}
+
+    public InterviewPanel(Interview interview, User interviewer){
         this.interview=interview;
         this.interviewer=interviewer;
     }

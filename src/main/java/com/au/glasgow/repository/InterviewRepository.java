@@ -12,16 +12,16 @@ import java.util.List;
 
 public interface InterviewRepository extends JpaRepository<Interview, Integer> {
 
-    @Query("SELECT i FROM Interview i, InterviewInterviewer j WHERE i = j.interview and j.interviewer = :user")
+    @Query("SELECT i FROM Interview i, InterviewPanel j WHERE i = j.interview and j.interviewer = :user")
     List<Interview> findAllByInterviewer(@Param("user") User user);
 
     @Query("SELECT i FROM Interview i WHERE i.organiser = :user")
     List<Interview> findAllByRecruiter(@Param("user") User user);
 
-    @Query("SELECT i.interviewer FROM InterviewInterviewer i WHERE i.interview.id = :id")
+    @Query("SELECT i.interviewer FROM InterviewPanel i WHERE i.interview.id = :id")
     List<User> findInterviewers(@Param("id") Integer id);
 
-    @Query("SELECT COUNT(i) FROM Interview i, InterviewInterviewer j WHERE i = j.interview " +
+    @Query("SELECT COUNT(i) FROM Interview i, InterviewPanel j WHERE i = j.interview " +
             "and i.status = 'Confirmed' and j.interviewer = :user")
     Integer findCompleted(@Param("user") User user);
 

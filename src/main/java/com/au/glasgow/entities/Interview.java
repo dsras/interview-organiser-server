@@ -38,7 +38,7 @@ public class Interview {
     private String info;
 
     @OneToMany(mappedBy = "interview")
-    private Set<InterviewInterviewer> interviewInterviewers = new LinkedHashSet<>();
+    private Set<InterviewPanel> interviewPanel = new LinkedHashSet<>();
 
     public Integer getId() {
         return id;
@@ -63,12 +63,12 @@ public class Interview {
     public Interview() {
     }
 
-    public Set<InterviewInterviewer> getInterviewInterviewers() {
-        return interviewInterviewers;
+    public Set<InterviewPanel> getInterviewPanel() {
+        return interviewPanel;
     }
 
-    public void setInterviewInterviewers(Set<InterviewInterviewer> interviewInterviewers) {
-        this.interviewInterviewers = interviewInterviewers;
+    public void setInterviewPanel(Set<InterviewPanel> interviewPanel) {
+        this.interviewPanel = interviewPanel;
     }
 
     public Interview(User organiser, LocalDate interviewDate, LocalTime timeStart, LocalTime timeEnd, String info) {

@@ -1,7 +1,7 @@
 package com.au.glasgow.service;
 
 import com.au.glasgow.entities.*;
-import com.au.glasgow.repository.InterviewInterviewerRepository;
+import com.au.glasgow.repository.InterviewPanelRepository;
 import com.au.glasgow.repository.InterviewRepository;
 import com.au.glasgow.dto.InterviewRequestWrapper;
 import com.au.glasgow.dto.InterviewResponse;
@@ -20,7 +20,7 @@ public class InterviewService {
     InterviewRepository interviewRepository;
 
     @Autowired
-    InterviewInterviewerRepository interviewInterviewerRepository;
+    InterviewPanelRepository interviewInterviewerRepository;
 
     @Autowired
     UserService userService;
@@ -33,8 +33,8 @@ public class InterviewService {
         Interview i = interviewRepository.getById(id);
         i.setStatus(status);
         i = interviewRepository.save(i);
-        List<User> interviewers = i.getInterviewInterviewers().stream()
-                .map(InterviewInterviewer::getInterviewer)
+        List<User> interviewers = i.getInterviewPanel().stream()
+                .map(InterviewPanel::getInterviewer)
                 .collect(Collectors.toList());
         return new InterviewResponse(i, interviewers);
     }
@@ -44,8 +44,8 @@ public class InterviewService {
         Interview i = interviewRepository.getById(id);
         i.setOutcome(outcome);
         i = interviewRepository.save(i);
-        List<User> interviewers = i.getInterviewInterviewers().stream()
-                .map(InterviewInterviewer::getInterviewer)
+        List<User> interviewers = i.getInterviewPanel().stream()
+                .map(InterviewPanel ::getInterviewer)
                 .collect(Collectors.toList());
         return new InterviewResponse(i, interviewers);
     }
@@ -66,7 +66,7 @@ public class InterviewService {
 
         /* create InterviewInterviewer entries */
         for (User u : interviewers) {
-            interviewInterviewerRepository.save(new InterviewInterviewer(interview, u));
+            interviewInterviewerRepository.save(new InterviewPanel(interview, u));
         }
 
         /* return InterviewResponse */
