@@ -25,7 +25,7 @@ public class UserSkillService {
         return userSkillRepository.save(entity);
     }
 
-    List<User> findBySkills(List<Integer> skillIds, long listSize){
+    public List<User> findBySkills(List<Integer> skillIds, long listSize){
         return userSkillRepository.findBySkills(skillIds, listSize);
     }
 }

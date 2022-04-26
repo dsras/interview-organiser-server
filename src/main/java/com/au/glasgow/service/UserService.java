@@ -32,6 +32,14 @@ public class UserService implements UserDetailsService{
     @Autowired
     private AvailabilityService availabilityService;
 
+    public UserService(UserRepository userRepository, RoleService roleService,
+                       AvailabilityService availabilityService, UserSkillService userSkillService){
+        this.userRepository=userRepository;
+        this.roleService=roleService;
+        this.availabilityService=availabilityService;
+        this.userSkillService=userSkillService;
+    }
+
     /* get qualified Interviewers available for Interview */
     public List<User> getAvailableUsers(FindInterviewersRequest findInterviewersRequest){
     /* finds interviewers that

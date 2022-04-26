@@ -55,13 +55,25 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private List<Role> roles;
 
-    public Integer getId() { return id;}
+    public Integer getId() {
+        return id;
+    }
 
-    public String getUsername() {return username;}
+    public void setId(Integer id){
+        this.id=id;
+    }
 
-    public String getUserpassword() {return userpassword;}
+    public String getUsername() {
+        return username;
+    }
 
-    public void setUserpassword(String userpassword) { this.userpassword=userpassword;}
+    public String getUserpassword() {
+        return userpassword;
+    }
+
+    public void setUserpassword(String userpassword) {
+        this.userpassword=userpassword;
+    }
 
     public String getUserEmail() {
         return userEmail;
@@ -99,14 +111,19 @@ public class User {
         return priorExperience;
     }
 
-    public List<Role> getRoles(){return roles;}
+    public List<Role> getRoles(){
+        return roles;
+    }
 
-    public String getUserName() {return userName;}
+    public String getUserName() {
+        return userName;
+    }
 
-    public void setRoles(List<Role> roles){this.roles = roles;}
+    public void setRoles(List<Role> roles){
+        this.roles = roles;
+    }
 
-    public User(Integer id, String username, String userpassword, String userEmail, String userName, String businessTitle) {
-        this.id=id;
+    public User(String username, String userpassword, String userEmail, String userName, String businessTitle) {
         this.username = username;
         this.userpassword = userpassword;
         this.userEmail = userEmail;
