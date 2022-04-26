@@ -31,8 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-/*
-handles user-related requests
+/**
+ * Provides handling of user-related requests
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -60,6 +60,13 @@ public class UserController {
     @Autowired
     private UserSkillRepository userSkillRepository;
 
+    /**
+     * <p> Generates authentication token. </p>
+     *
+     * @param loginUser the loginuser
+     * @return ResponseEntity &lt?&gt the generate token
+     * @throws AuthenticationException
+     */
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
         String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@accolitedigital.com";
@@ -83,26 +90,33 @@ public class UserController {
         }
     }
 
-    /* get username of logged in user */
+    /**
+     * Gets username of principal (authenticated user).
+     *
+     * @return username of principal
+     */
     private String getPrincipalUsername(){
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-
-    /* TESTING METHOD */
-    @PreAuthorize("hasRole('RECRUITER')")
-    @RequestMapping(value="/user", method = RequestMethod.GET)
-    public UserDetails adminPing(@RequestParam(value="username") String username){
-        return userService.loadUserByUsername(getPrincipalUsername());
-    }
-
-    /* save new user */
+    /**
+     * Saves new user to the database.
+     * <p> Takes user and saves to database, returns ID allocated to new user. </p>
+     *
+     * @param user the new user to be saved
+     * @return the new user's ID
+     */
     @PostMapping("/register")
     public ResponseEntity<Integer> saveUser(@RequestBody User user) {
         return new ResponseEntity<>(userService.save(user).getId(), HttpStatus.CREATED);
     }
 
-    /* get user details by username */
+    /**
+     * Gets user's personal details.
+     * <p> Returns personal details as a list. </p>
+     *
+     * @return list of user details
+     */
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
     @GetMapping("/findUser")
     public List getUserDetails(){
@@ -122,14 +136,23 @@ public class UserController {
         return newUser;
     }
 
-    //Get skill
+    /**
+     * Gets user's skills.
+     *
+     * @return list of user's skills
+     */
     @GetMapping("/findSkills")
     public ResponseEntity<List<Skill>> findSkill(){
         Integer id = userService.findOne(getPrincipalUsername()).getId();
         return new ResponseEntity<>(userSkillRepository.findByUser(id), HttpStatus.OK);
     }
 
-    /* add new skill to user profile */
+    /**
+     * Adds a skill to user's profile.
+     *
+     * @param newSkillId the integer ID of the skill being added to user profile
+     * @return newSkillId
+     */
     @PostMapping("/addSkill")
     public Integer newSkill(@RequestBody Integer newSkillId){
         userSkillService.save(new UserSkill(userService.findOne(getPrincipalUsername()),
@@ -137,7 +160,14 @@ public class UserController {
         return newSkillId;
     }
 
-    /* get interviewers with required skills available for interview slot */
+    /**
+     * Gets suitable interviewers.
+     * <p> Takes a request for interviewers which details skills, dates & times and gets list of interviewers
+     * with skills and availability to match. </p>
+     *
+     * @param findInterviewersRequest formatted request for suitable interviewers
+     * @return list of user availability
+     */
     @PostMapping("/findInterviewers")
     public ResponseEntity<List<UserAvailability>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
         return new ResponseEntity<>(userService.getAvailableInterviewers(findInterviewersRequest), HttpStatus.OK);
