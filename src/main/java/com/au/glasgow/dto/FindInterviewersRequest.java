@@ -40,7 +40,7 @@ public class FindInterviewersRequest {
     }
 
     public LocalTime getStartTime(){return startTime;}
-    public LocalTime getEndTime(){ return endTime;}
+    public LocalTime getEndTime(){return endTime;}
     public LocalDate getStartDate(){return startDate;}
     public LocalDate getEndDate(){return endDate;}
     public List<Integer> getSkills(){return skills;}

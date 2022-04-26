@@ -89,14 +89,6 @@ public class UserController {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-
-    /* TESTING METHOD */
-    @PreAuthorize("hasRole('RECRUITER')")
-    @RequestMapping(value="/user", method = RequestMethod.GET)
-    public UserDetails adminPing(@RequestParam(value="username") String username){
-        return userService.loadUserByUsername(getPrincipalUsername());
-    }
-
     /* save new user */
     @PostMapping("/register")
     public ResponseEntity<Integer> saveUser(@RequestBody User user) {
@@ -104,10 +96,10 @@ public class UserController {
     }
 
     /* get user details by username */
-    @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
+    @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
     @GetMapping("/findUser")
     public List getUserDetails(){
-        User initialUser = userService.getUserDetailsByUsername(getPrincipalUsername());
+        User initialUser = userService.getByUsername(getPrincipalUsername());
         List newUser = new ArrayList();
         newUser.add(initialUser.getId());
         newUser.add(initialUser.getUsername());
@@ -124,6 +116,7 @@ public class UserController {
     }
 
     //Get skill
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/findSkills")
     public ResponseEntity<List<Skill>> findSkill(){
         Integer id = userService.findOne(getPrincipalUsername()).getId();
@@ -131,6 +124,7 @@ public class UserController {
     }
 
     /* add new skill to user profile */
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/addSkill")
     public Integer newSkill(@RequestBody Integer newSkillId){
         userSkillService.save(new UserSkill(userService.findOne(getPrincipalUsername()),
@@ -139,6 +133,7 @@ public class UserController {
     }
 
     /* get interviewers with required skills available for interview slot */
+    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
     @PostMapping("/findInterviewers")
     public ResponseEntity<List<UserAvailability>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
         return new ResponseEntity<>(userService.getAvailableInterviewers(findInterviewersRequest), HttpStatus.OK);

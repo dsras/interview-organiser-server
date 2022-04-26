@@ -29,6 +29,7 @@ public class InterviewController {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
+
     /* create new interview */
     @PostMapping("/new")
     public ResponseEntity<InterviewResponse> newInterview(@RequestBody InterviewRequest newInterview) {

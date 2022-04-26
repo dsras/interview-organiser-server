@@ -3,7 +3,6 @@ package com.au.glasgow.controller;
 import com.au.glasgow.config.SecurityConfig;
 import com.au.glasgow.config.TokenProvider;
 import com.au.glasgow.config.UnauthorizedEntryPoint;
-import com.au.glasgow.controller.UserController;
 import com.au.glasgow.entities.User;
 import com.au.glasgow.repository.UserSkillRepository;
 import com.au.glasgow.service.SkillService;
@@ -47,7 +46,7 @@ public class UserControllerTest {
     @MockBean
     UnauthorizedEntryPoint unauthorizedEntryPoint;
 
-//    SecurityConfig securityConfig = new SecurityConfig(userService,unauthorizedEntryPoint);
+    SecurityConfig securityConfig = new SecurityConfig(userService,unauthorizedEntryPoint);
 
     @MockBean
     AuthenticationManager authenticationManager;
@@ -116,3 +115,4 @@ public class UserControllerTest {
         }
     }
 }
+

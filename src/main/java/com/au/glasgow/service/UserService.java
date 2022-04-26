@@ -1,6 +1,5 @@
 package com.au.glasgow.service;
 
-import com.au.glasgow.dto.AvailabilityRequestWrapper;
 import com.au.glasgow.dto.LoginUser;
 import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
@@ -32,20 +31,12 @@ public class UserService implements UserDetailsService{
     @Autowired
     private AvailabilityService availabilityService;
 
-    public UserService(UserRepository userRepository, RoleService roleService,
-                       AvailabilityService availabilityService, UserSkillService userSkillService){
-        this.userRepository=userRepository;
+    public UserService(UserRepository repository, RoleService roleService, AvailabilityService availabilityService,
+                       UserSkillService userSkillService) {
+        this.userRepository=repository;
         this.roleService=roleService;
         this.availabilityService=availabilityService;
         this.userSkillService=userSkillService;
-    }
-
-    /* get qualified Interviewers available for Interview */
-    public List<User> getAvailableUsers(FindInterviewersRequest findInterviewersRequest){
-    /* finds interviewers that
-        (1) have these skills
-        (2) have availability on this date between these times */
-        return userRepository.getAvailableUser(findInterviewersRequest);
     }
 
     /* check if user exists */
@@ -112,12 +103,8 @@ public class UserService implements UserDetailsService{
     }
 
     /* get user details by username */
-    public User getUserDetailsByUsername(String username){
-        return userRepository.getUserDetailsByUsername(username);
-    }
-
-    public Integer getUserIdByUsername(String username){
-        return userRepository.getUserIdByUsername(username);
+    public User getByUsername(String username){
+        return userRepository.getByUsername(username);
     }
 
     /* get users with required skills available for interview time */

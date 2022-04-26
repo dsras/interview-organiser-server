@@ -80,6 +80,10 @@ public class UserAvailability {
         return id;
     }
 
+    public void setId(Integer id){
+        this.id=id;
+    }
+
     public void setInterviewer(){
         this.interviewer = user.getUserName();
         this.interviewerId= user.getId();

@@ -2,8 +2,6 @@ package com.au.glasgow.repository;
 
 import com.au.glasgow.entities.Role;
 import com.au.glasgow.entities.User;
-import com.au.glasgow.repository.RoleRepository;
-import com.au.glasgow.repository.UserRepository;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
