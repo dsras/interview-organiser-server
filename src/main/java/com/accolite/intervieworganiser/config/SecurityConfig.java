@@ -84,4 +84,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
+    public SecurityConfig(UserDetailsService userService, UnauthorizedEntryPoint unauthorizedEntryPoint){
+        this.unauthorizedEntryPoint=unauthorizedEntryPoint;
+        this.userDetailsService=userService;
+    }
 }
