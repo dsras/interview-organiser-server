@@ -50,6 +50,14 @@ public class Role {
 
     /**
      *
+     * @param id the role ID
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     *
      * @return the role description
      */
     public String getDescription() {
@@ -58,9 +66,9 @@ public class Role {
 
     /**
      *
-     * @param id the role ID
+     * @param description the role description
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDescription(String description) {
+        this.description=description;
     }
 }

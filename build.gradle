@@ -36,8 +36,7 @@ dependencies {
 }
 
 jacoco {
-	toolVersion = "0.8.5"
-	reportsDir = file("$buildDir/jacoco")
+	toolVersion = "0.8.7"
 }
 
 test{
@@ -55,10 +54,10 @@ configurations{
 	}
 }
 
-task generateRestApiDocs(type: Javadoc) {
-	source = sourceSets.main.allJava
-	destinationDir = reporting.file("rest-api-docs")
-	options.addStringOption('Xdoclint:none', '-quiet')
-	options.addStringOption('encoding', 'UTF-8')
-	options.addStringOption('charSet', 'UTF-8')
-}
+//task generateRestApiDocs(type: Javadoc) {
+//	source = sourceSets.main.allJava
+//	destinationDir = reporting.file("rest-api-docs")
+//	options.addStringOption('Xdoclint:none', '-quiet')
+//	options.addStringOption('encoding', 'UTF-8')
+//	options.addStringOption('charSet', 'UTF-8')
+//}

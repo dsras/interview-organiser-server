@@ -1,7 +1,7 @@
-package com.au.glasgow.repository;
+package com.accolite.intervieworganiser.repository;
 
-import com.au.glasgow.entities.Role;
-import com.au.glasgow.entities.User;
+import com.accolite.intervieworganiser.entities.Role;
+import com.accolite.intervieworganiser.entities.User;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,7 +31,7 @@ class UserRepositoryTest {
         repository.save(new User(username, password, email, name, title));
         /* ensure repository correctly gets user by username */
         User user = repository.getByUsername(username);
-        assertThat(user.getUserName()).isEqualTo(name);
+        assertThat(user.getName()).isEqualTo(name);
     }
 
     @Test
@@ -40,7 +40,7 @@ class UserRepositoryTest {
         repository.save(new User(username, password, email, name, title));
         /* ensure repository correctly gets user by email */
         User user = repository.getByEmail(email);
-        assertThat(user.getUserName()).isEqualTo(name);
+        assertThat(user.getName()).isEqualTo(name);
     }
 
     @Test
@@ -52,7 +52,7 @@ class UserRepositoryTest {
         Integer id = savedUser.getId();
         /* ensure repository correctly gets user by id */
         User user = repository.getById(id);
-        assertThat(user.getUserName()).isEqualTo(name);
+        assertThat(user.getName()).isEqualTo(name);
     }
 
     @Test

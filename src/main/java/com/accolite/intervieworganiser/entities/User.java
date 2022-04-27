@@ -11,7 +11,7 @@ import java.util.List;
  * interviews, roles and skills. </p>
  */
 @Entity
-@Table(name = "user")
+@Table(name = "accolite_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,6 +66,14 @@ public class User {
      */
     public Integer getId() {
         return id;
+    }
+
+    /**
+     *
+     * @param id the user's ID
+     */
+    public void setId(Integer id){
+        this.id=id;
     }
 
     /**
@@ -192,15 +200,13 @@ public class User {
      * Parameterised constructor.
      * <p>Sets the minimum information needed for a user. </p>
      *
-     * @param id the user's ID
      * @param username the user's username
      * @param password the user's password
      * @param email the user's email
      * @param name the user's name
      * @param businessTitle the user's business title
      */
-    public User(Integer id, String username, String password, String email, String name, String businessTitle) {
-        this.id=id;
+    public User(String username, String password, String email, String name, String businessTitle) {
         this.username = username;
         this.password = password;
         this.email = email;

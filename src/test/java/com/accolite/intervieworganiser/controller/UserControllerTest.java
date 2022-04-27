@@ -1,14 +1,15 @@
-package com.au.glasgow.controller;
+package com.accolite.intervieworganiser.controller;
 
-import com.au.glasgow.config.SecurityConfig;
-import com.au.glasgow.config.TokenProvider;
-import com.au.glasgow.config.UnauthorizedEntryPoint;
-import com.au.glasgow.entities.User;
-import com.au.glasgow.repository.UserSkillRepository;
-import com.au.glasgow.service.SkillService;
-import com.au.glasgow.service.TokenValidationService;
-import com.au.glasgow.service.UserService;
-import com.au.glasgow.service.UserSkillService;
+import com.accolite.intervieworganiser.config.SecurityConfig;
+import com.accolite.intervieworganiser.config.TokenProvider;
+import com.accolite.intervieworganiser.config.UnauthorizedEntryPoint;
+import com.accolite.intervieworganiser.controller.UserController;
+import com.accolite.intervieworganiser.entities.User;
+import com.accolite.intervieworganiser.repository.UserSkillRepository;
+import com.accolite.intervieworganiser.service.SkillService;
+import com.accolite.intervieworganiser.service.TokenValidationService;
+import com.accolite.intervieworganiser.service.UserService;
+import com.accolite.intervieworganiser.service.UserSkillService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;

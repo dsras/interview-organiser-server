@@ -31,6 +31,22 @@ public class UserService implements UserDetailsService{
     @Autowired
     private AvailabilityService availabilityService;
 
+    /**
+     * Parameterised constructor.
+     * <p>For testing purposes.</p>
+     * @param userRepository the UserRepository instance
+     * @param roleService the RoleService instance
+     * @param availabilityService the AvailabilityService instance
+     * @param userSkillService the UserSkillService instance
+     */
+    public UserService(UserRepository userRepository, RoleService roleService,
+                       AvailabilityService availabilityService, UserSkillService userSkillService) {
+        this.roleService=roleService;
+        this.userRepository=userRepository;
+        this.availabilityService=availabilityService;
+        this.userSkillService=userSkillService;
+    }
+
     /* get qualified Interviewers available for Interview */
     public List<User> getAvailableUsers(FindInterviewersRequest findInterviewersRequest){
     /* finds interviewers that

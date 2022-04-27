@@ -1,11 +1,16 @@
-package com.au.glasgow.service;
+package com.accolite.intervieworganiser.service;
 
-import com.au.glasgow.dto.FindInterviewersRequest;
-import com.au.glasgow.dto.LoginUser;
-import com.au.glasgow.entities.Role;
-import com.au.glasgow.entities.User;
-import com.au.glasgow.entities.UserAvailability;
-import com.au.glasgow.repository.UserRepository;
+
+import com.accolite.intervieworganiser.dto.FindInterviewersRequest;
+import com.accolite.intervieworganiser.dto.LoginUser;
+import com.accolite.intervieworganiser.entities.Role;
+import com.accolite.intervieworganiser.entities.User;
+import com.accolite.intervieworganiser.entities.UserAvailability;
+import com.accolite.intervieworganiser.repository.UserRepository;
+import com.accolite.intervieworganiser.service.AvailabilityService;
+import com.accolite.intervieworganiser.service.RoleService;
+import com.accolite.intervieworganiser.service.UserService;
+import com.accolite.intervieworganiser.service.UserSkillService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

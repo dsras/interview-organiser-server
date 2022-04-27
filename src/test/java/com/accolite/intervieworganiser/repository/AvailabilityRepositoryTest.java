@@ -1,9 +1,9 @@
-package com.au.glasgow.repository;
+package com.accolite.intervieworganiser.repository;
 
-import com.au.glasgow.entities.User;
-import com.au.glasgow.entities.UserAvailability;
-import com.au.glasgow.repository.AvailabilityRepository;
-import com.au.glasgow.repository.UserRepository;
+import com.accolite.intervieworganiser.entities.User;
+import com.accolite.intervieworganiser.entities.UserAvailability;
+import com.accolite.intervieworganiser.repository.AvailabilityRepository;
+import com.accolite.intervieworganiser.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
