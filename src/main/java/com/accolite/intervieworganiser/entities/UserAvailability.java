@@ -7,6 +7,11 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * User availability persistent object.
+ * <p>This object stores information about user availability windows: date, start time, end time and user
+ * which references {@link User}. </p>
+ */
 @Entity
 @Table(name = "user_availability")
 public class UserAvailability {
@@ -41,6 +46,14 @@ public class UserAvailability {
     @JsonProperty("interviewer_id")
     private Integer interviewerId;
 
+    /**
+     * Parameterised constructor.
+     * <p>Sets the information needed for an availability window.</p>
+     * @param user the user whose availability this is
+     * @param availableDate the availability date
+     * @param availableFrom the availability start time
+     * @param availableTo the availability end time
+     */
     public UserAvailability(User user, LocalDate availableDate, LocalTime availableFrom, LocalTime availableTo){
         this.user=user;
         this.availableDate=availableDate;
@@ -52,37 +65,84 @@ public class UserAvailability {
 
     public UserAvailability(){}
 
+    /**
+     *
+     * @param availableFrom the availability start time
+     */
     public void setAvailableFrom(LocalTime availableFrom) {
         this.availableFrom = availableFrom;
     }
 
+    /**
+     *
+     * @param availableTo the availability end time
+     */
     public void setAvailableTo(LocalTime availableTo) {
         this.availableTo = availableTo;
     }
 
+    /**
+     *
+     * @return the availability end time
+     */
     public LocalTime getAvailableTo() {
         return availableTo;
     }
 
+    /**
+     *
+     * @return the availability start time
+     */
     public LocalTime getAvailableFrom() {
         return availableFrom;
     }
 
+    /**
+     *
+     * @return the availability date
+     */
     public LocalDate getAvailableDate() {
         return availableDate;
     }
 
+    /**
+     *
+     * @return the user whose availability this is
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     *
+     * @return the availability ID
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Assigns ID and name of user to attributes.
+     */
     public void setInterviewer(){
         this.interviewer = user.getName();
         this.interviewerId= user.getId();
+    }
+
+    /**
+     *
+     * @return the interviewer whose availability this is
+     */
+    public String getInterviewer() {
+        return interviewer;
+    }
+
+    /**
+     *
+     * @return the interviewer ID
+     */
+    public Integer getInterviewerId() {
+        return interviewerId;
     }
 
 

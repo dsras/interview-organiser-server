@@ -28,4 +28,20 @@ public class Skill {
     public Integer getId() {
         return id;
     }
+
+    /**
+     *
+     * @return the skill name
+     */
+    public String getSkillName() {
+        return skillName;
+    }
+
+    /**
+     *
+     * @return the skill level
+     */
+    public String getSkillLevel() {
+        return skillLevel;
+    }
 }

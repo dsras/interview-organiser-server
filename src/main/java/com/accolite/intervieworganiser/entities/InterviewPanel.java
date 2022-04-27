@@ -35,26 +35,10 @@ public class InterviewPanel {
 
     /**
      *
-     * @param interviewer the interviewer to be added to the panel
-     */
-    public void setInterviewer(User interviewer) {
-        this.interviewer = interviewer;
-    }
-
-    /**
-     *
      * @return the interview the panel is for
      */
     public Interview getInterview() {
         return interview;
-    }
-
-    /**
-     *
-     * @param interview the interview the panel is for
-     */
-    public void setInterview(Interview interview) {
-        this.interview = interview;
     }
 
     /**

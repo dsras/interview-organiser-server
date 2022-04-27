@@ -181,6 +181,14 @@ public class User {
     }
 
     /**
+     *
+     * @return the user's email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
      * Parameterised constructor.
      * <p>Sets the minimum information needed for a user. </p>
      *

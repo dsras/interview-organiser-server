@@ -50,6 +50,14 @@ public class Role {
 
     /**
      *
+     * @return the role description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     *
      * @param id the role ID
      */
     public void setId(Integer id) {
