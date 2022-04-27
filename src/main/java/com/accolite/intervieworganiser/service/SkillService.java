@@ -18,15 +18,6 @@ public class SkillService {
         return skillRepository.getById(id);
     }
 
-    /* get skills by IDs */
-    public List<Skill> getByIds(List<Integer> ids){
-        return skillRepository.findAllById(ids);
-    }
-
-    public List<Skill> getSkillsByName(String skillName){
-        return skillRepository.getSkillsByName(skillName);
-    }
-
     /* save new skill */
     public <S extends Skill> Skill save(Skill entity) {
         return skillRepository.save(entity);

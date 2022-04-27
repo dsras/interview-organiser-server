@@ -2,6 +2,10 @@ package com.accolite.intervieworganiser.entities;
 
 import javax.persistence.*;
 
+/**
+ * User skill persistent object.
+ * <p>This object stores users assigned skills, referencing {@link Skill}, {@link User}.</p>
+ */
 @Entity
 @Table(name = "user_skills")
 public class UserSkill {
@@ -24,26 +28,34 @@ public class UserSkill {
         this.skill=skill;
     }
 
-    public Skill getSkill() {
-        return skill;
-    }
-
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-    }
-
+    /**
+     *
+     * @return the user
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     *
+     * @param user the user
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     *
+     * @return the user-skill ID
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id the user-skill ID
+     */
     public void setId(Integer id) {
         this.id = id;
     }
