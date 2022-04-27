@@ -129,5 +129,21 @@ public class UserAvailability {
         this.interviewerId= user.getId();
     }
 
+    /**
+     *
+     * @return the interviewer whose availability this is
+     */
+    public String getInterviewer() {
+        return interviewer;
+    }
+
+    /**
+     *
+     * @return the interviewer ID
+     */
+    public Integer getInterviewerId() {
+        return interviewerId;
+    }
+
 
 }

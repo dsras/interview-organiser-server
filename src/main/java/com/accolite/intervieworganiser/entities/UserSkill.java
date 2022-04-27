@@ -59,4 +59,12 @@ public class UserSkill {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    /**
+     *
+     * @return the skill
+     */
+    public Skill getSkill() {
+        return skill;
+    }
 }

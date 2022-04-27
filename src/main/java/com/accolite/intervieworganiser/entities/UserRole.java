@@ -53,4 +53,12 @@ public class UserRole {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    /**
+     *
+     * @return the role
+     */
+    public Role getRole() {
+        return role;
+    }
 }
