@@ -46,7 +46,7 @@ public class UserAvailability {
         this.availableDate=availableDate;
         this.availableFrom=availableFrom;
         this.availableTo=availableTo;
-        this.interviewer=user.getUserName();
+        this.interviewer=user.getName();
         this.interviewerId= user.getId();
     }
 
@@ -81,7 +81,7 @@ public class UserAvailability {
     }
 
     public void setInterviewer(){
-        this.interviewer = user.getUserName();
+        this.interviewer = user.getName();
         this.interviewerId= user.getId();
     }
 

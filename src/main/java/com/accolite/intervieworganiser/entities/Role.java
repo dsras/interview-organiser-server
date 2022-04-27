@@ -3,6 +3,10 @@ package com.accolite.intervieworganiser.entities;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Role persistent object.
+ * <p>This contains the authority of a user and is used to decide user permissions.</p>
+ */
 @Entity
 @Table(name = "role")
 public class Role {
@@ -20,26 +24,34 @@ public class Role {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     private Set<User> users;
 
+    /**
+     *
+     * @return the role name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param roleName the role name
+     */
     public void setName(String roleName) {
         this.name = roleName;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    /**
+     *
+     * @return the role ID
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id the role ID
+     */
     public void setId(Integer id) {
         this.id = id;
     }

@@ -54,7 +54,7 @@ public class InterviewResponse {
 
     public InterviewResponse(Interview interview, List<User> interviewerList) {
         this.interviewId = interview.getId();
-        this.organiser = interview.getOrganiser().getUserName();
+        this.organiser = interview.getOrganiser().getName();
         this.date = interview.getInterviewDate();
         this.startTime = interview.getTimeStart();
         this.endTime = interview.getTimeEnd();
@@ -62,7 +62,7 @@ public class InterviewResponse {
         this.outcome = interview.getOutcome();
         this.info = interview.getInfo();
         this.interviewers = interviewerList.stream()
-                .map(User::getUserName).collect(Collectors.toList());
+                .map(User::getName).collect(Collectors.toList());
 
     }
 

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Provides handling of interview-related requests.
+ */
 @RestController
 @RequestMapping("/interviews")
 public class InterviewController {
@@ -24,12 +27,22 @@ public class InterviewController {
     @Autowired
     private UserService userService;
 
-    /* get username of logged in user */
+    /**
+     * Gets username of principal (authenticated user).
+     *
+     * @return the principal's username
+     */
     private String getPrincipalUsername(){
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    /* create new interview */
+    /**
+     * Adds a new interview to the database.
+     * <p> Takes a new interview and saves to the database, returning the newly created interview. </p>
+     *
+     * @param newInterview the interview details
+     * @return the interview newly added to the database
+     */
     @PostMapping("/new")
     public ResponseEntity<InterviewResponse> newInterview(@RequestBody InterviewRequest newInterview) {
         InterviewRequestWrapper wrapper = new InterviewRequestWrapper
@@ -37,83 +50,136 @@ public class InterviewController {
         return new ResponseEntity<>(interviewService.save(wrapper), HttpStatus.CREATED);
     }
 
-    /* find all interviews the interviewer is involved in */
+    /**
+     * Gets all interviews an interviewer is participating in.
+     *
+     * @return a list of all interviews the interviewer was/is on panel for
+     */
     @GetMapping("/findByInterviewer")
     public ResponseEntity<List<InterviewResponse>> findByInterviewer(){
         return new ResponseEntity<>(interviewService.findByInterviewer
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
-    /* find all interviews the recruiter has organised */
+    /**
+     * Gets all interviews a recruiter organised.
+     *
+     * @return a list of all interviews the recruiter organised
+     */
     @GetMapping("/findByRecruiter")
     public ResponseEntity<List<InterviewResponse>> findByRecruiter(){
         return new ResponseEntity<>(interviewService.findByRecruiter
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
-    /* find all interviews */
+    /**
+     * Gets all interviews.
+     *
+     * @return list of all interviews
+     */
     @GetMapping("/findAll")
     public ResponseEntity<List<InterviewResponse>> findAll(){
         return new ResponseEntity<>(interviewService.findAll(), HttpStatus.OK);
     }
 
-    /* find all interviews with status 'Confirmed' completed by the interviewer */
+    /**
+     * Gets number of interviews with status 'Confirmed' an interviewer has completed.
+     *
+     * @return the number confirmed interviews that the interviewer was on panel for
+     */
     @GetMapping("/findCompleted")
     public ResponseEntity<Integer> findCompleted(){
         return new ResponseEntity<>(interviewService.findCompleted
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
-    /* find all interviews with status 'Confirmed' organised by the recruiter */
+    /**
+     * Gets all interviews organised by a recruiter confirmed by interviewer.
+     *
+     * @return a list of interviews with status 'Confirmed' that recruiter has organised
+     */
     @GetMapping("/findConfirmed")
     public ResponseEntity<List<InterviewResponse>> findConfirmed(){
         return new ResponseEntity<>(interviewService.findConfirmed
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
-    /* find all interviews with status 'Candidate No Show' organised by the recruiter */
+    /**
+     * Gets all interviews organised by a recruiter that candidate didn't show up for.
+     *
+     * @return a list of interviews with status 'Candidate No Show' that recruiter has organised
+     */
     @GetMapping("/findCNS")
     public ResponseEntity<List<InterviewResponse>> findCNS(){
         return new ResponseEntity<>(interviewService.findCNS
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
-    /* find all interviews with status 'Panel No Show' organised by the recruiter */
+    /**
+     * Gets all interviews organised by recruiter that panel didn't show up for.
+     *
+     * @return a list of interviews with status 'Panel No Show' that recruiter organised
+     */
     @GetMapping("/findPNS")
     public ResponseEntity<List<InterviewResponse>> findPNS(){
         return new ResponseEntity<>(interviewService.findPNS
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
-    /* find all interviews in last 28 days with outcome 'Progressed' organised by the recruiter */
+    /**
+     * Gets all interviews from past 28 days organised by a recruiter where candidate progressed.
+     *
+     * @return a list of interviews with outcome 'Progressed' that recruiter organised
+     */
     @GetMapping("/findProgressed")
     public ResponseEntity<List<InterviewResponse>> findProgressed(){
         return new ResponseEntity<>(interviewService.findProgressed
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
-    /* find all interviews in last 28 days with outcome 'Didn't Progress' organised by the recruiter */
+    /**
+     * Gets all interviews from past 28 days organised by a recruiter where candidate didn't progress.
+     *
+     * @return a list of interviews with outcome 'Didn't Progress' that recruiter organised
+     */
     @GetMapping("/findNotProgressed")
     public ResponseEntity<List<InterviewResponse>> findNotProgressed(){
         return new ResponseEntity<>(interviewService.findNotProgressed
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
-    /* find all interviews in last 28 days with outcome 'Hired' organised by the recruiter */
+    /**
+     * Gets all interviews from past 28 days organised by a recruiter where candidate was hired.
+     *
+     * @return a list of interviews with outcome 'Hired' that recruiter organised
+     */
     @GetMapping("/findHired")
     public ResponseEntity<List<InterviewResponse>> findHired(){
         return new ResponseEntity<>(interviewService.findHired
                 (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
     }
 
-    /* update interview status (Confirmed, Candidate No Show, Panel No Show) */
+    /**
+     * Updates interview status.
+     * <p>Takes interview update detailing whether interview has been confirmed, candidate didn't show up
+     * or panel didn't show up.</p>
+     *
+     * @param statusUpdate update containing new status e.g., Confirmed
+     * @return the interview with newly updated status
+     */
     @PostMapping("/updateStatus")
     public ResponseEntity<InterviewResponse> updateStatus(@RequestBody InterviewUpdate statusUpdate){
         return new ResponseEntity<>(interviewService.updateStatus
                 (statusUpdate.getUpdate(), statusUpdate.getInterviewId()), HttpStatus.OK);
     }
 
-    /* update interview outcome (Progressed, Hired, Didn't Progress) */
+    /**
+     * Updates interview outcome.
+     * <p>Takes interview outcome detailing whether candidate progressed, was hired or didn't progress. </p>
+     *
+     * @param outcomeUpdate update containing new outcome e.g., Hired
+     * @return the interview with the newly updated outcome
+     */
     @PostMapping("/updateOutcome")
     public ResponseEntity<InterviewResponse> updateOutcome(@RequestBody InterviewUpdate outcomeUpdate){
         return new ResponseEntity<>(interviewService.updateOutcome

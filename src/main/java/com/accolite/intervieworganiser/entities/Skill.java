@@ -2,6 +2,11 @@ package com.accolite.intervieworganiser.entities;
 
 import javax.persistence.*;
 
+/**
+ * Skill persistent object.
+ * <p>This object stores skill name and level e.g., Java Expert. This is referenced by {@link User}
+ * to store a user's skills.</p>
+ */
 @Entity
 @Table(name = "skill")
 public class Skill {
@@ -16,15 +21,11 @@ public class Skill {
     @Column(name = "skill_level", nullable = false, length = 30)
     private String skillLevel;
 
+    /**
+     *
+     * @return the skill ID
+     */
     public Integer getId() {
         return id;
-    }
-
-    public String getSkillName() {
-        return skillName;
-    }
-
-    public String getSkillLevel() {
-        return skillLevel;
     }
 }

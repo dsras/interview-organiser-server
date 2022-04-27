@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Provides handling of availability-related requests.
+ */
 @RestController
 @RequestMapping("/availability")
 public class AvailabilityController {
@@ -23,43 +26,59 @@ public class AvailabilityController {
     @Autowired
     private UserService userService;
 
-    /* get username of logged in user */
+    /**
+     * Gets username of principal (authenticated user).
+     *
+     * @return the principal's username
+     */
     private String getPrincipalUsername(){
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    /* add new availability slots for current user */
+    /**
+     * Adds new availability for a user.
+     * <p>Takes availability details and adds to the database for user. </p>
+     *
+     * @param availability the new availability details
+     * @return the newly saved availability
+     */
     @PostMapping("/new")
-    public List<UserAvailability> newAvailability(@RequestBody AvailabilityRequest newAvailability) {
-        AvailabilityRequestWrapper wrapper = new AvailabilityRequestWrapper(newAvailability,
+    public List<UserAvailability> newAvailability(@RequestBody AvailabilityRequest availability) {
+        AvailabilityRequestWrapper newAvailability = new AvailabilityRequestWrapper(availability,
                 userService.findOne(getPrincipalUsername()));
-        return availabilityService.save(wrapper);
+        return availabilityService.save(newAvailability);
     }
 
-    /* get current user's availability */
+    /**
+     * Gets a user's availability.
+     *
+     * @return a list of user's availability
+     */
     @GetMapping("/find")
     public ResponseEntity<List<UserAvailability>> getUserAvailability(){
         return new ResponseEntity<>(availabilityService.getUserAvailability(getPrincipalUsername()), HttpStatus.OK);
     }
 
-    /* get all users availability slots - called by recruiter */
+    /**
+     * Gets all availability (i.e., of all users).
+     *
+     * @return list of all availability
+     */
     @GetMapping("/findAll")
     public ResponseEntity<List<UserAvailability>> getAllAvailability(){
         return new ResponseEntity<>(availabilityService.getAllAvailability(), HttpStatus.OK);
     }
 
-    /* get users with required skills - called by recruiter */
+    /**
+     * Gets availability of all users with specified skills.
+     * <p> Takes a list of skill IDs and returns the availability of users with these skills.</p>
+     *
+     * @param skillIds the list of skill IDs
+     * @return a list of all availability of users with all specified skill IDs
+     */
     @GetMapping("/findBySkills")
     public ResponseEntity<List<UserAvailability>> findBySkill(@RequestParam(name = "ids") List<Integer> skillIds){
         return new ResponseEntity<>(availabilityService.findBySkills(skillIds), HttpStatus.OK);
-    }
-
-
-    /**** DELETE ONCE TESTING IS DONE ****/
-    /* clear all availability - for Thorfinn testing */
-    @GetMapping("/clear")
-    public void clearAvailability(){
-        availabilityService.clear();
     }
 
 }

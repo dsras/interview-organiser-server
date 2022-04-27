@@ -34,6 +34,6 @@ public class UserRepositoryTest {
 
         entityManager.persist(new User(id, username, password, email, name, title));
         User user = repository.getById(id);
-        assertThat(user.getUserName()).isEqualTo(name);
+        assertThat(user.getName()).isEqualTo(name);
     }
 }

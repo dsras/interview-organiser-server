@@ -24,7 +24,7 @@ public class AvailabilityRequestWrapper {
     }
 
     public String getName(){
-        return user.getUserName();
+        return user.getName();
     }
 
     public LocalDate getStartDate(){
