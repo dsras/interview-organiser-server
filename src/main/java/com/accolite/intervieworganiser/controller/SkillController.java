@@ -21,7 +21,7 @@ public class SkillController {
 
     /**
      * Adds new skill to the database.
-     * <p> Takes new skill (name & description) and saves to the database, return the new skill with ID. </p>
+     * <p> Takes new skill (name & description) and saves to the database, returning the new skill with ID. </p>
      *
      * @param newSkill the new skill
      * @return the skill newly added to the database

@@ -4,8 +4,14 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * User persistent object.
+ * <p>This object stores a user's details and is referenced by other entities ({@link InterviewPanel},
+ * {@link UserAvailability}, {@link UserRole}, {@link UserSkill}) to relate users to their availability,
+ * interviews, roles and skills. </p>
+ */
 @Entity
-@Table(name = "accolite_user")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,17 +21,17 @@ public class User {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "userpassword", nullable = false)
-    private String userpassword;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    @Column(name = "user_email", nullable = false, length = 80)
-    private String userEmail;
+    @Column(name = "email", nullable = false, length = 80)
+    private String email;
 
-    @Column(name = "user_mobile")
-    private Long userMobile;
+    @Column(name = "mobile")
+    private Long mobile;
 
-    @Column(name = "user_name", nullable = false, length = 30)
-    private String userName;
+    @Column(name = "name", nullable = false, length = 30)
+    private String name;
 
     @Column(name = "business_title", nullable = false, length = 30)
     private String businessTitle;
@@ -54,62 +60,143 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private List<Role> roles;
 
-    public Integer getId() { return id;}
-
-    public String getUsername() {return username;}
-
-    public String getUserpassword() {return userpassword;}
-
-    public void setUserpassword(String userpassword) { this.userpassword=userpassword;}
-
-    public String getUserEmail() {
-        return userEmail;
+    /**
+     *
+     * @return the user's ID
+     */
+    public Integer getId() {
+        return id;
     }
 
-    public Long getUserMobile() {
-        return userMobile;
+    /**
+     *
+     * @return the user's username
+     */
+    public String getUsername() {
+        return username;
     }
 
+    /**
+     *
+     * @return the user's password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     *
+     * @param password the user's password
+     */
+    public void setPassword(String password) {
+        this.password=password;
+    }
+
+    /**
+     *
+     * @return the user's mobile number
+     */
+    public Long getMobile() {
+        return mobile;
+    }
+
+    /**
+     *
+     * @return the user's business title
+     */
     public String getBusinessTitle() {
         return businessTitle;
     }
 
+    /**
+     *
+     * @return the user's account
+     */
     public String getAccount() {
         return account;
     }
 
+    /**
+     *
+     * @return the user's business unit
+     */
     public String getBusinessUnit() {
         return businessUnit;
     }
 
+    /**
+     *
+     * @return the user's date of joining
+     */
     public LocalDate getDateOfJoining() {
         return dateOfJoining;
     }
 
+    /**
+     *
+     * @return the user's designation
+     */
     public String getDesignation() {
         return designation;
     }
 
+    /**
+     *
+     * @return the user's location
+     */
     public String getLocation() {
         return location;
     }
 
+    /**
+     *
+     * @return the user's number of years of prior experience
+     */
     public Integer getPriorExperience() {
         return priorExperience;
     }
 
-    public List<Role> getRoles(){return roles;}
+    /**
+     *
+     * @return the user's roles (authorities)
+     */
+    public List<Role> getRoles(){
+        return roles;
+    }
 
-    public String getUserName() {return userName;}
+    /**
+     *
+     * @param roles the user's roles
+     */
+    public void setRoles(List<Role> roles){
+        this.roles = roles;
+    }
 
-    public void setRoles(List<Role> roles){this.roles = roles;}
+    /**
+     *
+     * @return the user's name
+     */
+    public String getName() {
+        return name;
+    }
 
-    public User(Integer id, String username, String userpassword, String userEmail, String userName, String businessTitle) {
+    /**
+     * Parameterised constructor.
+     * <p>Sets the minimum information needed for a user. </p>
+     *
+     * @param id the user's ID
+     * @param username the user's username
+     * @param password the user's password
+     * @param email the user's email
+     * @param name the user's name
+     * @param businessTitle the user's business title
+     */
+    public User(Integer id, String username, String password, String email, String name, String businessTitle) {
         this.id=id;
         this.username = username;
-        this.userpassword = userpassword;
-        this.userEmail = userEmail;
-        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.name = name;
         this.businessTitle = businessTitle;
     }
 

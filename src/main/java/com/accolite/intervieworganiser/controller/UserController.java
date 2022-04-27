@@ -64,7 +64,7 @@ public class UserController {
      * <p> Generates authentication token. </p>
      *
      * @param loginUser the loginuser
-     * @return ResponseEntity &lt?&gt the generate token
+     * @return the generated token
      * @throws AuthenticationException
      */
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
@@ -124,8 +124,8 @@ public class UserController {
         List newUser = new ArrayList();
         newUser.add(initialUser.getId());
         newUser.add(initialUser.getUsername());
-        newUser.add(initialUser.getUserName());
-        newUser.add(initialUser.getUserMobile());
+        newUser.add(initialUser.getName());
+        newUser.add(initialUser.getMobile());
         newUser.add(initialUser.getBusinessTitle());
         newUser.add(initialUser.getAccount());
         newUser.add(initialUser.getBusinessUnit());
