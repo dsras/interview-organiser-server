@@ -1,6 +1,7 @@
 package com.accolite.intervieworganiser.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * Skill persistent object.
@@ -16,9 +17,11 @@ public class Skill {
     private Integer id;
 
     @Column(name = "skill_name", nullable = false, length = 30)
+    @NotEmpty(message = "Please provide skill name")
     private String skillName;
 
     @Column(name = "skill_level", nullable = false, length = 30)
+    @NotEmpty(message = "Please provide skill level")
     private String skillLevel;
 
     /**

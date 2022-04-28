@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -28,14 +29,17 @@ public class UserAvailability {
 
     @Column(name = "available_date", nullable = false)
     @JsonProperty("date")
+    @NotEmpty(message = "Please provide availability date")
     private LocalDate availableDate;
 
     @Column(name = "available_from", nullable = false)
     @JsonProperty("start_time")
+    @NotEmpty(message = "Please provide start time")
     private LocalTime availableFrom;
 
     @Column(name = "available_to", nullable = false)
     @JsonProperty("end_time")
+    @NotEmpty(message = "Please provide availability end time")
     private LocalTime availableTo;
 
     @Transient

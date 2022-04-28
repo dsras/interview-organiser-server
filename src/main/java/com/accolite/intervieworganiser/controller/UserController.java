@@ -120,7 +120,7 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
     @GetMapping("/findUser")
-    public List getUserDetails(){
+    public List getUserDetails(@RequestParam("username") String username){
         User initialUser = userService.getUserDetailsByUsername(getPrincipalUsername());
         List newUser = new ArrayList();
         newUser.add(initialUser.getId());
@@ -143,8 +143,8 @@ public class UserController {
      * @return list of user's skills
      */
     @GetMapping("/findSkills")
-    public ResponseEntity<List<Skill>> findSkill(){
-        Integer id = userService.findOne(getPrincipalUsername()).getId();
+    public ResponseEntity<List<Skill>> findSkill(@RequestParam("username") String username){
+        Integer id = userService.findOne(username).getId();
         return new ResponseEntity<>(userSkillRepository.findByUser(id), HttpStatus.OK);
     }
 
