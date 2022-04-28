@@ -1,6 +1,8 @@
 package com.accolite.intervieworganiser.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,21 +21,27 @@ public class User {
     private Integer id;
 
     @Column(name = "username", nullable = false)
+    @NotEmpty(message = "Please provide username")
     private String username;
 
     @Column(name = "password", nullable = false)
+    @NotEmpty(message = "Please provide password")
     private String password;
 
     @Column(name = "email", nullable = false, length = 80)
+    @NotEmpty(message = "Please provide email")
+    @Email(message = "Please provide a valid email")
     private String email;
 
     @Column(name = "mobile")
     private Long mobile;
 
     @Column(name = "name", nullable = false, length = 30)
+    @NotEmpty(message = "Please provide name")
     private String name;
 
     @Column(name = "business_title", nullable = false, length = 30)
+    @NotEmpty(message = "Please provide business title")
     private String businessTitle;
 
     @Column(name = "account", length = 225)

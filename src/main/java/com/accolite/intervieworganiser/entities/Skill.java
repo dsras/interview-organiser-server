@@ -44,4 +44,10 @@ public class Skill {
     public String getSkillLevel() {
         return skillLevel;
     }
+
+    public Skill(){}
+    public Skill(String skillName, String skillLevel){
+        this.skillName=skillName;
+        this.skillLevel=skillLevel;
+    }
 }
