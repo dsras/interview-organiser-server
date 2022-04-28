@@ -42,7 +42,7 @@ class UserServiceTest {
     @Mock
     UserSkillService userSkillService;
 
-    UserService service;
+    UserService userService;
 
     final String username = "testuser@accolitedigital.com";
     final String password = "testPassword";
@@ -57,7 +57,7 @@ class UserServiceTest {
 
     @BeforeEach
     void initUseCase() {
-        service = new UserService(repository, roleService, availabilityService, userSkillService);
+        userService = new UserService(repository, roleService, availabilityService, userSkillService);
     }
 
     @Test
@@ -67,7 +67,7 @@ class UserServiceTest {
         /* return this user to mock repository layer saving user */
         when(repository.save(any(User.class))).thenReturn(newUser);
         /* ensure service saved new user correctly */
-        assertThat(service.save(newUser).getUsername()).isEqualTo(username);
+        assertThat(userService.save(newUser).getUsername()).isEqualTo(username);
     }
 
     @Test
@@ -80,7 +80,7 @@ class UserServiceTest {
         LoginUser user = new LoginUser();
         user.setUsername(username);
         /* ensure service correctly checks if user exists by username */
-        assertThat(service.checkIfUserExists(user)).isTrue();
+        assertThat(userService.checkIfUserExists(user)).isTrue();
     }
 
     @Test
@@ -90,7 +90,7 @@ class UserServiceTest {
         /* return this user to mock repository layer getting user by username */
         when(repository.getByUsername(any(String.class))).thenReturn(newUser);
         /* ensure service correctly gets user by username */
-        UserDetails user = service.loadUserByUsername(username);
+        UserDetails user = userService.loadUserByUsername(username);
         assertThat(user.getUsername()).isEqualTo(username);
     }
 
@@ -108,7 +108,7 @@ class UserServiceTest {
         /* return this list to mock repository layer getting roles */
         when(repository.getRolesByUsername(any(String.class))).thenReturn(roles);
         /* ensure service correctly returns list of authorities */
-        assertThat(service.getAuthority(newUser)).isEqualTo(authorities);
+        assertThat(userService.getAuthority(newUser)).isEqualTo(authorities);
     }
 
     @Test
@@ -132,6 +132,6 @@ class UserServiceTest {
         /* new findInterviewers request */
         FindInterviewersRequest request = new FindInterviewersRequest(date, date2, startTime, endTime,skillIds);
         /* ensure service correctly return list of availabilities */
-        assertThat(service.getAvailableInterviewers(request)).isEqualTo(availabilities);
+        assertThat(userService.getAvailableInterviewers(request)).isEqualTo(availabilities);
     }
 }

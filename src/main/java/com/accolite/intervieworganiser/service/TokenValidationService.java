@@ -20,9 +20,9 @@ public class TokenValidationService {
     /**
      * verify the token validity
      *
-     * @param userName
-     * @param token
-     * @return
+     * @param userName the user's username
+     * @param token the token
+     * @return boolean indicating validity of token
      */
     public boolean isTokenValid(String userName, String token) {
         GoogleIdToken idTokenVerified = null;
@@ -36,10 +36,10 @@ public class TokenValidationService {
     }
 
     /**
-     * method to fetch the token payload
+     * Fetch the token payload.
      *
-     * @param token
-     * @return
+     * @param token the token
+     * @return a verified google token
      * @throws Exception
      */
     public GoogleIdToken getTokenPayload(String token) throws Exception {
@@ -55,19 +55,19 @@ public class TokenValidationService {
         return idTokenVerified;
     }
 
-    /**
-     * This method fetch email from google token payload by calling google verify
-     * token Api
-     *
-     * @param token
-     * @return
-     */
-    public String getEmailFromToken(String token) {
-        try {
-            return getTokenPayload(token).getPayload().getEmail();
-
-        } catch (Exception ex) {
-            throw new InvalidTokenException();
-        }
-    }
+//    /**
+//     * Fetches the email from the Google token payload by calling google verify
+//     * token Api.
+//     *
+//     * @param token the token
+//     * @return the email from the token
+//     */
+//    public String getEmailFromToken(String token) {
+//        try {
+//            return getTokenPayload(token).getPayload().getEmail();
+//
+//        } catch (Exception ex) {
+//            throw new InvalidTokenException();
+//        }
+//    }
 }

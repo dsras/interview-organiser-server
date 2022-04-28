@@ -9,13 +9,17 @@ import java.util.List;
 public class InterviewRequestWrapper {
 
     private InterviewRequest interviewRequest;
-    private User user;
+    private User user; //organiser
 
     public InterviewRequestWrapper(InterviewRequest request, User user){
         this.interviewRequest=request;
         this.user = user;
     }
 
+    /**
+     *
+     * @return the interview organiser
+     */
     public User getUser(){
         return user;
     }

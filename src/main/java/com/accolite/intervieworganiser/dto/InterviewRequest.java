@@ -27,6 +27,13 @@ public class InterviewRequest {
     @JsonProperty("additional_info")
     private String info;
 
+    public InterviewRequest(LocalDate date, LocalTime startTime, LocalTime endTime, List<Integer> interviewerIds){
+        this.date=date;
+        this.startTime=startTime;
+        this.endTime=endTime;
+        this.interviewerIds=interviewerIds;
+    }
+
     public List<Integer> getInterviewerIds() {
         return interviewerIds;
     }

@@ -27,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -107,7 +108,7 @@ public class UserController {
      * @return the new user's ID
      */
     @PostMapping("/register")
-    public ResponseEntity<Integer> saveUser(@RequestBody User user) {
+    public ResponseEntity<Integer> saveUser(@Valid @RequestBody User user) {
         return new ResponseEntity<>(userService.save(user).getId(), HttpStatus.CREATED);
     }
 
