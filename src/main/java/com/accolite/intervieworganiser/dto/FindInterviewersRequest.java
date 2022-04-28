@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -19,17 +20,26 @@ to accept request for available interviewers
 public class FindInterviewersRequest {
 
     @JsonProperty("start_date")
+    @NotEmpty(message = "Please provide start date")
     private LocalDate startDate;
+
     @JsonProperty("end_date")
+    @NotEmpty(message = "Please provide end date")
     private LocalDate endDate;
+
     @JsonProperty("start_time")
     @JsonFormat(pattern = "HH:mm")
+    @NotEmpty(message = "Please provide start time")
     private LocalTime startTime;
+
     @JsonProperty("end_time")
     @JsonFormat(pattern = "HH:mm")
+    @NotEmpty(message = "Please provide end time")
     private LocalTime endTime;
+
     @JsonProperty("skills")
     private List<Integer> skills;
+
     public FindInterviewersRequest() {}
     public FindInterviewersRequest(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, List<Integer> skillIds) {
         this.startDate = startDate;

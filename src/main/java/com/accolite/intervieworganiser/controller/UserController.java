@@ -121,7 +121,7 @@ public class UserController {
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
     @GetMapping("/findUser")
     public List getUserDetails(@RequestParam("username") String username){
-        User initialUser = userService.getUserDetailsByUsername(getPrincipalUsername());
+        User initialUser = userService.getUserDetailsByUsername(username);
         List newUser = new ArrayList();
         newUser.add(initialUser.getId());
         newUser.add(initialUser.getUsername());
@@ -155,8 +155,8 @@ public class UserController {
      * @return newSkillId
      */
     @PostMapping("/addSkill")
-    public Integer newSkill(@RequestBody Integer newSkillId){
-        userSkillService.save(new UserSkill(userService.findOne(getPrincipalUsername()),
+    public Integer newSkill(@RequestBody Integer newSkillId, @RequestParam("username") String username){
+        userSkillService.save(new UserSkill(userService.findOne(username),
                 skillService.getById(newSkillId)));
         return newSkillId;
     }
