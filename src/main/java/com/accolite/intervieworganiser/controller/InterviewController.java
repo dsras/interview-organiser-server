@@ -57,8 +57,7 @@ public class InterviewController {
      */
     @GetMapping("/findByInterviewer")
     public ResponseEntity<List<InterviewResponse>> findByInterviewer(@RequestParam("username") String username){
-        return new ResponseEntity<>(interviewService.findByInterviewer
-                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+        return new ResponseEntity<>(interviewService.findByInterviewer(userService.findOne(username)), HttpStatus.OK);
     }
 
     /**
