@@ -11,36 +11,43 @@ import java.time.LocalTime;
 import java.util.List;
 
 
-/*
-request model
-to accept request for available interviewers
+/**
+ * Stores information about a request for interviewer(s) with specified availability and skills.
+ * <p>Interview/availability data transfer object that stores date and time range during which
+ * recruiter would like to create an interview, as well as list of skill IDs required of interviewer(s).</p>
  */
 @Getter
 @Setter
 public class FindInterviewersRequest {
 
     @JsonProperty("start_date")
-    @NotEmpty(message = "Please provide start date")
     private LocalDate startDate;
 
     @JsonProperty("end_date")
-    @NotEmpty(message = "Please provide end date")
     private LocalDate endDate;
 
     @JsonProperty("start_time")
     @JsonFormat(pattern = "HH:mm")
-    @NotEmpty(message = "Please provide start time")
     private LocalTime startTime;
 
     @JsonProperty("end_time")
     @JsonFormat(pattern = "HH:mm")
-    @NotEmpty(message = "Please provide end time")
     private LocalTime endTime;
 
     @JsonProperty("skills")
     private List<Integer> skills;
 
     public FindInterviewersRequest() {}
+
+    /**
+     * Parameterised constructor.
+     *
+     * @param startDate the start date of date range
+     * @param endDate the end date of date range
+     * @param startTime the start time of time range
+     * @param endTime the end time of time range
+     * @param skillIds the list of skill IDs indicating skills required by interviewer(s)
+     */
     public FindInterviewersRequest(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, List<Integer> skillIds) {
         this.startDate = startDate;
         this.endDate = endDate;
@@ -49,9 +56,46 @@ public class FindInterviewersRequest {
         this.skills=skillIds;
     }
 
-    public LocalTime getStartTime(){return startTime;}
-    public LocalTime getEndTime(){return endTime;}
-    public LocalDate getStartDate(){return startDate;}
-    public LocalDate getEndDate(){return endDate;}
+    /**
+     * Gets start time of time range.
+     *
+     * @return the start time
+     */
+    public LocalTime getStartTime(){
+        return startTime;
+    }
+
+    /**
+     * Gets the end time of time range.
+     *
+     * @return the end time
+     */
+    public LocalTime getEndTime(){
+        return endTime;
+    }
+
+    /**
+     * Gets the start date of date range.
+     *
+     * @return the start date
+     */
+    public LocalDate getStartDate(){
+        return startDate;
+    }
+
+    /**
+     * Gets the end date of date range.
+     *
+     * @return the end date
+     */
+    public LocalDate getEndDate(){
+        return endDate;
+    }
+
+    /**
+     * Gets the list of skill IDs required by interviewer(s).
+     *
+     * @return the list of skill IDs
+     */
     public List<Integer> getSkills(){return skills;}
 }

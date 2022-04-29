@@ -7,9 +7,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 /**
- * Wraps availability request with interviewer.
+ * Wraps {@link AvailabilityRequest} request with interviewer, a {@link User}.
+ * <p>Availability data tranfer object that stores availability and interviewer information.</p>
  */
-public class AvailabilityRequestWrapper {
+public class AvailabilityWrapper {
 
     private AvailabilityRequest availabilityRequest;
     private User interviewer;
@@ -20,7 +21,7 @@ public class AvailabilityRequestWrapper {
      * @param request the interviewer's availability request
      * @param interviewer the interviewer
      */
-    public AvailabilityRequestWrapper(AvailabilityRequest request, User interviewer){
+    public AvailabilityWrapper(AvailabilityRequest request, User interviewer){
         this.availabilityRequest=request;
         this.interviewer = interviewer;
     }

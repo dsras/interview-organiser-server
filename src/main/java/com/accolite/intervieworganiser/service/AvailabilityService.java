@@ -1,12 +1,12 @@
 package com.accolite.intervieworganiser.service;
 
+import com.accolite.intervieworganiser.dto.AvailabilityWrapper;
 import com.accolite.intervieworganiser.dto.FindInterviewersRequest;
 import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.log.LoggingServiceImpl;
 import com.accolite.intervieworganiser.repository.AvailabilityRepository;
 import com.accolite.intervieworganiser.dto.InterviewRequestWrapper;
 import com.accolite.intervieworganiser.entities.UserAvailability;
-import com.accolite.intervieworganiser.dto.AvailabilityRequestWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class AvailabilityService{
     }
 
     /* create new availability */
-    public List<UserAvailability> save(AvailabilityRequestWrapper newAvailability) {
+    public List<UserAvailability> save(AvailabilityWrapper newAvailability) {
         List<UserAvailability> newAvailabilities = new ArrayList<>();
         User user = newAvailability.getInterviewer();
         LocalDate startDate = newAvailability.getStartDate();

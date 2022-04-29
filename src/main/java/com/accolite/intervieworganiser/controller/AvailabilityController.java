@@ -1,10 +1,10 @@
 package com.accolite.intervieworganiser.controller;
 
 import com.accolite.intervieworganiser.dto.AvailabilityRequest;
+import com.accolite.intervieworganiser.dto.AvailabilityWrapper;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.service.AvailabilityService;
 import com.accolite.intervieworganiser.service.UserService;
-import com.accolite.intervieworganiser.dto.AvailabilityRequestWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +44,7 @@ public class AvailabilityController {
      */
     @PostMapping("/new")
     public List<UserAvailability> newAvailability(@RequestBody AvailabilityRequest availability) {
-        AvailabilityRequestWrapper newAvailability = new AvailabilityRequestWrapper(availability,
+        AvailabilityWrapper newAvailability = new AvailabilityWrapper(availability,
                 userService.findOne(getPrincipalUsername()));
         return availabilityService.save(newAvailability);
     }

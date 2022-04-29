@@ -1,7 +1,7 @@
 package com.accolite.intervieworganiser.service;
 
 import com.accolite.intervieworganiser.dto.AvailabilityRequest;
-import com.accolite.intervieworganiser.dto.AvailabilityRequestWrapper;
+import com.accolite.intervieworganiser.dto.AvailabilityWrapper;
 import com.accolite.intervieworganiser.dto.InterviewRequest;
 import com.accolite.intervieworganiser.dto.InterviewRequestWrapper;
 import com.accolite.intervieworganiser.entities.User;
@@ -66,14 +66,14 @@ class AvailabilityServiceTest {
         /* new availability request containing 2 days of availability */
         AvailabilityRequest availabilityRequest = new AvailabilityRequest(startDate, endDate, startTime, endTime);
         /* new availability request wrapper to include user placing request */
-        AvailabilityRequestWrapper availabilityRequestWrapper = new AvailabilityRequestWrapper(availabilityRequest, user);
+        AvailabilityWrapper availabilityWrapper = new AvailabilityWrapper(availabilityRequest, user);
         /* mock repository saving availability */
         when(availabilityRepository.save(any(UserAvailability.class))).thenAnswer(i -> i.getArgument(0));
         /* save availability request containing 2 days of availability */
-        List<UserAvailability> availabilities = availabilityService.save(availabilityRequestWrapper);
+        List<UserAvailability> availabilities = availabilityService.save(availabilityWrapper);
         /* ensure services correctly saves availabilities for 2 days */
-        assertThat(availabilityService.save(availabilityRequestWrapper).get(0).getAvailableDate()).isEqualTo(startDate);
-        assertThat(availabilityService.save(availabilityRequestWrapper).get(1).getAvailableDate()).isEqualTo(endDate);
+        assertThat(availabilityService.save(availabilityWrapper).get(0).getAvailableDate()).isEqualTo(startDate);
+        assertThat(availabilityService.save(availabilityWrapper).get(1).getAvailableDate()).isEqualTo(endDate);
     }
 
     /**

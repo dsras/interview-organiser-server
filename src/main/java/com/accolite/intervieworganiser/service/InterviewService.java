@@ -62,7 +62,7 @@ public class InterviewService {
         List<User> interviewers = wrapper.getInterviewerIds().stream()
                 .map(x -> userService.getById(x))
                 .collect(Collectors.toList());
-        Interview interview = new Interview(wrapper.getUser(), wrapper.getDate(),
+        Interview interview = new Interview(wrapper.getOrganiser(), wrapper.getDate(),
                 wrapper.getStartTime(), wrapper.getEndTime(), info);
         interview = interviewRepository.save(interview);
 
