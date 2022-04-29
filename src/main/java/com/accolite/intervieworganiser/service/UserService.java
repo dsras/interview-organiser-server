@@ -47,13 +47,13 @@ public class UserService implements UserDetailsService{
         this.userSkillService=userSkillService;
     }
 
-    /* get qualified Interviewers available for Interview */
-    public List<User> getAvailableUsers(FindInterviewersRequest findInterviewersRequest){
-    /* finds interviewers that
-        (1) have these skills
-        (2) have availability on this date between these times */
-        return userRepository.getAvailableUser(findInterviewersRequest);
-    }
+//    /* get qualified Interviewers available for Interview */
+//    public List<User> getAvailableUsers(FindInterviewersRequest findInterviewersRequest){
+//    /* finds interviewers that
+//        (1) have these skills
+//        (2) have availability on this date between these times */
+//        return userRepository.getAvailableUser(findInterviewersRequest);
+//    }
 
     /* check if user exists */
     public boolean checkIfUserExists(LoginUser loginUser){

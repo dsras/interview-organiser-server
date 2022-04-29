@@ -21,6 +21,13 @@ public class Skill {
     @Column(name = "skill_level", nullable = false, length = 30)
     private String skillLevel;
 
+    public Skill(String skillName, String skillLevel) {
+        this.skillName = skillName;
+        this.skillLevel = skillLevel;
+    }
+
+    public Skill(){}
+
     /**
      *
      * @return the skill ID

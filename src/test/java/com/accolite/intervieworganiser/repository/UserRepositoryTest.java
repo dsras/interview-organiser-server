@@ -1,13 +1,17 @@
 package com.accolite.intervieworganiser.repository;
 
+import com.accolite.intervieworganiser.dto.FindInterviewersRequest;
 import com.accolite.intervieworganiser.entities.Role;
 import com.accolite.intervieworganiser.entities.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 @DataJpaTest
@@ -25,10 +29,17 @@ class UserRepositoryTest {
     final String name = "Test User";
     final String title = "Test Business Title";
 
+    User newUser;
+
+    @BeforeEach
+    void setUp() {
+        newUser = new User(username, password, email, name, title);
+    }
+
     @Test
     void testSaveUser() {
         /* save new user */
-        repository.save(new User(username, password, email, name, title));
+        repository.save(newUser);
         /* ensure repository correctly gets user by username */
         User user = repository.getByUsername(username);
         assertThat(user.getName()).isEqualTo(name);
@@ -37,16 +48,32 @@ class UserRepositoryTest {
     @Test
     void testGetByEmail(){
         /* save new user */
-        repository.save(new User(username, password, email, name, title));
+        repository.save(newUser);
         /* ensure repository correctly gets user by email */
         User user = repository.getByEmail(email);
         assertThat(user.getName()).isEqualTo(name);
     }
 
     @Test
+    void getByUsername(){
+        /* save new user */
+        repository.save(newUser);
+        /* ensure repository correctly gets user by email */
+        User user = repository.getByUsername(username);
+        assertThat(user.getName()).isEqualTo(name);
+    }
+
+    @Test
+    void getUserDetailsByUsername(){
+        /* save new user */
+        repository.save(newUser);
+        /* ensure repository correctly gets user by email */
+        User user = repository.getByUsername(username);
+        assertThat(user.getName()).isEqualTo(name);
+    }
+
+    @Test
     void testGetById(){
-        /* new user */
-        User newUser = new User(username, password, email, name, title);
         /* save user */
         User savedUser = repository.save(newUser);
         Integer id = savedUser.getId();
@@ -57,8 +84,6 @@ class UserRepositoryTest {
 
     @Test
     void testGetRolesByUsername(){
-        /* new user */
-        User newUser = new User(username, password, email, name, title);
         /* list of roles assigned to user */
         Role userRole = new Role();
         userRole.setName("User");

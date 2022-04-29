@@ -13,6 +13,10 @@ public class SkillService {
     @Autowired
     private SkillRepository skillRepository;
 
+    public SkillService(SkillRepository skillRepository) {
+        this.skillRepository = skillRepository;
+    }
+
     /* get skill by ID */
     public Skill getById(Integer id){
         return skillRepository.getById(id);

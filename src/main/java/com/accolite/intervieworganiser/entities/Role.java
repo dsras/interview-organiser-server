@@ -24,6 +24,15 @@ public class Role {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     private Set<User> users;
 
+    public Role(String description, String name) {
+        this.description = description;
+        this.name = name;
+    }
+
+    public Role() {
+
+    }
+
     /**
      *
      * @return the role name

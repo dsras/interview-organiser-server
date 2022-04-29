@@ -45,6 +45,14 @@ public class Interview {
     @OneToMany(mappedBy = "interview")
     private Set<InterviewPanel> interviewPanel = new LinkedHashSet<>();
 
+    public Interview(User organiser, LocalDate interviewDate, LocalTime timeStart, LocalTime timeEnd) {
+        this.organiser = organiser;
+        this.interviewDate = interviewDate;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.status = status;
+    }
+
     /**
      * @return the interview id
      */

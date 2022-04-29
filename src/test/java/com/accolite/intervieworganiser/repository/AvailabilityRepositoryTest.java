@@ -1,5 +1,6 @@
 package com.accolite.intervieworganiser.repository;
 
+import com.accolite.intervieworganiser.dto.FindInterviewersRequest;
 import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.repository.AvailabilityRepository;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,8 +34,17 @@ class AvailabilityRepositoryTest {
     final String title = "Test Business Title";
 
     final LocalDate date = LocalDate.of(2022, 5, 3);
+    final LocalDate startDate = LocalDate.of(2022, 5,3);
+    final LocalDate endDate = LocalDate.of(2022,5,6);
     final LocalTime startTime = LocalTime.of(10,0);
     final LocalTime endTime = LocalTime.of(11,0);
+
+    final List<User> userIds = Arrays.asList();
+
+    @Test
+    void getAvailableInterviewers() {
+        /*new interview request*/
+    }
 
     @Test
     void testSaveAvailability() {
