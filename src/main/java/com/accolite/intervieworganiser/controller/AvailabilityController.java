@@ -1,10 +1,10 @@
 package com.accolite.intervieworganiser.controller;
 
 import com.accolite.intervieworganiser.dto.AvailabilityRequest;
+import com.accolite.intervieworganiser.dto.AvailabilityWrapper;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.service.AvailabilityService;
 import com.accolite.intervieworganiser.service.UserService;
-import com.accolite.intervieworganiser.dto.AvailabilityRequestWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +44,8 @@ public class AvailabilityController {
      */
     @PostMapping("/new")
     public List<UserAvailability> newAvailability(@RequestBody AvailabilityRequest availability) {
-        AvailabilityRequestWrapper newAvailability = new AvailabilityRequestWrapper(availability,
-                userService.findOne(getPrincipalUsername()));
+        AvailabilityWrapper newAvailability = new AvailabilityWrapper(availability,
+                userService.findOne("thorfinn.manson@accolitedigital.com"));
         return availabilityService.save(newAvailability);
     }
 
@@ -55,8 +55,8 @@ public class AvailabilityController {
      * @return a list of user's availability
      */
     @GetMapping("/find")
-    public ResponseEntity<List<UserAvailability>> getUserAvailability(){
-        return new ResponseEntity<>(availabilityService.getUserAvailability(getPrincipalUsername()), HttpStatus.OK);
+    public ResponseEntity<List<UserAvailability>> getUserAvailability(@RequestParam("username") String username){
+        return new ResponseEntity<>(availabilityService.getUserAvailability(username), HttpStatus.OK);
     }
 
     /**

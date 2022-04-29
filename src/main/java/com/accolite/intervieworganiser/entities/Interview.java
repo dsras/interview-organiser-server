@@ -1,6 +1,7 @@
 package com.accolite.intervieworganiser.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.LinkedHashSet;

@@ -27,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -107,7 +108,7 @@ public class UserController {
      * @return the new user's ID
      */
     @PostMapping("/register")
-    public ResponseEntity<Integer> saveUser(@RequestBody User user) {
+    public ResponseEntity<Integer> saveUser(@Valid @RequestBody User user) {
         return new ResponseEntity<>(userService.save(user).getId(), HttpStatus.CREATED);
     }
 
@@ -119,8 +120,8 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
     @GetMapping("/findUser")
-    public List getUserDetails(){
-        User initialUser = userService.getUserDetailsByUsername(getPrincipalUsername());
+    public List getUserDetails(@RequestParam("username") String username){
+        User initialUser = userService.getUserDetailsByUsername(username);
         List newUser = new ArrayList();
         newUser.add(initialUser.getId());
         newUser.add(initialUser.getUsername());
@@ -142,8 +143,8 @@ public class UserController {
      * @return list of user's skills
      */
     @GetMapping("/findSkills")
-    public ResponseEntity<List<Skill>> findSkill(){
-        Integer id = userService.findOne(getPrincipalUsername()).getId();
+    public ResponseEntity<List<Skill>> findSkill(@RequestParam("username") String username){
+        Integer id = userService.findOne(username).getId();
         return new ResponseEntity<>(userSkillRepository.findByUser(id), HttpStatus.OK);
     }
 
@@ -154,8 +155,8 @@ public class UserController {
      * @return newSkillId
      */
     @PostMapping("/addSkill")
-    public Integer newSkill(@RequestBody Integer newSkillId){
-        userSkillService.save(new UserSkill(userService.findOne(getPrincipalUsername()),
+    public Integer newSkill(@RequestBody Integer newSkillId, @RequestParam("username") String username){
+        userSkillService.save(new UserSkill(userService.findOne(username),
                 skillService.getById(newSkillId)));
         return newSkillId;
     }

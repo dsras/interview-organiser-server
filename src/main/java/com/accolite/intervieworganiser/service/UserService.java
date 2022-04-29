@@ -47,14 +47,6 @@ public class UserService implements UserDetailsService{
         this.userSkillService=userSkillService;
     }
 
-//    /* get qualified Interviewers available for Interview */
-//    public List<User> getAvailableUsers(FindInterviewersRequest findInterviewersRequest){
-//    /* finds interviewers that
-//        (1) have these skills
-//        (2) have availability on this date between these times */
-//        return userRepository.getAvailableUser(findInterviewersRequest);
-//    }
-
     /* check if user exists */
     public boolean checkIfUserExists(LoginUser loginUser){
         User user = findOne(loginUser.getUsername());
@@ -121,10 +113,6 @@ public class UserService implements UserDetailsService{
     /* get user details by username */
     public User getUserDetailsByUsername(String username){
         return userRepository.getUserDetailsByUsername(username);
-    }
-
-    public Integer getUserIdByUsername(String username){
-        return userRepository.getUserIdByUsername(username);
     }
 
     /* get users with required skills available for interview time */

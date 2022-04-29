@@ -56,9 +56,8 @@ public class InterviewController {
      * @return a list of all interviews the interviewer was/is on panel for
      */
     @GetMapping("/findByInterviewer")
-    public ResponseEntity<List<InterviewResponse>> findByInterviewer(){
-        return new ResponseEntity<>(interviewService.findByInterviewer
-                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+    public ResponseEntity<List<InterviewResponse>> findByInterviewer(@RequestParam("username") String username){
+        return new ResponseEntity<>(interviewService.findByInterviewer(userService.findOne(username)), HttpStatus.OK);
     }
 
     /**
@@ -67,9 +66,9 @@ public class InterviewController {
      * @return a list of all interviews the recruiter organised
      */
     @GetMapping("/findByRecruiter")
-    public ResponseEntity<List<InterviewResponse>> findByRecruiter(){
+    public ResponseEntity<List<InterviewResponse>> findByRecruiter(@RequestParam("username") String username){
         return new ResponseEntity<>(interviewService.findByRecruiter
-                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+                (userService.findOne(username)), HttpStatus.OK);
     }
 
     /**
@@ -88,9 +87,9 @@ public class InterviewController {
      * @return the number confirmed interviews that the interviewer was on panel for
      */
     @GetMapping("/findCompleted")
-    public ResponseEntity<Integer> findCompleted(){
+    public ResponseEntity<Integer> findCompleted(@RequestParam("username") String username){
         return new ResponseEntity<>(interviewService.findCompleted
-                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+                (userService.findOne(username)), HttpStatus.OK);
     }
 
     /**

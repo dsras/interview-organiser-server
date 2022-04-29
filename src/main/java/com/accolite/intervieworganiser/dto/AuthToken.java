@@ -1,7 +1,7 @@
 package com.accolite.intervieworganiser.dto;
 
-/*
-provides access to token
+/**
+ * Wraps token string.
  */
 public class AuthToken {
     private String token;
