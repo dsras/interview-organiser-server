@@ -8,23 +8,21 @@ import java.time.LocalTime;
 
 /**
  * Stores information about new availabilities with set time range over one or more days.
+ * <p>Availability data transfer object that stores information about a range of availabilities
+ * provided in one request.</p>
  */
 public class AvailabilityRequest {
 
     @JsonProperty("start_date")
-    @NotEmpty(message = "Please provide availability start date")
     private LocalDate startDate;
 
     @JsonProperty("end_date")
-    @NotEmpty(message = "Please provide availability end date")
     private LocalDate endDate;
 
     @JsonProperty("start_time")
-    @NotEmpty(message = "Please provide availability start time")
     private LocalTime startTime;
 
     @JsonProperty("end_time")
-    @NotEmpty(message = "Please provide availability end time")
     private LocalTime endTime;
 
     /**
