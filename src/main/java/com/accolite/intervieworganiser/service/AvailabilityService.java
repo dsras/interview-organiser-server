@@ -42,7 +42,7 @@ public class AvailabilityService{
     /* create new availability */
     public List<UserAvailability> save(AvailabilityRequestWrapper newAvailability) {
         List<UserAvailability> newAvailabilities = new ArrayList<>();
-        User user = newAvailability.getUser();
+        User user = newAvailability.getInterviewer();
         LocalDate startDate = newAvailability.getStartDate();
         LocalDate endDate = newAvailability.getEndDate();
         LocalTime startTime = newAvailability.getStartTime();

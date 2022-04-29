@@ -1,6 +1,7 @@
 package com.accolite.intervieworganiser.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 /**
@@ -16,9 +17,11 @@ public class Role {
     private Integer id;
 
     @Column(name = "description", nullable = false, length = 300)
+    @NotEmpty(message = "Please provide role description")
     private String description;
 
     @Column(name = "role_name", nullable = false, length = 100)
+    @NotEmpty(message = "Please provide role name")
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")

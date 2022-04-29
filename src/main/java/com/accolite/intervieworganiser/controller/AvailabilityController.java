@@ -55,8 +55,8 @@ public class AvailabilityController {
      * @return a list of user's availability
      */
     @GetMapping("/find")
-    public ResponseEntity<List<UserAvailability>> getUserAvailability(){
-        return new ResponseEntity<>(availabilityService.getUserAvailability(getPrincipalUsername()), HttpStatus.OK);
+    public ResponseEntity<List<UserAvailability>> getUserAvailability(@RequestParam("username") String username){
+        return new ResponseEntity<>(availabilityService.getUserAvailability(username), HttpStatus.OK);
     }
 
     /**
