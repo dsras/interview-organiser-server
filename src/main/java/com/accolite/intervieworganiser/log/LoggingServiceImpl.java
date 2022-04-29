@@ -13,12 +13,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+/**
+ * Concrete logging service to log HTTP requests and responses.
+ */
 @Component
 @Log
 public class LoggingServiceImpl implements LoggingService {
 
     Logger logger = LoggerFactory.getLogger(LoggingServiceImpl.class);
 
+    /**
+     * Logs requests.
+     * <p>Logs request method, path, headers, parameters (if applicable) & body (if applicable).</p>
+     *
+     * @param httpServletRequest the incoming request
+     * @param body the request body
+     */
     @Override
     public void logRequest(HttpServletRequest httpServletRequest, Object body) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -40,6 +50,13 @@ public class LoggingServiceImpl implements LoggingService {
         logger.info(stringBuilder.toString());
     }
 
+    /**
+     * Logs responses.
+     * <p>Logs response method, path, header and body.</p>
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param body
+     */
     @Override
     public void logResponse(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object body) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -53,6 +70,12 @@ public class LoggingServiceImpl implements LoggingService {
         logger.info(stringBuilder.toString());
     }
 
+    /**
+     * Gets parameters from request.
+     *
+     * @param httpServletRequest the incoming request
+     * @return a map of parameter names and values
+     */
     private Map<String, String> buildParametersMap(HttpServletRequest httpServletRequest) {
         Map<String, String> resultMap = new HashMap<>();
         Enumeration<String> parameterNames = httpServletRequest.getParameterNames();
@@ -66,6 +89,12 @@ public class LoggingServiceImpl implements LoggingService {
         return resultMap;
     }
 
+    /**
+     * Gets headers from request.
+     *
+     * @param request the incoming request
+     * @return a map of header names and values
+     */
     private Map<String, String> buildHeadersMap(HttpServletRequest request) {
         Map<String, String> map = new HashMap<>();
 
@@ -79,6 +108,12 @@ public class LoggingServiceImpl implements LoggingService {
         return map;
     }
 
+    /**
+     * Gets headers from response.
+     *
+     * @param response the outgoing response
+     * @return a map of header names and values
+     */
     private Map<String, String> buildHeadersMap(HttpServletResponse response) {
         Map<String, String> map = new HashMap<>();
 
