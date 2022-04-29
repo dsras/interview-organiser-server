@@ -45,7 +45,7 @@ public class AvailabilityController {
     @PostMapping("/new")
     public List<UserAvailability> newAvailability(@RequestBody AvailabilityRequest availability) {
         AvailabilityWrapper newAvailability = new AvailabilityWrapper(availability,
-                userService.findOne(getPrincipalUsername()));
+                userService.findOne("thorfinn.manson@accolitedigital.com"));
         return availabilityService.save(newAvailability);
     }
 

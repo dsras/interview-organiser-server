@@ -26,15 +26,12 @@ public class Interview {
     private User organiser;
 
     @Column(name = "interview_date", nullable = false)
-    @NotEmpty(message = "Please provide interview date")
     private LocalDate interviewDate;
 
     @Column(name = "time_start", nullable = false)
-    @NotEmpty(message = "Please provide interview start time")
     private LocalTime timeStart;
 
     @Column(name = "time_end", nullable = false)
-    @NotEmpty(message = "Please provide interview end time")
     private LocalTime timeEnd;
 
     @Column(name = "status", nullable = true)
