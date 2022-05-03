@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class InterviewController {
      * @return the interview newly added to the database
      */
     @PostMapping("/new")
-    public ResponseEntity<InterviewResponse> newInterview(@RequestBody InterviewRequest newInterview) {
+    public ResponseEntity<InterviewResponse> newInterview(@Valid @RequestBody InterviewRequest newInterview) {
         InterviewRequestWrapper wrapper = new InterviewRequestWrapper
                 (newInterview, userService.findOne(getPrincipalUsername()));
         return new ResponseEntity<>(interviewService.save(wrapper), HttpStatus.CREATED);
@@ -167,7 +168,7 @@ public class InterviewController {
      * @return the interview with newly updated status
      */
     @PostMapping("/updateStatus")
-    public ResponseEntity<InterviewResponse> updateStatus(@RequestBody InterviewUpdate statusUpdate){
+    public ResponseEntity<InterviewResponse> updateStatus(@Valid @RequestBody InterviewUpdate statusUpdate){
         return new ResponseEntity<>(interviewService.updateStatus
                 (statusUpdate.getUpdate(), statusUpdate.getInterviewId()), HttpStatus.OK);
     }
@@ -180,7 +181,7 @@ public class InterviewController {
      * @return the interview with the newly updated outcome
      */
     @PostMapping("/updateOutcome")
-    public ResponseEntity<InterviewResponse> updateOutcome(@RequestBody InterviewUpdate outcomeUpdate){
+    public ResponseEntity<InterviewResponse> updateOutcome(@Valid @RequestBody InterviewUpdate outcomeUpdate){
         return new ResponseEntity<>(interviewService.updateOutcome
                 (outcomeUpdate.getUpdate(), outcomeUpdate.getInterviewId()), HttpStatus.OK);
     }

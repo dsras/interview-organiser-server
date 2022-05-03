@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class AvailabilityController {
      * @return the newly saved availability
      */
     @PostMapping("/new")
-    public List<UserAvailability> newAvailability(@RequestBody AvailabilityRequest availability) {
+    public List<UserAvailability> newAvailability(@Valid @RequestBody AvailabilityRequest availability) {
         AvailabilityWrapper newAvailability = new AvailabilityWrapper(availability,
                 userService.findOne("thorfinn.manson@accolitedigital.com"));
         return availabilityService.save(newAvailability);

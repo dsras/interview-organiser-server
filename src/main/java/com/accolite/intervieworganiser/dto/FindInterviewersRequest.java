@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -21,20 +22,25 @@ import java.util.List;
 public class FindInterviewersRequest {
 
     @JsonProperty("start_date")
+    @NotNull(message = "Please provide a start date")
     private LocalDate startDate;
 
     @JsonProperty("end_date")
+    @NotNull(message = "Please provide an end date")
     private LocalDate endDate;
 
     @JsonProperty("start_time")
     @JsonFormat(pattern = "HH:mm")
+    @NotNull(message = "Please provide a start time")
     private LocalTime startTime;
 
     @JsonProperty("end_time")
     @JsonFormat(pattern = "HH:mm")
+    @NotNull(message = "Please provide an end time")
     private LocalTime endTime;
 
     @JsonProperty("skills")
+    @NotEmpty(message = "Please provide a list of required skill IDs")
     private List<Integer> skills;
 
     public FindInterviewersRequest() {}

@@ -3,6 +3,7 @@ package com.accolite.intervieworganiser.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -21,12 +22,15 @@ public class InterviewRequest {
     private List<Integer> interviewerIds;
 
     @JsonProperty("date")
+    @NotNull(message = "Please provide an interview date")
     private LocalDate date;
 
     @JsonProperty("start_time")
+    @NotNull(message = "Please provide an interview start time")
     private LocalTime startTime;
 
     @JsonProperty("end_time")
+    @NotNull(message = "Please provide an interview end times")
     private LocalTime endTime;
 
     @JsonProperty("additional_info")
