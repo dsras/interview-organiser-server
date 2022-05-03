@@ -9,19 +9,9 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/*
-represents an interview in a format easily received by front-end (with no need for retrieval of details based
-on user ID etc.)
-represents interview by:
-- interview ID
-- list of names of interviewers
-- name of organiser
-- name of applicant
-- name & level of skill being assessed
-- date
-- start time
-- end time
-- boolean indicating if interview has been confirmed to have taken place (0 => not confirmed)
+/**
+ * Wrapper for {@link Interview} object. Provides {@link com.accolite.intervieworganiser.entities.InterviewPanel}
+ * information.
  */
 public class InterviewResponse {
 
@@ -52,6 +42,12 @@ public class InterviewResponse {
     @JsonProperty("additional_info")
     private String info;
 
+    /**
+     * Parameterised constructor.
+     *
+     * @param interview the interviewer
+     * @param interviewerList list of interviewers on interview
+     */
     public InterviewResponse(Interview interview, List<User> interviewerList) {
         this.interviewId = interview.getId();
         this.organiser = interview.getOrganiser().getName();

@@ -107,9 +107,9 @@ public class InterviewService {
         return interviewRepository.findCompleted(user);
     }
 
-    /* find interviews with status 'Confirmed' organised by the recruiter */
+    /* find interviews with status 'Completed' organised by the recruiter */
     public List<InterviewResponse> findConfirmed(User user){
-        return getInterviewResponseList(interviewRepository.findStatus(user, "Confirmed"));
+        return getInterviewResponseList(interviewRepository.findStatus(user, "Completed"));
     }
 
     /* find interviews with status 'Candidate No Show' organised by the recruiter */

@@ -3,6 +3,7 @@ package com.accolite.intervieworganiser.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -14,15 +15,19 @@ import java.time.LocalTime;
 public class AvailabilityRequest {
 
     @JsonProperty("start_date")
+    @NotNull(message = "Please provide a start date")
     private LocalDate startDate;
 
     @JsonProperty("end_date")
+    @NotNull(message = "Please provide an end date")
     private LocalDate endDate;
 
     @JsonProperty("start_time")
+    @NotNull(message = "Please provide a start time")
     private LocalTime startTime;
 
     @JsonProperty("end_time")
+    @NotNull(message = "Please provide an end time")
     private LocalTime endTime;
 
     /**

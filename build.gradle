@@ -4,9 +4,22 @@ plugins {
 	id 'java'
 	id "io.beekeeper.gradle.plugin" version "0.10.1"
 	id 'jacoco'
+	id 'application'
 }
 
-group = 'com.au'
+/* To run class from command line */
+mainClassName = 'com.accolite.intervieworganiser.InterviewOrganiserApplication'
+
+/* To create a runnable jar  in GradleJavaProject\build\libs
+ * then java -jar GradleJavaProject.jar
+ */
+jar {
+	manifest {
+		attributes 'Main-Class': 'com.accolite.intervieworganiser.InterviewOrganiserApplication'
+	}
+}
+
+group = 'com.accolite'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
