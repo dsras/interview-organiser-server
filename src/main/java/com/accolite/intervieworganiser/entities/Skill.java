@@ -24,13 +24,6 @@ public class Skill {
     @NotEmpty(message = "Please provide skill level")
     private String skillLevel;
 
-    public Skill(String skillName, String skillLevel) {
-        this.skillName = skillName;
-        this.skillLevel = skillLevel;
-    }
-
-    public Skill(){}
-
     /**
      *
      * @return the skill ID
