@@ -69,6 +69,7 @@ public class AvailabilityService{
 
     /* get all availability */
     public List<UserAvailability> getAllAvailability(){
+        logger.info("Getting all availability"); //Example logging
         List<UserAvailability> availability = availabilityRepository.findAll();
         for (UserAvailability a : availability){
             a.setInterviewer();
