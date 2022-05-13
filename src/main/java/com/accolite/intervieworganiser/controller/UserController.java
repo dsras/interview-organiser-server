@@ -118,7 +118,7 @@ public class UserController {
      *
      * @return list of user details
      */
-    @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
+    @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
     @GetMapping("/findUser")
     public List getUserDetails(@RequestParam("username") String username){
         User initialUser = userService.getUserDetailsByUsername(username);
@@ -143,6 +143,7 @@ public class UserController {
      * @return list of user's skills
      */
     @GetMapping("/findSkills")
+    @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
     public ResponseEntity<List<Skill>> findSkill(@RequestParam("username") String username){
         Integer id = userService.findOne(username).getId();
         return new ResponseEntity<>(userSkillRepository.findByUser(id), HttpStatus.OK);
@@ -155,6 +156,7 @@ public class UserController {
      * @return newSkillId
      */
     @PostMapping("/addSkill")
+    @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
     public Integer newSkill(@RequestBody Integer newSkillId, @RequestParam("username") String username){
         userSkillService.save(new UserSkill(userService.findOne(username),
                 skillService.getById(newSkillId)));
@@ -170,6 +172,7 @@ public class UserController {
      * @return list of user availability
      */
     @PostMapping("/findInterviewers")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
     public ResponseEntity<List<UserAvailability>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
         return new ResponseEntity<>(userService.getAvailableInterviewers(findInterviewersRequest), HttpStatus.OK);
     }
