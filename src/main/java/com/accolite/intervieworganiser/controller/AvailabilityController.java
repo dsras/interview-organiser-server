@@ -8,6 +8,7 @@ import com.accolite.intervieworganiser.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,7 @@ public class AvailabilityController {
      * @return the newly saved availability
      */
     @PostMapping("/new")
+    @PreAuthorize("hasRole('USER')")
     public List<UserAvailability> newAvailability(@Valid @RequestBody AvailabilityRequest availability) {
         AvailabilityWrapper newAvailability = new AvailabilityWrapper(availability,
                 userService.findOne(getPrincipalUsername()));
@@ -56,6 +58,7 @@ public class AvailabilityController {
      * @return a list of user's availability
      */
     @GetMapping("/find")
+    @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
     public ResponseEntity<List<UserAvailability>> getUserAvailability(@RequestParam("username") String username){
         return new ResponseEntity<>(availabilityService.getUserAvailability(username), HttpStatus.OK);
     }
@@ -66,6 +69,7 @@ public class AvailabilityController {
      * @return list of all availability
      */
     @GetMapping("/findAll")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
     public ResponseEntity<List<UserAvailability>> getAllAvailability(){
         return new ResponseEntity<>(availabilityService.getAllAvailability(), HttpStatus.OK);
     }
@@ -78,6 +82,7 @@ public class AvailabilityController {
      * @return a list of all availability of users with all specified skill IDs
      */
     @GetMapping("/findBySkills")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
     public ResponseEntity<List<UserAvailability>> findBySkill(@RequestParam(name = "ids") List<Integer> skillIds){
         return new ResponseEntity<>(availabilityService.findBySkills(skillIds), HttpStatus.OK);
     }
