@@ -120,21 +120,8 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
     @GetMapping("/findUser")
-    public List getUserDetails(@RequestParam("username") String username){
-        User initialUser = userService.getUserDetailsByUsername(username);
-        List newUser = new ArrayList();
-        newUser.add(initialUser.getId());
-        newUser.add(initialUser.getUsername());
-        newUser.add(initialUser.getName());
-        newUser.add(initialUser.getMobile());
-        newUser.add(initialUser.getBusinessTitle());
-        newUser.add(initialUser.getAccount());
-        newUser.add(initialUser.getBusinessUnit());
-        newUser.add(initialUser.getDateOfJoining());
-        newUser.add(initialUser.getDesignation());
-        newUser.add(initialUser.getLocation());
-        newUser.add(initialUser.getPriorExperience());
-        return newUser;
+    public User getUserDetails(@RequestParam("username") String username){
+        return userService.getUserDetailsByUsername(username);
     }
 
     /**
