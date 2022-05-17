@@ -2,6 +2,7 @@ package com.accolite.intervieworganiser.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * Stores information about new {@link com.accolite.intervieworganiser.entities.Interview} status or outcome.
@@ -10,11 +11,11 @@ import javax.validation.constraints.NotEmpty;
 public class InterviewUpdate {
 
     @JsonProperty("interview_id")
-    @NotEmpty(message = "Please provide interview ID")
+    @NotNull(message = "Please provide interview ID")
     private Integer interviewId;
 
     @JsonProperty("update")
-    @NotEmpty(message = "Please provide start time")
+    @NotEmpty(message = "Please provide update")
     private String update;
 
     /**
@@ -33,5 +34,16 @@ public class InterviewUpdate {
      */
     public String getUpdate() {
         return update;
+    }
+
+    /**
+     * Parameterised constructor
+     *
+     * @param interviewId the interview ID
+     * @param update the updated status or outcome
+     */
+    public InterviewUpdate(Integer interviewId, String update){
+        this.interviewId=interviewId;
+        this.update=update;
     }
 }

@@ -5,6 +5,7 @@ import com.accolite.intervieworganiser.entities.User;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Wraps {@link InterviewRequest} with interview organiser, a {@link User}.
@@ -21,6 +22,8 @@ public class InterviewRequestWrapper {
      * @param organiser the interview organiser
      */
     public InterviewRequestWrapper(InterviewRequest request, User organiser){
+        Objects.requireNonNull(request, "InterviewRequest is required");
+        Objects.requireNonNull(organiser, "Organiser is required");
         this.interviewRequest=request;
         this.organiser = organiser;
     }

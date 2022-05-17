@@ -21,7 +21,7 @@ public interface InterviewRepository extends JpaRepository<Interview, Integer> {
     List<User> findInterviewers(@Param("id") Integer id);
 
     @Query("SELECT COUNT(i) FROM Interview i, InterviewPanel j WHERE i = j.interview " +
-            "and i.status = 'Completed' and j.interviewer = :user")
+            "and i.status = 'Confirmed' and j.interviewer = :user")
     Integer findCompleted(@Param("user") User user);
 
     @Query("SELECT i FROM Interview i WHERE i.status= :status " +

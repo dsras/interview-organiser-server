@@ -3,7 +3,6 @@ package com.accolite.intervieworganiser.service;
 import com.accolite.intervieworganiser.dto.AvailabilityWrapper;
 import com.accolite.intervieworganiser.dto.FindInterviewersRequest;
 import com.accolite.intervieworganiser.entities.User;
-import com.accolite.intervieworganiser.log.LoggingServiceImpl;
 import com.accolite.intervieworganiser.repository.AvailabilityRepository;
 import com.accolite.intervieworganiser.dto.InterviewRequestWrapper;
 import com.accolite.intervieworganiser.entities.UserAvailability;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +28,7 @@ public class AvailabilityService{
     @Autowired
     private UserSkillService userSkillService;
 
-    Logger logger = LoggerFactory.getLogger(LoggingServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(AvailabilityService.class);
 
     public AvailabilityService(AvailabilityRepository availabilityRepository, SkillService skillService,
                                UserSkillService userSkillService){
@@ -130,11 +128,12 @@ public class AvailabilityService{
         return availabilities;
     }
 
-    /* get interviewers available in time slot from list of qualified interviewers */
+    /* get interviewer availabilities in time slot from list of qualified interviewers */
     public List<UserAvailability> getAvailableInterviewers(List<User> users, FindInterviewersRequest request){
         /* get available interviewers */
         List<UserAvailability> availabilities = availabilityRepository.getAvailableInterviewers(users,
                 request.getStartDate(), request.getEndDate(), request.getStartTime(), request.getEndTime());
+
         /* assign interviewer attributes to availabilities */
         for (UserAvailability a : availabilities){
             a.setInterviewer();

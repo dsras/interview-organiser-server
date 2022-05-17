@@ -1,6 +1,7 @@
 package com.accolite.intervieworganiser.service;
 
 
+import com.accolite.intervieworganiser.dto.AvailabilityRequest;
 import com.accolite.intervieworganiser.dto.FindInterviewersRequest;
 import com.accolite.intervieworganiser.dto.LoginUser;
 import com.accolite.intervieworganiser.entities.Role;
@@ -18,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,6 +29,8 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -64,6 +68,11 @@ class UserServiceTest {
     void testSaveUser() {
         /* new user */
         User newUser = new User(username, password, email, name, title);
+        List<Role> roles = new ArrayList<>();
+        Role newRole = new Role();
+        newRole.setName("Test Role");
+        roles.add(newRole);
+        newUser.setRoles(roles);
         /* return this user to mock repository layer saving user */
         when(repository.save(any(User.class))).thenReturn(newUser);
         /* ensure service saved new user correctly */
@@ -92,6 +101,20 @@ class UserServiceTest {
         /* ensure service correctly gets user by username */
         UserDetails user = userService.loadUserByUsername(username);
         assertThat(user.getUsername()).isEqualTo(username);
+    }
+
+    @Test
+    void testLoadByUsernameNullUserThrowsException() {
+        /* assert creation throws null pointer when user is null */
+        /* mock repository layer getting null */
+        when(repository.getByUsername(any(String.class))).thenReturn(null);
+        /* ensure service correctly gets user by username */
+        Exception exception = assertThrows(UsernameNotFoundException.class, () ->
+                userService.loadUserByUsername(username));
+        /* assert correct error message */
+        String expectedMessage = "invalid username or password";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @Test

@@ -30,7 +30,7 @@ public class InterviewRequest {
     private LocalTime startTime;
 
     @JsonProperty("end_time")
-    @NotNull(message = "Please provide an interview end times")
+    @NotNull(message = "Please provide an interview end time")
     private LocalTime endTime;
 
     @JsonProperty("additional_info")
@@ -50,6 +50,8 @@ public class InterviewRequest {
         this.endTime=endTime;
         this.interviewerIds=interviewerIds;
     }
+
+    public InterviewRequest(){}
 
     /**
      * Gets list of IDs of interviewers on interview panel.

@@ -22,13 +22,21 @@ public class InterviewService {
     InterviewRepository interviewRepository;
 
     @Autowired
-    InterviewPanelRepository interviewInterviewerRepository;
+    InterviewPanelRepository interviewPanelRepository;
 
     @Autowired
     UserService userService;
 
     @Autowired
     AvailabilityService availabilityService;
+
+    public InterviewService(InterviewRepository interviewRepository, InterviewPanelRepository interviewPanelRepository,
+                            UserService userService, AvailabilityService availabilityService){
+        this.interviewRepository = interviewRepository;
+        this.interviewPanelRepository = interviewPanelRepository;
+        this.userService = userService;
+        this.availabilityService = availabilityService;
+    }
 
     /* update interview status */
     public InterviewResponse updateStatus(String status, Integer id) {
@@ -66,9 +74,9 @@ public class InterviewService {
                 wrapper.getStartTime(), wrapper.getEndTime(), info);
         interview = interviewRepository.save(interview);
 
-        /* create InterviewInterviewer entries */
+        /* create InterviewPanel entries */
         for (User u : interviewers) {
-            interviewInterviewerRepository.save(new InterviewPanel(interview, u));
+            interviewPanelRepository.save(new InterviewPanel(interview, u));
         }
 
         /* return InterviewResponse */
@@ -94,7 +102,7 @@ public class InterviewService {
     }
 
     /* create InterviewResponse objects for all Interviews */
-    private List<InterviewResponse> getInterviewResponseList(List<Interview> interviews){
+    public List<InterviewResponse> getInterviewResponseList(List<Interview> interviews){
         List<InterviewResponse> response = new ArrayList<>();
         for (Interview i : interviews){
             response.add(new InterviewResponse(i, interviewRepository.findInterviewers(i.getId())));
@@ -107,9 +115,9 @@ public class InterviewService {
         return interviewRepository.findCompleted(user);
     }
 
-    /* find interviews with status 'Completed' organised by the recruiter */
+    /* find interviews with status 'Confirmed' organised by the recruiter */
     public List<InterviewResponse> findConfirmed(User user){
-        return getInterviewResponseList(interviewRepository.findStatus(user, "Completed"));
+        return getInterviewResponseList(interviewRepository.findStatus(user, "Confirmed"));
     }
 
     /* find interviews with status 'Candidate No Show' organised by the recruiter */

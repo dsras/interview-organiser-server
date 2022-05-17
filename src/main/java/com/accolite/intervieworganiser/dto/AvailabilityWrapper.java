@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 /**
  * Wraps {@link AvailabilityRequest} request with interviewer, a {@link User}.
@@ -22,6 +23,9 @@ public class AvailabilityWrapper {
      * @param interviewer the interviewer
      */
     public AvailabilityWrapper(AvailabilityRequest request, User interviewer){
+        Objects.requireNonNull(request, "availability request must not be null");
+        Objects.requireNonNull(interviewer, "interviewer must not be null");
+
         this.availabilityRequest=request;
         this.interviewer = interviewer;
     }
