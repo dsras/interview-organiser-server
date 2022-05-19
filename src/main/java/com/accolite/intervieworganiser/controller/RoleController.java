@@ -3,7 +3,6 @@ package com.accolite.intervieworganiser.controller;
 import com.accolite.intervieworganiser.entities.Role;
 import com.accolite.intervieworganiser.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -23,7 +22,6 @@ public class RoleController {
      * @return the role retrieved from the database
      */
     @GetMapping("/role")
-    @PreAuthorize("hasRole('ADMIN')")
     public Role getRole(@RequestParam(value="name", required = true) String name){
         return roleService.getByName(name);
     }
