@@ -1,119 +1,140 @@
 package com.accolite.intervieworganiser.controller;
 
-import com.accolite.intervieworganiser.config.SecurityConfig;
-import com.accolite.intervieworganiser.config.TokenProvider;
-import com.accolite.intervieworganiser.config.UnauthorizedEntryPoint;
-import com.accolite.intervieworganiser.controller.UserController;
+import com.accolite.intervieworganiser.InterviewOrganiserApplication;
 import com.accolite.intervieworganiser.entities.User;
-import com.accolite.intervieworganiser.repository.UserSkillRepository;
-import com.accolite.intervieworganiser.service.SkillService;
-import com.accolite.intervieworganiser.service.TokenValidationService;
 import com.accolite.intervieworganiser.service.UserService;
-import com.accolite.intervieworganiser.service.UserSkillService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Ignore;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+import utility.Constants;
+
+import static org.hamcrest.Matchers.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+////@ExtendWith(SpringExtension.class)
+//@WebAppConfiguration
+////@ContextConfiguration(locations = "/test-context.xml")
+//public class UserControllerTest{
+//
+//    private MockMvc mockMvc;
+//
+//    @Autowired
+//    private WebApplicationContext webApplicationContext;
+//
+//    @Mock
+//    private UserService userServiceMock;
+//
+//    @BeforeEach
+//    public void setUp() {
+//        Mockito.reset(userServiceMock);
+//        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+//    }
+import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({UserController.class})
+
+@AutoConfigureJsonTesters
+@SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mvc;
 
-    @MockBean
-    TokenProvider tokenProvider;
+    @Mock
+    private UserService userService;
 
-    @MockBean
-    UserService userService;
-
-    @MockBean
-    UnauthorizedEntryPoint unauthorizedEntryPoint;
-
-    SecurityConfig securityConfig = new SecurityConfig(userService,unauthorizedEntryPoint);
-
-    @MockBean
-    AuthenticationManager authenticationManager;
-
-    @MockBean
-    TokenValidationService tokenValidationService;
-
-    @MockBean
-    SkillService skillService;
-
-    @MockBean
-    UserSkillService userSkillService;
-
-    @MockBean
-    UserSkillRepository userSkillRepository;
-
-    final String username = "testuser@accolitedigital.com";
-    final String password = "testPassword";
-    final String email = "testuser@gmail.com";
-    final String name = "Test User";
-    final String title = "Test Business Title";
-
-    @Ignore
-    @Test
-    @WithMockUser(username = username, password = password, roles = "USER")
-    public void testSaveUser() throws Exception {
-        /* new user */
-        User user = new User(username, password, email, name, title);
-        user.setId(500);
-        /* return this user to mock user service saving user */
-        when(userService.save(any(User.class))).thenReturn(user);
-        mockMvc.perform(
-                        MockMvcRequestBuilders.post("/users/register")
-                                .content(asJsonString(user))
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isCreated())
-                .andExpect(content().json("{}"));
-    }
+    // This object will be initialized thanks to @AutoConfigureJsonTesters
+    @Autowired
+    private JacksonTester<User> user;
 
 //    @Test
-//    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
-//    public void customer_fetch_in_db_success() throws Exception {
+//    public void canRetrieveByIdWhenExists() throws Exception {
+//        User newInterviewer = Constants.interviewer;
 //
-//        List<Customer> customerList = Arrays.asList(
-//                new Customer("sajedul", "karim", "01737186095"),
-//                new Customer("shawon", "nirob", "01737186096"),
-//                new Customer("aayan", "karim", "01737186097")
-//        );
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+//        ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
+//        String newInterviewerJson = writer.writeValueAsString(newInterviewer);
 //
-//        when(customerService.fetchAllCustomer()).thenReturn(customerList);
-//
-//        mockMvc.perform(
-//                        MockMvcRequestBuilders.get("/customer/fetchAllCustomer"))
-//                .andExpect(status().isOk())
-//                .andExpect(content().json("[{}, {}, {}]"));
+//        when(userService.save(newInterviewer)).thenReturn(newInterviewer);
+//        MockHttpServletResponse response = mvc.perform(
+//                        get("/users/register")
+//                                .content(newInterviewerJson)
+//                                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isCreated())
+//                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+//                .andExpect(jsonPath("$", hasSize(1)))
+//                .andExpect(jsonPath("$[0].id", is(1)))
+//                .andExpect(jsonPath("$[0].description", is("Lorem ipsum")))
+//                .andExpect(jsonPath("$[0].title", is("Foo")))
+//                        .andReturn().getResponse();
 //    }
 
-
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    @Test
+//    void testSaveUserReturnsCorrectResponse() throws Exception {
+//
+//        User newInterviewer = Constants.interviewer;
+//        User newRecruiter = Constants.recruiter;
+//
+//        when(userServiceMock.save(newInterviewer)).thenReturn(newInterviewer);
+//        when(userServiceMock.save(newRecruiter)).thenReturn(newRecruiter);
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+//        ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
+//        String newInterviewerJson = writer.writeValueAsString(newInterviewer);
+//
+//        mockMvc.perform(post("/users/register")
+//                .content(newInterviewerJson))
+//                .andExpect(status().isCreated())
+//                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+//                .andExpect(jsonPath("$", hasSize(1)))
+//                .andExpect(jsonPath("$[0].id", is(1)))
+//                .andExpect(jsonPath("$[0].description", is("Lorem ipsum")))
+//                .andExpect(jsonPath("$[0].title", is("Foo")));
+//
+//
+//        verify(userServiceMock, times(1)).save(newInterviewer);
+//        verifyNoMoreInteractions(userServiceMock);
+//    }
 }
-

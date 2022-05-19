@@ -55,6 +55,14 @@ public class Interview {
 
     /**
      *
+     * @param id the interview ID
+     */
+    public void setId(Integer id) {
+        this.id=id;
+    }
+
+    /**
+     *
      * @return the interview organiser
      */
     public User getOrganiser() {

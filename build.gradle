@@ -21,7 +21,7 @@ jar {
 
 group = 'com.accolite'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = "16"
 
 repositories {
 	mavenCentral()
@@ -48,7 +48,7 @@ dependencies {
 	implementation group: 'org.json', name: 'json', version: '20220320'
 	implementation group: 'javax.validation', name: 'validation-api', version: '2.0.0.Final'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.6.7'
-
+	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.3'
 }
 
 jacoco {
@@ -58,6 +58,7 @@ jacoco {
 test{
 	useJUnitPlatform()
 	finalizedBy jacocoTestReport // report is always generated after tests run
+	jvmArgs("--add-opens", "java.base/java.time=ALL-UNNAMED")
 }
 
 jacocoTestReport {
@@ -78,3 +79,4 @@ task generateRestApiDocs(type: Javadoc) {
 	options.addStringOption('charSet', 'UTF-8')
 }
 
+targetCompatibility = JavaVersion.VERSION_16

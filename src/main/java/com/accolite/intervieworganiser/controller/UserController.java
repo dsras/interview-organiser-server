@@ -64,7 +64,7 @@ public class UserController {
     /**
      * <p> Generates authentication token. </p>
      *
-     * @param loginUser the loginuser
+     * @param loginUser the login user
      * @return the generated token
      * @throws AuthenticationException
      */

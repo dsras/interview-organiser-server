@@ -14,30 +14,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Provides custom error response when invalid request arguments are received.
+ */
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // error handle for @Valid
+    /**
+     * Returns custom error response entity when arguments annotated with @Valid are
+     * invalid.
+     *<p>Adds errors and status to the body of the response entity.</p>
+     *
+     * @param exception invalid argument exception
+     * @param headers the http request headers
+     * @param status the http status
+     * @param request the request
+     */
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
                                                                   HttpHeaders headers,
                                                                   HttpStatus status, WebRequest request) {
 
+        /* add status and timestamp to response body */
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", new Date());
         body.put("status", status.value());
 
-        //Get all errors
-        List<String> errors = ex.getBindingResult()
+        /* get list of errors and add to response body */
+        List<String> errors = exception.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(x -> x.getDefaultMessage())
                 .collect(Collectors.toList());
-
         body.put("errors", errors);
 
         return new ResponseEntity<>(body, headers, status);
-
     }
 
 }
