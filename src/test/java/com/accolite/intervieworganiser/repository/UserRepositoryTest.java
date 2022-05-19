@@ -2,6 +2,8 @@ package com.accolite.intervieworganiser.repository;
 
 import com.accolite.intervieworganiser.entities.Role;
 import com.accolite.intervieworganiser.entities.User;
+import com.accolite.intervieworganiser.repository.RoleRepository;
+import com.accolite.intervieworganiser.repository.UserRepository;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.assertj.core.api.Assertions.assertThat;
 

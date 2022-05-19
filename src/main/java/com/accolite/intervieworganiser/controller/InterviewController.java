@@ -1,11 +1,8 @@
 package com.accolite.intervieworganiser.controller;
 
-import com.accolite.intervieworganiser.dto.InterviewUpdate;
+import com.accolite.intervieworganiser.dto.*;
 import com.accolite.intervieworganiser.service.InterviewService;
 import com.accolite.intervieworganiser.service.UserService;
-import com.accolite.intervieworganiser.dto.InterviewRequest;
-import com.accolite.intervieworganiser.dto.InterviewRequestWrapper;
-import com.accolite.intervieworganiser.dto.InterviewResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,7 +80,7 @@ public class InterviewController {
      */
     @GetMapping("/findAll")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findAll(){
+    public ResponseEntity<List<Interview>> findAll(){
         return new ResponseEntity<>(interviewService.findAll(), HttpStatus.OK);
     }
 

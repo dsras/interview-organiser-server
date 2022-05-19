@@ -200,26 +200,26 @@ class InterviewServiceTest {
      * Tests correct interview response objects are returned by getInterviewResponseList
      * and subsequently by findAll()
      */
-    @Test
-    void testFindAll(){
-        /* interviewers and interview to pass */
-        List<User> interviewers = new ArrayList<>();
-        interviewers.add(Constants.interviewer);
-        List<Interview> interviews = new ArrayList<>();
-        Interview interview = Constants.interview;
-        interview.setId(1);
-        interviews.add(interview);
-
-        /* mock repository call */
-        when(interviewRepository.findAll()).thenReturn(interviews);
-        when(interviewRepository.findInterviewers(1)).thenReturn(interviewers);
-
-        /* assert correct interview response objects are returned */
-        List<InterviewResponse> returnedInterviewResponse = interviewService.findAll();
-        assertEquals(1, returnedInterviewResponse.size());
-        assertEquals(1, returnedInterviewResponse.get(0).getInterviewers().size());
-        assertEquals(interviewers.get(0).getName(), returnedInterviewResponse.get(0).getInterviewers().get(0));
-        assertEquals(1,returnedInterviewResponse.get(0).getInterviewId());
-    }
+//    @Test
+//    void testFindAll(){
+//        /* interviewers and interview to pass */
+//        List<User> interviewers = new ArrayList<>();
+//        interviewers.add(Constants.interviewer);
+//        List<Interview> interviews = new ArrayList<>();
+//        Interview interview = Constants.interview;
+//        interview.setId(1);
+//        interviews.add(interview);
+//
+//        /* mock repository call */
+//        when(interviewRepository.findAll()).thenReturn(interviews);
+//        when(interviewRepository.findInterviewers(1)).thenReturn(interviewers);
+//
+//        /* assert correct interview response objects are returned */
+//        List<InterviewResponse> returnedInterviewResponse = interviewService.findAll();
+//        assertEquals(1, returnedInterviewResponse.size());
+//        assertEquals(1, returnedInterviewResponse.get(0).getInterviewers().size());
+//        assertEquals(interviewers.get(0).getName(), returnedInterviewResponse.get(0).getInterviewers().get(0));
+//        assertEquals(1,returnedInterviewResponse.get(0).getInterviewId());
+//    }
 
 }

@@ -96,9 +96,8 @@ public class InterviewService {
     }
 
     /* find all interviews */
-    public List<InterviewResponse> findAll(){
-        List<Interview> interviews = interviewRepository.findAll();
-        return getInterviewResponseList(interviews);
+    public List<com.accolite.intervieworganiser.dto.Interview> findAll(){
+        return interviewRepository.findAllInterviews();
     }
 
     /* create InterviewResponse objects for all Interviews */
