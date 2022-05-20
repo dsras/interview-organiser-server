@@ -28,6 +28,50 @@ public class User {
     @NotEmpty(message = "Please provide password")
     private String password;
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setMobile(Long mobile) {
+        this.mobile = mobile;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBusinessTitle(String businessTitle) {
+        this.businessTitle = businessTitle;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public void setBusinessUnit(String businessUnit) {
+        this.businessUnit = businessUnit;
+    }
+
+    public void setDateOfJoining(LocalDate dateOfJoining) {
+        this.dateOfJoining = dateOfJoining;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setPriorExperience(Integer priorExperience) {
+        this.priorExperience = priorExperience;
+    }
+
     @Column(name = "email", nullable = false, length = 80)
     @NotEmpty(message = "Please provide email")
     @Email(message = "Please provide a valid email")

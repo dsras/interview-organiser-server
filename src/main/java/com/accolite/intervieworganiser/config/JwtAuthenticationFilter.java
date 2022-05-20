@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Provides authentication filter executed once per request.
+ */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Value("${jwt.header.string}")
@@ -41,8 +44,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private TokenValidationService tokenValidationService;
 
+    /**
+     * Verifies authentication details of request
+     *
+     * @param req the request
+     * @param res the response
+     * @param chain the filter chain
+     * @throws IOException thrown by FilterChain doFilter
+     * @throws ServletException thrown by FilterChain doFilter
+     */
     @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
 
          String header = req.getHeader(HEADER_STRING);
          String username = null;
@@ -82,7 +94,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+            if (Boolean.TRUE.equals(jwtTokenUtil.validateToken(authToken, userDetails))) {
                 UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthenticationToken(authToken,
                         SecurityContextHolder.getContext().getAuthentication(), userDetails);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
