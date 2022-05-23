@@ -1,6 +1,7 @@
 package com.accolite.intervieworganiser.controller;
 
 import com.accolite.intervieworganiser.dto.*;
+import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.service.InterviewService;
 import com.accolite.intervieworganiser.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +43,12 @@ public class InterviewController {
      * @param newInterview the interview details
      * @return the interview newly added to the database
      */
-    @PostMapping("/new")
+    @PostMapping("/{username}")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<InterviewResponse> newInterview(@Valid @RequestBody InterviewRequest newInterview) {
+    public ResponseEntity<InterviewResponse> newInterview(@PathVariable("username") String username,
+                                                          @Valid @RequestBody InterviewRequest newInterview) {
         InterviewRequestWrapper wrapper = new InterviewRequestWrapper
-                (newInterview, userService.findOne(getPrincipalUsername()));
+                (newInterview, userService.findOne(username));
         return new ResponseEntity<>(interviewService.save(wrapper), HttpStatus.CREATED);
     }
 
@@ -55,9 +57,9 @@ public class InterviewController {
      *
      * @return a list of all interviews the interviewer was/is on panel for
      */
-    @GetMapping("/findByInterviewer")
+    @GetMapping("/{username}")
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findByInterviewer(@RequestParam("username") String username){
+    public ResponseEntity<List<InterviewResponse>> findByInterviewer(@PathVariable("username") String username){
         return new ResponseEntity<>(interviewService.findByInterviewer(userService.findOne(username)), HttpStatus.OK);
     }
 
@@ -66,9 +68,9 @@ public class InterviewController {
      *
      * @return a list of all interviews the recruiter organised
      */
-    @GetMapping("/findByRecruiter")
+    @GetMapping("/organiser/{username}")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findByRecruiter(@RequestParam("username") String username){
+    public ResponseEntity<List<InterviewResponse>> findByRecruiter(@PathVariable("username") String username){
         return new ResponseEntity<>(interviewService.findByRecruiter
                 (userService.findOne(username)), HttpStatus.OK);
     }
@@ -195,5 +197,18 @@ public class InterviewController {
     public ResponseEntity<InterviewResponse> updateOutcome(@Valid @RequestBody InterviewUpdate outcomeUpdate){
         return new ResponseEntity<>(interviewService.updateOutcome
                 (outcomeUpdate.getUpdate(), outcomeUpdate.getInterviewId()), HttpStatus.OK);
+    }
+
+    /**
+     * Gets suitable interviewers.
+     * <p> Takes a request for interviewers which details skills, dates and times and gets list of interviewers
+     * with skills and availability to match. </p>
+     *
+     * @param findInterviewersRequest formatted request for suitable interviewers
+     * @return list of user availability
+     */
+    @PostMapping("/findInterviewers")
+    public ResponseEntity<List<UserAvailability>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
+        return new ResponseEntity<>(userService.getAvailableInterviewers(findInterviewersRequest), HttpStatus.OK);
     }
 }

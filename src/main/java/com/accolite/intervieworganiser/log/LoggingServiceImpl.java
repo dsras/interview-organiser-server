@@ -24,7 +24,7 @@ public class LoggingServiceImpl implements LoggingService {
 
     /**
      * Logs requests.
-     * <p>Logs request method, path, headers, parameters (if applicable) & body (if applicable).</p>
+     * <p>Logs request method, path, headers, parameters (if applicable) and body (if applicable).</p>
      *
      * @param httpServletRequest the incoming request
      * @param body the request body

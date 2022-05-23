@@ -81,5 +81,4 @@ public class AvailabilityController {
     public ResponseEntity<List<UserAvailability>> findBySkill(@RequestParam(name = "ids") List<Integer> skillIds){
         return new ResponseEntity<>(availabilityService.findBySkills(skillIds), HttpStatus.OK);
     }
-
 }
