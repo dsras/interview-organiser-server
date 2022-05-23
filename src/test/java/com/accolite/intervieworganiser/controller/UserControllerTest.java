@@ -65,30 +65,30 @@ class UserControllerTest{
 //    @Autowired
 //    WebApplicationContext webApplicationContext;
 
-//    @Test
-//    @WithMockUser(username="tester",roles={"RECRUITER", "ADMIN"})
-//    void testFindUserReturnsCorrectResponse() throws Exception {
-//
-//        /* build mock request */
-//        RequestBuilder request = MockMvcRequestBuilders.get("/users/findUser?username=tester")
-//                .accept(MediaType.TEXT_PLAIN)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .characterEncoding("utf-8");
-//        User expectedUser = new User("tester", "password", "email", "name",
-//                "title");
-//
-//        /* mock user service getUserDetailsByUsername */
-//        when(userService.getUserDetailsByUsername("tester")).thenReturn(expectedUser);
-//
-//        /* mock perform request and get response as User object */
-//        MvcResult result = mvc.perform(request).andReturn();
-//        String contentAsString = result.getResponse().getContentAsString();
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        User response = objectMapper.readValue(contentAsString, User.class);
-//
-//        /* assert response is expected user */
-//        assertEquals(expectedUser, response);
-//    }
+    @Test
+    @WithMockUser(username="tester",roles={"RECRUITER", "ADMIN"})
+    void testFindUserReturnsCorrectResponse() throws Exception {
+
+        /* build mock request */
+        RequestBuilder request = MockMvcRequestBuilders.get("/users/findUser?username=tester")
+                .accept(MediaType.TEXT_PLAIN)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8");
+        User expectedUser = new User("tester", "password", "email", "name",
+                "title");
+
+        /* mock user service getUserDetailsByUsername */
+        when(userService.getUserDetailsByUsername("tester")).thenReturn(expectedUser);
+
+        /* mock perform request and get response as User object */
+        MvcResult result = mvc.perform(request).andReturn();
+        String contentAsString = result.getResponse().getContentAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        User response = objectMapper.readValue(contentAsString, User.class);
+
+        /* assert response is expected user */
+        assertEquals(expectedUser, response);
+    }
 
 //    @Test
 //    void testSaveUserReturnsCorrectResponse() throws Exception {
