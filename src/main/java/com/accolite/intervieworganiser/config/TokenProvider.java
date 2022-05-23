@@ -1,5 +1,6 @@
 package com.accolite.intervieworganiser.config;
 
+import antlr.Token;
 import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.service.UserService;
 import io.jsonwebtoken.*;
@@ -55,7 +56,7 @@ public class TokenProvider implements Serializable {
                 .getBody();
     }
 
-    private Boolean isTokenExpired(String token) {
+    Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
@@ -109,5 +110,17 @@ public class TokenProvider implements Serializable {
 
     public String getJtiFromToken(String token) {
         return getClaimFromToken(token, Claims::getId);
+    }
+
+    public void setSigningKey(String signingKey){
+        SIGNING_KEY = signingKey;
+    }
+
+    public void setAuthoritiesKey(String authoritiesKey){
+        AUTHORITIES_KEY = authoritiesKey;
+    }
+
+    public void setTokenValidity(Long tokenValidity){
+        TOKEN_VALIDITY = tokenValidity;
     }
 }

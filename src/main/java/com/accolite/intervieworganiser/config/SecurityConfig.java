@@ -21,7 +21,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.annotation.Resource;
 import java.util.Arrays;
 
-
+/**
+ * Configures server security settings.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -33,17 +35,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UnauthorizedEntryPoint unauthorizedEntryPoint;
 
+
+    /**
+     * Set password encoder
+     *
+     * @param auth the auth manager builder
+     * @throws Exception
+     */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
 
+    /**
+     * Configures http security
+     * <p>Permits all requests to register and save users, requires all other requests to be authenticated.</p>
+     *
+     * @param http the HttpSecurity
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/users/authenticate", "/users/register").permitAll()
-//                .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and().cors()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint).and()
@@ -53,22 +69,44 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    /**
+     * Returns BCrypt password encoder
+     *
+     * @return the password encoder
+     */
     @Bean
     public BCryptPasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Returns web security configurer adapter authentication manager
+     *
+     * @return authentication manager
+     * @throws Exception
+     */
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * Returns JWT authentication filter
+     *
+     * @return JWT authentication filter
+     * @throws Exception
+     */
     @Bean
     public JwtAuthenticationFilter authenticationTokenFilterBean() throws Exception {
         return new JwtAuthenticationFilter();
     }
 
+    /**
+     * Returns CorsConfigurationSource with specified allowed origins, methods and headers
+     *
+     * @return the configured CorsConfigurationSource
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration config = new CorsConfiguration();
@@ -84,6 +122,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
+    /**
+     * Parameterised constructor
+     *
+     * @param userService user service
+     * @param unauthorizedEntryPoint unauthorised entry point
+     */
     public SecurityConfig(UserDetailsService userService, UnauthorizedEntryPoint unauthorizedEntryPoint){
         this.unauthorizedEntryPoint=unauthorizedEntryPoint;
         this.userDetailsService=userService;

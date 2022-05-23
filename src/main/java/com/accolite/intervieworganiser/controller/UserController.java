@@ -16,6 +16,7 @@ import com.accolite.intervieworganiser.service.UserService;
 import com.accolite.intervieworganiser.service.UserSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -119,7 +120,7 @@ public class UserController {
      * @return list of user details
      */
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
-    @GetMapping("/findUser")
+    @GetMapping(value = "/findUser", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.ALL_VALUE})
     public User getUserDetails(@RequestParam("username") String username){
         return userService.getUserDetailsByUsername(username);
     }
