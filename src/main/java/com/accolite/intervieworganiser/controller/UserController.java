@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 /**
  * Provides handling of user-related requests
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -53,14 +53,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private SkillService skillService;
 
-    @Autowired
-    private UserSkillService userSkillService;
 
-    @Autowired
-    private UserSkillRepository userSkillRepository;
 
     /**
      * <p> Generates authentication token. </p>
@@ -69,13 +63,14 @@ public class UserController {
      * @return the generated token
      * @throws AuthenticationException
      */
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @PostMapping("/authenticate")
     public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
         String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@accolitedigital.com";
         if (Pattern.compile(regex).matcher(loginUser.getUsername()).matches()) {
             if (tokenValidationService.isTokenValid(loginUser.getUsername(),loginUser.getPassword())) {
                 if (userService.checkIfUserExists(loginUser)) {
-                    AuthToken token = new AuthToken(tokenProvider.generateTokenFromGoogleToken(loginUser.getUsername(),loginUser.getPassword()));
+                    AuthToken token = new AuthToken(tokenProvider.generateTokenFromGoogleToken(loginUser.getUsername(),
+                            loginUser.getPassword()));
                     return ResponseEntity.ok(token);
                 } else {
                     throw new EntityNotFoundException("User Not Registered");
@@ -93,73 +88,20 @@ public class UserController {
     }
 
     /**
-     * Gets username of principal (authenticated user).
-     *
-     * @return username of principal
-     */
-    private String getPrincipalUsername(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
-
-    /**
-     * Saves new user to the database.
-     * <p> Takes user and saves to database, returns ID allocated to new user. </p>
-     *
-     * @param user the new user to be saved
-     * @return the new user's ID
-     */
-    @PostMapping("/register")
-    public ResponseEntity<Integer> saveUser(@Valid @RequestBody User user) {
-        return new ResponseEntity<>(userService.save(user).getId(), HttpStatus.CREATED);
-    }
-
-    /**
      * Gets user's personal details.
      * <p> Returns personal details as a list. </p>
      *
      * @return list of user details
      */
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
-    @GetMapping(value = "/findUser", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.ALL_VALUE})
-    public User getUserDetails(@RequestParam("username") String username){
+    @GetMapping("/{username}")
+    public User getUserDetails(@PathVariable("username") String username){
+        System.out.println(username);
         return userService.getUserDetailsByUsername(username);
     }
 
-    /**
-     * Gets user's skills.
-     *
-     * @return list of user's skills
-     */
-    @GetMapping("/findSkills")
-    public ResponseEntity<List<Skill>> findSkill(@RequestParam("username") String username){
-        Integer id = userService.findOne(username).getId();
-        return new ResponseEntity<>(userSkillRepository.findByUser(id), HttpStatus.OK);
-    }
 
-    /**
-     * Adds a skill to user's profile.
-     *
-     * @param newSkillId the integer ID of the skill being added to user profile
-     * @return newSkillId
-     */
-    @PostMapping("/addSkill")
-    public Integer newSkill(@RequestBody Integer newSkillId, @RequestParam("username") String username){
-        userSkillService.save(new UserSkill(userService.findOne(username),
-                skillService.getById(newSkillId)));
-        return newSkillId;
-    }
 
-    /**
-     * Gets suitable interviewers.
-     * <p> Takes a request for interviewers which details skills, dates & times and gets list of interviewers
-     * with skills and availability to match. </p>
-     *
-     * @param findInterviewersRequest formatted request for suitable interviewers
-     * @return list of user availability
-     */
-    @PostMapping("/findInterviewers")
-    public ResponseEntity<List<UserAvailability>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
-        return new ResponseEntity<>(userService.getAvailableInterviewers(findInterviewersRequest), HttpStatus.OK);
-    }
+
 
 }

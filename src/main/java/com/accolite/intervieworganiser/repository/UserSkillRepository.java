@@ -14,6 +14,6 @@ public interface UserSkillRepository extends JpaRepository<UserSkill, Integer> {
     @Query("SELECT u.user FROM UserSkill u WHERE u.skill.id IN :skills GROUP BY u.user HAVING COUNT(*) = :count")
     List<User> findBySkills(@Param("skills") List<Integer> skillIds, @Param("count") long listSize);
 
-    @Query("SELECT u.skill FROM UserSkill u WHERE u.user.id = :id")
-    List<Skill> findByUser(@Param("id") Integer id);
+    @Query("SELECT u.skill FROM UserSkill u WHERE u.user.username = :username")
+    List<Skill> findByUser(@Param("username") String username);
 }

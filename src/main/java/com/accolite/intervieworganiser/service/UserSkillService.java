@@ -1,5 +1,6 @@
 package com.accolite.intervieworganiser.service;
 
+import com.accolite.intervieworganiser.entities.Skill;
 import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.entities.UserSkill;
 import com.accolite.intervieworganiser.repository.UserRepository;
@@ -25,5 +26,9 @@ public class UserSkillService {
 
     public List<User> findBySkills(List<Integer> skillIds, long listSize){
         return userSkillRepository.findBySkills(skillIds, listSize);
+    }
+
+    public List<Skill> findByUser(String username){
+        return userSkillRepository.findByUser(username);
     }
 }
