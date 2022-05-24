@@ -41,17 +41,26 @@ import java.util.regex.Pattern;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
     private TokenProvider tokenProvider;
-
-    @Autowired
     private TokenValidationService tokenValidationService;
-
-    @Autowired
     private UserService userService;
+
+    /**
+     * Parameterised constructor.
+     *
+     * @param authenticationManager to process authentication request
+     * @param tokenProvider to generate access tokens
+     * @param tokenValidationService to validate tokens
+     * @param userService user service layer
+     */
+    public UserController(@Autowired AuthenticationManager authenticationManager, @Autowired TokenProvider tokenProvider,
+                          @Autowired TokenValidationService tokenValidationService, @Autowired UserService userService){
+        this.authenticationManager=authenticationManager;
+        this.tokenProvider=tokenProvider;
+        this.tokenValidationService=tokenValidationService;
+        this.userService=userService;
+    }
 
     /**
      * <p> Generates authentication token. </p>
@@ -93,7 +102,6 @@ public class UserController {
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
     @GetMapping("/{username}")
     public User getUserDetails(@PathVariable("username") String username){
-        System.out.println(username);
         return userService.getUserDetailsByUsername(username);
     }
 }

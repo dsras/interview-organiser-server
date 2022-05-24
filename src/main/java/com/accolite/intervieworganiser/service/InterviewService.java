@@ -18,20 +18,23 @@ import java.util.stream.Collectors;
 @Service
 public class InterviewService {
 
-    @Autowired
     InterviewRepository interviewRepository;
-
-    @Autowired
     InterviewPanelRepository interviewPanelRepository;
-
-    @Autowired
     UserService userService;
-
-    @Autowired
     AvailabilityService availabilityService;
 
-    public InterviewService(InterviewRepository interviewRepository, InterviewPanelRepository interviewPanelRepository,
-                            UserService userService, AvailabilityService availabilityService){
+    /**
+     * Parameterised constructor.
+     *
+     * @param interviewRepository interview data access layer
+     * @param interviewPanelRepository interview panelist data access layer
+     * @param userService user service layer
+     * @param availabilityService availability service layer
+     */
+    public InterviewService(@Autowired  InterviewRepository interviewRepository,
+                            @Autowired InterviewPanelRepository interviewPanelRepository,
+                            @Autowired UserService userService,
+                            @Autowired AvailabilityService availabilityService){
         this.interviewRepository = interviewRepository;
         this.interviewPanelRepository = interviewPanelRepository;
         this.userService = userService;
@@ -84,29 +87,18 @@ public class InterviewService {
     }
 
     /* find all interviews that interviewer is participating in */
-    public List<InterviewResponse> findByInterviewer(User user){
-        List<Interview> interviews = interviewRepository.findAllByInterviewer(user);
-        return getInterviewResponseList(interviews);
+    public List<com.accolite.intervieworganiser.dto.Interview> findByInterviewer(User user){
+        return interviewRepository.findAllByInterviewer(user.getId(), LocalDate.now().minusDays(28));
     }
 
     /* find all interviews that recruiter has organised */
-    public List<InterviewResponse> findByRecruiter(User user){
-        List<Interview> interviews = interviewRepository.findAllByRecruiter(user);
-        return getInterviewResponseList(interviews);
+    public List<com.accolite.intervieworganiser.dto.Interview> findByRecruiter(User user){
+        return interviewRepository.findAllByRecruiter(user.getId(), LocalDate.now().minusDays(28));
     }
 
     /* find all interviews */
     public List<com.accolite.intervieworganiser.dto.Interview> findAll(){
         return interviewRepository.findAllInterviews();
-    }
-
-    /* create InterviewResponse objects for all Interviews */
-    public List<InterviewResponse> getInterviewResponseList(List<Interview> interviews){
-        List<InterviewResponse> response = new ArrayList<>();
-        for (Interview i : interviews){
-            response.add(new InterviewResponse(i, interviewRepository.findInterviewers(i.getId())));
-        }
-        return response;
     }
 
     /* find interviews completed by the interviewer */
@@ -115,7 +107,7 @@ public class InterviewService {
     }
 
     /* find interviews with specified status organised by specified user */
-    public List<InterviewResponse> findByStatus(User user, String status){
+    public List<com.accolite.intervieworganiser.dto.Interview> findByStatus(User user, String status){
         String statusString;
         switch (status) {
             case "confirmed" -> statusString = "Confirmed";
@@ -123,11 +115,11 @@ public class InterviewService {
             case "candidate-no-show" -> statusString = "Candidate No Show";
             default -> statusString = status;
         }
-        return getInterviewResponseList(interviewRepository.findStatus(user, statusString));
+        return interviewRepository.findByStatus(user.getId(), statusString, LocalDate.now().minusDays(28));
     }
 
     /* find interviews from last 28 days with specified outcome organised by the specified user */
-    public List<InterviewResponse> findByOutcome(User user, String outcome){
+    public List<com.accolite.intervieworganiser.dto.Interview> findByOutcome(User user, String outcome){
         String outcomeString;
         switch (outcome) {
             case "progressed" -> outcomeString = "Progressed";
@@ -135,8 +127,8 @@ public class InterviewService {
             case "hired" -> outcomeString = "Hired";
             default -> outcomeString = outcome;
         }
-        return getInterviewResponseList(interviewRepository.findOutcome
-                (user, LocalDate.now().minusDays(28), outcomeString));
+        return interviewRepository.findByOutcome(user.getId(), LocalDate.now().minusDays(28),
+                outcomeString);
     }
 
 }

@@ -21,19 +21,18 @@ import java.util.List;
 @RequestMapping("/interviews")
 public class InterviewController {
 
-    @Autowired
     private InterviewService interviewService;
-
-    @Autowired
     private UserService userService;
 
     /**
-     * Gets username of principal (authenticated user).
+     * Parameterised constructor.
      *
-     * @return the principal's username
+     * @param interviewService interview service layer
+     * @param userService user service layer
      */
-    private String getPrincipalUsername(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+    public InterviewController(@Autowired InterviewService interviewService, @Autowired UserService userService){
+        this.interviewService=interviewService;
+        this.userService=userService;
     }
 
     /**
@@ -59,7 +58,7 @@ public class InterviewController {
      */
     @GetMapping("/{username}")
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findByInterviewer(@PathVariable("username") String username){
+    public ResponseEntity<List<Interview>> findByInterviewer(@PathVariable("username") String username){
         return new ResponseEntity<>(interviewService.findByInterviewer(userService.findOne(username)), HttpStatus.OK);
     }
 
@@ -70,7 +69,7 @@ public class InterviewController {
      */
     @GetMapping("/organiser/{username}")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findByRecruiter(@PathVariable("username") String username){
+    public ResponseEntity<List<Interview>> findByRecruiter(@PathVariable("username") String username){
         return new ResponseEntity<>(interviewService.findByRecruiter
                 (userService.findOne(username)), HttpStatus.OK);
     }
@@ -105,7 +104,7 @@ public class InterviewController {
      */
     @GetMapping("/{username}/status/{status}")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findByStatus(@PathVariable("username") String username,
+    public ResponseEntity<List<Interview>> findByStatus(@PathVariable("username") String username,
                                                                  @PathVariable("status") String status){
         return new ResponseEntity<>(interviewService.findByStatus(userService.findOne(username), status),
                 HttpStatus.OK);
@@ -119,7 +118,7 @@ public class InterviewController {
      */
     @GetMapping("/{username}/outcome/{outcome}")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findByOutcome(@PathVariable("username") String username,
+    public ResponseEntity<List<Interview>> findByOutcome(@PathVariable("username") String username,
                                                                  @PathVariable("outcome") String outcome){
         return new ResponseEntity<>(interviewService.findByOutcome
                 (userService.findOne(username), outcome), HttpStatus.OK);

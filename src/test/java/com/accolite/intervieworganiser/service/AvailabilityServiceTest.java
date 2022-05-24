@@ -28,9 +28,6 @@ class AvailabilityServiceTest {
     @Mock
     UserSkillService userSkillService;
 
-    @Mock
-    SkillService skillService;
-
     AvailabilityService availabilityService;
     User interviewer = Constants.interviewer, organiser = Constants.recruiter;
     LocalDate startDate = Constants.startDate, endDate = Constants.endDate;
@@ -39,7 +36,7 @@ class AvailabilityServiceTest {
 
     @BeforeEach
     void init(){
-        availabilityService = new AvailabilityService(availabilityRepository, skillService,
+        availabilityService = new AvailabilityService(availabilityRepository,
                 userSkillService);
         availability1  = Constants.availability1; availability2 = Constants.availability2;
     }

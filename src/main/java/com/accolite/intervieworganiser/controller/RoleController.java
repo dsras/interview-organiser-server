@@ -12,8 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/roles")
 public class RoleController {
 
-    @Autowired
     private RoleService roleService;
+
+    /**
+     * Parameterised constructor.
+     *
+     * @param roleService role service layer
+     */
+    public RoleController(@Autowired RoleService roleService){
+        this.roleService=roleService;
+    }
 
     /**
      * Gets role from the database by name.

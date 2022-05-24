@@ -19,21 +19,19 @@ import java.util.List;
 @Service
 public class AvailabilityService{
 
-    @Autowired
     private AvailabilityRepository availabilityRepository;
-
-    @Autowired
-    private SkillService skillService;
-
-    @Autowired
     private UserSkillService userSkillService;
-
     Logger logger = LoggerFactory.getLogger(AvailabilityService.class);
 
-    public AvailabilityService(AvailabilityRepository availabilityRepository, SkillService skillService,
-                               UserSkillService userSkillService){
+    /**
+     * Parameterised constructor.
+     *
+     * @param availabilityRepository availability data access layer
+     * @param userSkillService user skills service layer
+     */
+    public AvailabilityService(@Autowired AvailabilityRepository availabilityRepository,
+                               @Autowired UserSkillService userSkillService){
         this.availabilityRepository=availabilityRepository;
-        this.skillService=skillService;
         this.userSkillService=userSkillService;
     }
 

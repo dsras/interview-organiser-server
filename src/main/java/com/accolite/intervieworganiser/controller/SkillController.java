@@ -17,8 +17,16 @@ import java.util.List;
 @RequestMapping("/skills")
 public class SkillController {
 
-    @Autowired
     private SkillService skillService;
+
+    /**
+     * Parameterised constructor.
+     *
+     * @param skillService skill service layer
+     */
+    public SkillController(@Autowired SkillService skillService){
+        this.skillService=skillService;
+    }
 
     /**
      * Adds new skill to the database.
