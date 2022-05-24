@@ -80,7 +80,7 @@ public class InterviewController {
      *
      * @return list of all interviews
      */
-    @GetMapping("/findAll")
+    @GetMapping("/")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
     public ResponseEntity<List<Interview>> findAll(){
         return new ResponseEntity<>(interviewService.findAll(), HttpStatus.OK);
@@ -91,9 +91,9 @@ public class InterviewController {
      *
      * @return the number confirmed interviews that the interviewer was on panel for
      */
-    @GetMapping("/findCompleted")
+    @GetMapping("/{username}/completed")
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
-    public ResponseEntity<Integer> findCompleted(@RequestParam("username") String username){
+    public ResponseEntity<Integer> findCompleted(@PathVariable("username") String username){
         return new ResponseEntity<>(interviewService.findCompleted
                 (userService.findOne(username)), HttpStatus.OK);
     }
@@ -103,35 +103,12 @@ public class InterviewController {
      *
      * @return a list of interviews with status 'Completed' that recruiter has organised
      */
-    @GetMapping("/findConfirmed")
+    @GetMapping("/{username}/status/{status}")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findConfirmed(){
-        return new ResponseEntity<>(interviewService.findConfirmed
-                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
-    }
-
-    /**
-     * Gets all interviews organised by a recruiter that candidate didn't show up for.
-     *
-     * @return a list of interviews with status 'Candidate No Show' that recruiter has organised
-     */
-    @GetMapping("/findCNS")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findCNS(){
-        return new ResponseEntity<>(interviewService.findCNS
-                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
-    }
-
-    /**
-     * Gets all interviews organised by recruiter that panel didn't show up for.
-     *
-     * @return a list of interviews with status 'Panel No Show' that recruiter organised
-     */
-    @GetMapping("/findPNS")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findPNS(){
-        return new ResponseEntity<>(interviewService.findPNS
-                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+    public ResponseEntity<List<InterviewResponse>> findByStatus(@PathVariable("username") String username,
+                                                                 @PathVariable("status") String status){
+        return new ResponseEntity<>(interviewService.findByStatus(userService.findOne(username), status),
+                HttpStatus.OK);
     }
 
     /**
@@ -139,35 +116,12 @@ public class InterviewController {
      *
      * @return a list of interviews with outcome 'Progressed' that recruiter organised
      */
-    @GetMapping("/findProgressed")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findProgressed(){
-        return new ResponseEntity<>(interviewService.findProgressed
-                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
-    }
-
-    /**
-     * Gets all interviews from past 28 days organised by a recruiter where candidate didn't progress.
-     *
-     * @return a list of interviews with outcome 'Didn't Progress' that recruiter organised
-     */
-    @GetMapping("/findNotProgressed")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findNotProgressed(){
-        return new ResponseEntity<>(interviewService.findNotProgressed
-                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
-    }
-
-    /**
-     * Gets all interviews from past 28 days organised by a recruiter where candidate was hired.
-     *
-     * @return a list of interviews with outcome 'Hired' that recruiter organised
-     */
-    @GetMapping("/findHired")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<InterviewResponse>> findHired(){
-        return new ResponseEntity<>(interviewService.findHired
-                (userService.findOne(getPrincipalUsername())), HttpStatus.OK);
+    @GetMapping("/{username}/outcome/{outcome}")
+//    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
+    public ResponseEntity<List<InterviewResponse>> findByOutcome(@PathVariable("username") String username,
+                                                                 @PathVariable("outcome") String outcome){
+        return new ResponseEntity<>(interviewService.findByOutcome
+                (userService.findOne(username), outcome), HttpStatus.OK);
     }
 
     /**

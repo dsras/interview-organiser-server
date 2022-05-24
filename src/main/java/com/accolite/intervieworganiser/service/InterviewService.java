@@ -114,36 +114,29 @@ public class InterviewService {
         return interviewRepository.findCompleted(user);
     }
 
-    /* find interviews with status 'Confirmed' organised by the recruiter */
-    public List<InterviewResponse> findConfirmed(User user){
-        return getInterviewResponseList(interviewRepository.findStatus(user, "Confirmed"));
+    /* find interviews with specified status organised by specified user */
+    public List<InterviewResponse> findByStatus(User user, String status){
+        String statusString;
+        switch (status) {
+            case "confirmed" -> statusString = "Confirmed";
+            case "panel-no-show" -> statusString = "Panel No Show";
+            case "candidate-no-show" -> statusString = "Candidate No Show";
+            default -> statusString = status;
+        }
+        return getInterviewResponseList(interviewRepository.findStatus(user, statusString));
     }
 
-    /* find interviews with status 'Candidate No Show' organised by the recruiter */
-    public List<InterviewResponse> findCNS(User user){
-        return getInterviewResponseList(interviewRepository.findStatus(user, "Candidate No Show"));
-    }
-
-    /* find interviews with status 'Panel No Show' organised by the recruiter */
-    public List<InterviewResponse> findPNS(User user){
-        return getInterviewResponseList(interviewRepository.findStatus(user, "Panel No Show"));
-    }
-
-    /* find interviews with outcome 'Progressed' organised by the recruiter */
-    public List<InterviewResponse> findProgressed(User user){
+    /* find interviews from last 28 days with specified outcome organised by the specified user */
+    public List<InterviewResponse> findByOutcome(User user, String outcome){
+        String outcomeString;
+        switch (outcome) {
+            case "progressed" -> outcomeString = "Progressed";
+            case "not-progressed" -> outcomeString = "Didn't Progress";
+            case "hired" -> outcomeString = "Hired";
+            default -> outcomeString = outcome;
+        }
         return getInterviewResponseList(interviewRepository.findOutcome
-                (user, LocalDate.now().minusDays(28), "Progressed"));
+                (user, LocalDate.now().minusDays(28), outcomeString));
     }
 
-    /* find interviews with outcome 'Didn't Progress' organised by the recruiter */
-    public List<InterviewResponse> findNotProgressed(User user){
-        return getInterviewResponseList(interviewRepository.findOutcome
-                (user, LocalDate.now().minusDays(28), "Didn't Progress"));
-    }
-
-    /* find interviews with outcome 'Hired' organised by the recruiter */
-    public List<InterviewResponse> findHired(User user){
-        return getInterviewResponseList(interviewRepository.findOutcome
-                (user, LocalDate.now().minusDays(28), "Hired"));
-    }
 }
