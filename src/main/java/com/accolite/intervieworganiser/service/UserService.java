@@ -6,6 +6,7 @@ import com.accolite.intervieworganiser.entities.Role;
 import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.repository.UserRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,28 +20,22 @@ import java.util.*;
 @Service
 public class UserService implements UserDetailsService{
 
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private RoleService roleService;
-
-    @Autowired
     private UserSkillService userSkillService;
-
-    @Autowired
     private AvailabilityService availabilityService;
 
     /**
      * Parameterised constructor.
-     * <p>For testing purposes.</p>
-     * @param userRepository the UserRepository instance
-     * @param roleService the RoleService instance
-     * @param availabilityService the AvailabilityService instance
-     * @param userSkillService the UserSkillService instance
+     *
+     * @param userRepository user data access layer
+     * @param roleService role service layer
+     * @param availabilityService availability service layer
+     * @param userSkillService user skill service layer
      */
-    public UserService(UserRepository userRepository, RoleService roleService,
-                       AvailabilityService availabilityService, UserSkillService userSkillService) {
+    public UserService(@Autowired UserRepository userRepository, @Autowired RoleService roleService,
+                       @Autowired AvailabilityService availabilityService,
+                       @Autowired UserSkillService userSkillService) {
         this.roleService=roleService;
         this.userRepository=userRepository;
         this.availabilityService=availabilityService;

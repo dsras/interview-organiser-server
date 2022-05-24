@@ -2,8 +2,10 @@ package com.accolite.intervieworganiser.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
+/**
+ * Interview data transfer interface.
+ */
 public interface Interview {
 
     public Integer getInterviewId();

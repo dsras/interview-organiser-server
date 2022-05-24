@@ -5,6 +5,7 @@ import com.accolite.intervieworganiser.entities.UserSkill;
 import com.accolite.intervieworganiser.service.SkillService;
 import com.accolite.intervieworganiser.service.UserService;
 import com.accolite.intervieworganiser.service.UserSkillService;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,23 @@ import java.util.List;
 @RequestMapping("/user-skills")
 public class UserSkillController {
 
-    @Autowired
     private UserService userService;
-
-    @Autowired
     private UserSkillService userSkillService;
-
-    @Autowired
     private SkillService skillService;
+
+    /**
+     * Parameterised constructor.
+     *
+     * @param userService user service layer
+     * @param userSkillService user skill service layer
+     * @param skillService skill service layer
+     */
+    public UserSkillController(@Autowired UserService userService, @Autowired UserSkillService userSkillService,
+                               @Autowired SkillService skillService){
+        this.userSkillService=userSkillService;
+        this.userService=userService;
+        this.skillService=skillService;
+    }
 
     /**
      * Gets user's skills.

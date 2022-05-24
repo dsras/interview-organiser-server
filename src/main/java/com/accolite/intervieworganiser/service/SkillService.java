@@ -2,6 +2,7 @@ package com.accolite.intervieworganiser.service;
 
 import com.accolite.intervieworganiser.entities.Skill;
 import com.accolite.intervieworganiser.repository.SkillRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +11,16 @@ import java.util.List;
 @Service
 public class SkillService {
 
-    @Autowired
     private SkillRepository skillRepository;
+
+    /**
+     * Parameterised constructor.
+     *
+     * @param skillRepository skill data access layer
+     */
+    public SkillService(@Autowired SkillRepository skillRepository){
+        this.skillRepository=skillRepository;
+    }
 
     /* get skill by ID */
     public Skill getById(Integer id){

@@ -21,11 +21,20 @@ import java.util.List;
 @RestController
 public class AvailabilityController {
 
-    @Autowired
     private AvailabilityService availabilityService;
-
-    @Autowired
     private UserService userService;
+
+    /**
+     * Parameterised constructor.
+     *
+     * @param availabilityService availability service layer
+     * @param userService user service layer
+     */
+    public AvailabilityController(@Autowired AvailabilityService availabilityService,
+                                  @Autowired UserService userService){
+        this.availabilityService=availabilityService;
+        this.userService=userService;
+    }
 
     /**
      * Adds new availability for a user.

@@ -3,7 +3,6 @@ package com.accolite.intervieworganiser.service;
 import com.accolite.intervieworganiser.entities.Skill;
 import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.entities.UserSkill;
-import com.accolite.intervieworganiser.repository.UserRepository;
 import com.accolite.intervieworganiser.repository.UserSkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +12,9 @@ import java.util.List;
 @Service
 public class UserSkillService {
 
-    @Autowired
     private UserSkillRepository userSkillRepository;
 
-    public UserSkillService(UserSkillRepository userSkillRepository){
+    public UserSkillService(@Autowired UserSkillRepository userSkillRepository){
         this.userSkillRepository=userSkillRepository;
     }
 
