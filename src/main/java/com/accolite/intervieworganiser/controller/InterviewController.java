@@ -117,7 +117,7 @@ public class InterviewController {
      * @return a list of interviews with outcome 'Progressed' that recruiter organised
      */
     @GetMapping("/{username}/outcome/{outcome}")
-//    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
     public ResponseEntity<List<InterviewResponse>> findByOutcome(@PathVariable("username") String username,
                                                                  @PathVariable("outcome") String outcome){
         return new ResponseEntity<>(interviewService.findByOutcome
