@@ -99,7 +99,7 @@ public class InterviewController {
     }
 
     /**
-     * Gets all interviews organised by a recruiter confirmed by interviewer.
+     * Gets all interviews with specified status organised by specified user.
      *
      * @return a list of interviews with status 'Completed' that recruiter has organised
      */
@@ -112,7 +112,8 @@ public class InterviewController {
     }
 
     /**
-     * Gets all interviews from past 28 days organised by a recruiter where candidate progressed.
+     * Gets all interviews from past 28 days with specified outcome
+     * organised by specified user.
      *
      * @return a list of interviews with outcome 'Progressed' that recruiter organised
      */
@@ -161,7 +162,7 @@ public class InterviewController {
      * @param findInterviewersRequest formatted request for suitable interviewers
      * @return list of user availability
      */
-    @PostMapping("/findInterviewers")
+    @PostMapping("/interviewers")
     public ResponseEntity<List<UserAvailability>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
         return new ResponseEntity<>(userService.getAvailableInterviewers(findInterviewersRequest), HttpStatus.OK);
     }
