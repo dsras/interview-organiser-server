@@ -53,9 +53,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-
-
     /**
      * <p> Generates authentication token. </p>
      *
@@ -99,9 +96,4 @@ public class UserController {
         System.out.println(username);
         return userService.getUserDetailsByUsername(username);
     }
-
-
-
-
-
 }

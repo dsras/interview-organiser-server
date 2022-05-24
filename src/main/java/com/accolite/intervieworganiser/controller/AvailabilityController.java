@@ -18,7 +18,6 @@ import java.util.List;
  * Provides handling of availability-related requests.
  */
 @RestController
-@RequestMapping("/availability")
 public class AvailabilityController {
 
     @Autowired
@@ -28,25 +27,17 @@ public class AvailabilityController {
     private UserService userService;
 
     /**
-     * Gets username of principal (authenticated user).
-     *
-     * @return the principal's username
-     */
-    private String getPrincipalUsername(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
-
-    /**
      * Adds new availability for a user.
-     * <p>Takes availability details and adds to the database for user. </p>
+     * <p>Takes availability details and adds to the database for user.</p>
      *
      * @param availability the new availability details
      * @return the newly saved availability
      */
-    @PostMapping("/new")
-    public List<UserAvailability> newAvailability(@Valid @RequestBody AvailabilityRequest availability) {
+    @PostMapping("/availability/{username}")
+    public List<UserAvailability> addUserAvailability(@PathVariable("username") String username,
+                                                  @Valid @RequestBody AvailabilityRequest availability) {
         AvailabilityWrapper newAvailability = new AvailabilityWrapper(availability,
-                userService.findOne(getPrincipalUsername()));
+                userService.findOne(username));
         return availabilityService.save(newAvailability);
     }
 
@@ -55,30 +46,24 @@ public class AvailabilityController {
      *
      * @return a list of user's availability
      */
-    @GetMapping("/find")
-    public ResponseEntity<List<UserAvailability>> getUserAvailability(@RequestParam("username") String username){
+    @GetMapping("/availability/{username}")
+    public ResponseEntity<List<UserAvailability>> getUserAvailability(@PathVariable("username") String username){
         return new ResponseEntity<>(availabilityService.getUserAvailability(username), HttpStatus.OK);
     }
 
     /**
-     * Gets all availability (i.e., of all users).
-     *
-     * @return list of all availability
-     */
-    @GetMapping("/findAll")
-    public ResponseEntity<List<UserAvailability>> getAllAvailability(){
-        return new ResponseEntity<>(availabilityService.getAllAvailability(), HttpStatus.OK);
-    }
-
-    /**
-     * Gets availability of all users with specified skills.
-     * <p> Takes a list of skill IDs and returns the availability of users with these skills.</p>
+     * Gets availability of all users can can be filtered by specified skills.
+     * <p> Takes an optional list of skill IDs and returns the availability of users with these skills,
+     * or all availability if no skills specified. </p>
      *
      * @param skillIds the list of skill IDs
      * @return a list of all availability of users with all specified skill IDs
      */
-    @GetMapping("/findBySkills")
-    public ResponseEntity<List<UserAvailability>> findBySkill(@RequestParam(name = "ids") List<Integer> skillIds){
+    @GetMapping("/availability")
+    public ResponseEntity<List<UserAvailability>> getAvailability(@RequestParam(required = false, name = "ids") List<Integer> skillIds){
+        if (skillIds == null || skillIds.isEmpty()){
+            return new ResponseEntity<>(availabilityService.getAllAvailability(), HttpStatus.OK);
+        }
         return new ResponseEntity<>(availabilityService.findBySkills(skillIds), HttpStatus.OK);
     }
 }
