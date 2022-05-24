@@ -8,6 +8,7 @@ import com.accolite.intervieworganiser.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,7 @@ public class AvailabilityController {
      * @param availability the new availability details
      * @return the newly saved availability
      */
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/availability/{username}")
     public List<UserAvailability> addUserAvailability(@PathVariable("username") String username,
                                                   @Valid @RequestBody AvailabilityRequest availability) {
@@ -46,6 +48,7 @@ public class AvailabilityController {
      *
      * @return a list of user's availability
      */
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/availability/{username}")
     public ResponseEntity<List<UserAvailability>> getUserAvailability(@PathVariable("username") String username){
         return new ResponseEntity<>(availabilityService.getUserAvailability(username), HttpStatus.OK);
@@ -59,6 +62,7 @@ public class AvailabilityController {
      * @param skillIds the list of skill IDs
      * @return a list of all availability of users with all specified skill IDs
      */
+    @PreAuthorize("hasRole('ADMIN', 'RECRUITER')")
     @GetMapping("/availability")
     public ResponseEntity<List<UserAvailability>> getAvailability(@RequestParam(required = false, name = "ids") List<Integer> skillIds){
         if (skillIds == null || skillIds.isEmpty()){
