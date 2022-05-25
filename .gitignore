@@ -14,6 +14,7 @@ build/
 .springBeans
 .sts4-cache
 bin/
+logs/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
@@ -35,3 +36,4 @@ out/
 
 ### VS Code ###
 .vscode/
+.prettierrc.json
