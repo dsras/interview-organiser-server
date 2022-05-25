@@ -19,7 +19,7 @@ public class UserAvailability {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "availability_id", nullable = false)
-    @JsonProperty("availability_id")
+    @JsonProperty("availabilityId")
     private Integer id;
 
     @JsonIgnore
@@ -32,11 +32,11 @@ public class UserAvailability {
     private LocalDate availableDate;
 
     @Column(name = "available_from", nullable = false)
-    @JsonProperty("start_time")
+    @JsonProperty("startTime")
     private LocalTime availableFrom;
 
     @Column(name = "available_to", nullable = false)
-    @JsonProperty("end_time")
+    @JsonProperty("endTime")
     private LocalTime availableTo;
 
     @Transient
@@ -44,7 +44,7 @@ public class UserAvailability {
     private String interviewer;
 
     @Transient
-    @JsonProperty("interviewer_id")
+    @JsonProperty("interviewerId")
     private Integer interviewerId;
 
     /**
