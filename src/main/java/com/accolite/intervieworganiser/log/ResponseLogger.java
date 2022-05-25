@@ -18,24 +18,35 @@ public class ResponseLogger implements ResponseBodyAdvice<Object> {
     LoggingService loggingService;
 
     @Override
-    public boolean supports(MethodParameter methodParameter,
-                            Class<? extends HttpMessageConverter<?>> aClass) {
+    public boolean supports(
+        MethodParameter methodParameter,
+        Class<? extends HttpMessageConverter<?>> aClass
+    ) {
         return true;
     }
 
     @Override
-    public Object beforeBodyWrite(Object o,
-                                  MethodParameter methodParameter,
-                                  MediaType mediaType,
-                                  Class<? extends HttpMessageConverter<?>> aClass,
-                                  ServerHttpRequest serverHttpRequest,
-                                  ServerHttpResponse serverHttpResponse) {
-
-        if (serverHttpRequest instanceof ServletServerHttpRequest &&
-                serverHttpResponse instanceof ServletServerHttpResponse) {
+    public Object beforeBodyWrite(
+        Object o,
+        MethodParameter methodParameter,
+        MediaType mediaType,
+        Class<? extends HttpMessageConverter<?>> aClass,
+        ServerHttpRequest serverHttpRequest,
+        ServerHttpResponse serverHttpResponse
+    ) {
+        if (
+            serverHttpRequest instanceof ServletServerHttpRequest &&
+            serverHttpResponse instanceof ServletServerHttpResponse
+        ) {
             loggingService.logResponse(
-                    ((ServletServerHttpRequest) serverHttpRequest).getServletRequest(),
-                    ((ServletServerHttpResponse) serverHttpResponse).getServletResponse(), o);
+                (
+                    (ServletServerHttpRequest) serverHttpRequest
+                ).getServletRequest(),
+                (
+                    (ServletServerHttpResponse) serverHttpResponse
+                ).getServletResponse(),
+                o
+            );
         }
 
         return o;

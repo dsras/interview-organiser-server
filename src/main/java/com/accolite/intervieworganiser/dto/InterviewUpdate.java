@@ -42,8 +42,8 @@ public class InterviewUpdate {
      * @param interviewId the interview ID
      * @param update the updated status or outcome
      */
-    public InterviewUpdate(Integer interviewId, String update){
-        this.interviewId=interviewId;
-        this.update=update;
+    public InterviewUpdate(Integer interviewId, String update) {
+        this.interviewId = interviewId;
+        this.update = update;
     }
 }

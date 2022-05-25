@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
  * Provides custom date deserialization for JSON  (DD MM YYYY)
  */
 public class DateHandler extends StdDeserializer<LocalDate> {
+
     public DateHandler() {
         this(null);
     }
@@ -28,7 +29,11 @@ public class DateHandler extends StdDeserializer<LocalDate> {
      * @throws IOException thrown by parser getText
      */
     @Override
-    public LocalDate deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException {
+    public LocalDate deserialize(
+        JsonParser jsonParser,
+        DeserializationContext context
+    )
+        throws IOException {
         String date = jsonParser.getText();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return LocalDate.parse(date, formatter);

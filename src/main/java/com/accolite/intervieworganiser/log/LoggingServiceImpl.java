@@ -4,10 +4,8 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,12 +33,24 @@ public class LoggingServiceImpl implements LoggingService {
         Map<String, String> parameters = buildParametersMap(httpServletRequest);
 
         stringBuilder.append("REQUEST ");
-        stringBuilder.append("method=[").append(httpServletRequest.getMethod()).append("] ");
-        stringBuilder.append("path=[").append(httpServletRequest.getRequestURI()).append("] ");
-        stringBuilder.append("headers=[").append(buildHeadersMap(httpServletRequest)).append("] ");
+        stringBuilder
+            .append("method=[")
+            .append(httpServletRequest.getMethod())
+            .append("] ");
+        stringBuilder
+            .append("path=[")
+            .append(httpServletRequest.getRequestURI())
+            .append("] ");
+        stringBuilder
+            .append("headers=[")
+            .append(buildHeadersMap(httpServletRequest))
+            .append("] ");
 
         if (!parameters.isEmpty()) {
-            stringBuilder.append("parameters=[").append(parameters).append("] ");
+            stringBuilder
+                .append("parameters=[")
+                .append(parameters)
+                .append("] ");
         }
 
         if (body != null) {
@@ -58,13 +68,26 @@ public class LoggingServiceImpl implements LoggingService {
      * @param body
      */
     @Override
-    public void logResponse(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object body) {
+    public void logResponse(
+        HttpServletRequest httpServletRequest,
+        HttpServletResponse httpServletResponse,
+        Object body
+    ) {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("RESPONSE ");
-        stringBuilder.append("method=[").append(httpServletRequest.getMethod()).append("] ");
-        stringBuilder.append("path=[").append(httpServletRequest.getRequestURI()).append("] ");
-        stringBuilder.append("responseHeaders=[").append(buildHeadersMap(httpServletResponse)).append("] ");
+        stringBuilder
+            .append("method=[")
+            .append(httpServletRequest.getMethod())
+            .append("] ");
+        stringBuilder
+            .append("path=[")
+            .append(httpServletRequest.getRequestURI())
+            .append("] ");
+        stringBuilder
+            .append("responseHeaders=[")
+            .append(buildHeadersMap(httpServletResponse))
+            .append("] ");
         stringBuilder.append("responseBody=[").append(body).append("] ");
 
         logger.info(stringBuilder.toString());
@@ -76,7 +99,9 @@ public class LoggingServiceImpl implements LoggingService {
      * @param httpServletRequest the incoming request
      * @return a map of parameter names and values
      */
-    private Map<String, String> buildParametersMap(HttpServletRequest httpServletRequest) {
+    private Map<String, String> buildParametersMap(
+        HttpServletRequest httpServletRequest
+    ) {
         Map<String, String> resultMap = new HashMap<>();
         Enumeration<String> parameterNames = httpServletRequest.getParameterNames();
 

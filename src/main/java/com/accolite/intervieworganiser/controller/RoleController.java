@@ -19,8 +19,8 @@ public class RoleController {
      *
      * @param roleService role service layer
      */
-    public RoleController(@Autowired RoleService roleService){
-        this.roleService=roleService;
+    public RoleController(@Autowired RoleService roleService) {
+        this.roleService = roleService;
     }
 
     /**
@@ -30,7 +30,9 @@ public class RoleController {
      * @return the role retrieved from the database
      */
     @GetMapping("/role")
-    public Role getRole(@RequestParam(value="name", required = true) String name){
+    public Role getRole(
+        @RequestParam(value = "name", required = true) String name
+    ) {
         return roleService.getByName(name);
     }
 }

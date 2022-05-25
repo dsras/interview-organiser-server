@@ -6,6 +6,7 @@ import com.accolite.intervieworganiser.entities.Role;
 import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.repository.UserRepository;
+import java.util.*;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,10 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-
 @Service
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
     private RoleService roleService;
@@ -33,17 +32,20 @@ public class UserService implements UserDetailsService{
      * @param availabilityService availability service layer
      * @param userSkillService user skill service layer
      */
-    public UserService(@Autowired UserRepository userRepository, @Autowired RoleService roleService,
-                       @Autowired AvailabilityService availabilityService,
-                       @Autowired UserSkillService userSkillService) {
-        this.roleService=roleService;
-        this.userRepository=userRepository;
-        this.availabilityService=availabilityService;
-        this.userSkillService=userSkillService;
+    public UserService(
+        @Autowired UserRepository userRepository,
+        @Autowired RoleService roleService,
+        @Autowired AvailabilityService availabilityService,
+        @Autowired UserSkillService userSkillService
+    ) {
+        this.roleService = roleService;
+        this.userRepository = userRepository;
+        this.availabilityService = availabilityService;
+        this.userSkillService = userSkillService;
     }
 
     /* check if user exists */
-    public boolean checkIfUserExists(LoginUser loginUser){
+    public boolean checkIfUserExists(LoginUser loginUser) {
         User user = findOne(loginUser.getUsername());
         return null != user;
     }
@@ -66,8 +68,14 @@ public class UserService implements UserDetailsService{
     /* get permissions for user by retrieving roles from database */
     public Set<SimpleGrantedAuthority> getAuthority(User user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        userRepository.getRolesByUsername(user.getUsername()).forEach(
-                role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName())));
+        userRepository
+            .getRolesByUsername(user.getUsername())
+            .forEach(
+                role ->
+                    authorities.add(
+                        new SimpleGrantedAuthority("ROLE_" + role.getName())
+                    )
+            );
         for (SimpleGrantedAuthority authority : authorities) {
             System.out.println(authority);
         }
@@ -76,13 +84,17 @@ public class UserService implements UserDetailsService{
 
     /* load user by username */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username)
+        throws UsernameNotFoundException {
         User user = userRepository.getByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("invalid username or password");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                getAuthority(user));
+        return new org.springframework.security.core.userdetails.User(
+            user.getUsername(),
+            user.getPassword(),
+            getAuthority(user)
+        );
     }
 
     /* save new user */
@@ -106,16 +118,24 @@ public class UserService implements UserDetailsService{
     }
 
     /* get user details by username */
-    public User getUserDetailsByUsername(String username){
+    public User getUserDetailsByUsername(String username) {
         return userRepository.getUserDetailsByUsername(username);
     }
 
     /* get users with required skills available for interview time */
-    public List<UserAvailability> getAvailableInterviewers(FindInterviewersRequest request){
+    public List<UserAvailability> getAvailableInterviewers(
+        FindInterviewersRequest request
+    ) {
         /* get users with required skills */
         List<Integer> skills = request.getSkills();
-        List<User> potentialInterviewers = userSkillService.findBySkills(skills, skills.size());
+        List<User> potentialInterviewers = userSkillService.findBySkills(
+            skills,
+            skills.size()
+        );
         /* filter users to those available */
-        return availabilityService.getAvailableInterviewers(potentialInterviewers, request);
+        return availabilityService.getAvailableInterviewers(
+            potentialInterviewers,
+            request
+        );
     }
 }

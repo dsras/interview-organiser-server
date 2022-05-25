@@ -1,8 +1,8 @@
 package com.accolite.intervieworganiser.entities;
 
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Set;
 
 /**
  * Role persistent object.
@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "role")
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id", nullable = false)
@@ -72,6 +73,6 @@ public class Role {
      * @param description the role description
      */
     public void setDescription(String description) {
-        this.description=description;
+        this.description = description;
     }
 }

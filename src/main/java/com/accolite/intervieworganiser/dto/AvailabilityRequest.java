@@ -1,12 +1,11 @@
 package com.accolite.intervieworganiser.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * Stores information about new availabilities with set time range over one or more days.
@@ -75,15 +74,20 @@ public class AvailabilityRequest {
      * @param startTime the availability start time
      * @param endTime the availability end time
      */
-    public AvailabilityRequest(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+    public AvailabilityRequest(
+        LocalDate startDate,
+        LocalDate endDate,
+        LocalTime startTime,
+        LocalTime endTime
+    ) {
         Objects.requireNonNull(startDate, "start date must not be null");
         Objects.requireNonNull(endDate, "end date must not be null");
         Objects.requireNonNull(startTime, "start time must not be null");
         Objects.requireNonNull(endTime, "end time must not be null");
 
-        this.startDate=startDate;
-        this.endDate=endDate;
-        this.startTime=startTime;
-        this.endTime=endTime;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 }

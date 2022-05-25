@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "interview_panel")
 public class InterviewPanel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -57,15 +58,15 @@ public class InterviewPanel {
         this.id = id;
     }
 
-    public InterviewPanel(){}
+    public InterviewPanel() {}
 
     /**
      *
      * @param interview the interview the panel is for
      * @param interviewer the interviewer being added to the panel
      */
-    public InterviewPanel(Interview interview, User interviewer){
-        this.interview=interview;
-        this.interviewer=interviewer;
+    public InterviewPanel(Interview interview, User interviewer) {
+        this.interview = interview;
+        this.interviewer = interviewer;
     }
 }

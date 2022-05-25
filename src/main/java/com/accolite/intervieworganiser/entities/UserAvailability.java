@@ -2,11 +2,10 @@ package com.accolite.intervieworganiser.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * User availability persistent object.
@@ -16,6 +15,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "user_availability")
 public class UserAvailability {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "availability_id", nullable = false)
@@ -55,16 +55,21 @@ public class UserAvailability {
      * @param availableFrom the availability start time
      * @param availableTo the availability end time
      */
-    public UserAvailability(User user, LocalDate availableDate, LocalTime availableFrom, LocalTime availableTo){
-        this.user=user;
-        this.availableDate=availableDate;
-        this.availableFrom=availableFrom;
-        this.availableTo=availableTo;
-        this.interviewer=user.getName();
-        this.interviewerId= user.getId();
+    public UserAvailability(
+        User user,
+        LocalDate availableDate,
+        LocalTime availableFrom,
+        LocalTime availableTo
+    ) {
+        this.user = user;
+        this.availableDate = availableDate;
+        this.availableFrom = availableFrom;
+        this.availableTo = availableTo;
+        this.interviewer = user.getName();
+        this.interviewerId = user.getId();
     }
 
-    public UserAvailability(){}
+    public UserAvailability() {}
 
     /**
      *
@@ -125,9 +130,9 @@ public class UserAvailability {
     /**
      * Assigns ID and name of user to attributes.
      */
-    public void setInterviewer(){
+    public void setInterviewer() {
         this.interviewer = user.getName();
-        this.interviewerId= user.getId();
+        this.interviewerId = user.getId();
     }
 
     /**
@@ -145,6 +150,4 @@ public class UserAvailability {
     public Integer getInterviewerId() {
         return interviewerId;
     }
-
-
 }

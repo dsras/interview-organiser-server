@@ -2,13 +2,12 @@ package com.accolite.intervieworganiser.controller;
 
 import com.accolite.intervieworganiser.entities.Skill;
 import com.accolite.intervieworganiser.service.SkillService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * Provides handling of skill-related requests.
@@ -24,8 +23,8 @@ public class SkillController {
      *
      * @param skillService skill service layer
      */
-    public SkillController(@Autowired SkillService skillService){
-        this.skillService=skillService;
+    public SkillController(@Autowired SkillService skillService) {
+        this.skillService = skillService;
     }
 
     /**
@@ -37,8 +36,11 @@ public class SkillController {
      */
     @PostMapping("/new")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Skill> newSkill(@RequestBody Skill newSkill){
-        return new ResponseEntity<>(skillService.save(newSkill), HttpStatus.CREATED);
+    public ResponseEntity<Skill> newSkill(@RequestBody Skill newSkill) {
+        return new ResponseEntity<>(
+            skillService.save(newSkill),
+            HttpStatus.CREATED
+        );
     }
 
     /**
@@ -48,9 +50,7 @@ public class SkillController {
      */
     @GetMapping("/findAll")
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<Skill>> allSkills(){
-        return new ResponseEntity<>(skillService.getAll(),HttpStatus.OK);
+    public ResponseEntity<List<Skill>> allSkills() {
+        return new ResponseEntity<>(skillService.getAll(), HttpStatus.OK);
     }
-
-
 }

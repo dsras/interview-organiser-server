@@ -6,15 +6,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Stores information about a request for interviewer(s) with specified availability and skills.
@@ -60,12 +58,18 @@ public class FindInterviewersRequest {
      * @param endTime the end time of time range
      * @param skillIds the list of skill IDs indicating skills required by interviewer(s)
      */
-    public FindInterviewersRequest(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, List<Integer> skillIds) {
+    public FindInterviewersRequest(
+        LocalDate startDate,
+        LocalDate endDate,
+        LocalTime startTime,
+        LocalTime endTime,
+        List<Integer> skillIds
+    ) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.startTime=startTime;
-        this.endTime=endTime;
-        this.skills=skillIds;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.skills = skillIds;
     }
 
     /**
@@ -73,7 +77,7 @@ public class FindInterviewersRequest {
      *
      * @return the start time
      */
-    public LocalTime getStartTime(){
+    public LocalTime getStartTime() {
         return startTime;
     }
 
@@ -82,7 +86,7 @@ public class FindInterviewersRequest {
      *
      * @return the end time
      */
-    public LocalTime getEndTime(){
+    public LocalTime getEndTime() {
         return endTime;
     }
 
@@ -91,7 +95,7 @@ public class FindInterviewersRequest {
      *
      * @return the start date
      */
-    public LocalDate getStartDate(){
+    public LocalDate getStartDate() {
         return startDate;
     }
 
@@ -100,7 +104,7 @@ public class FindInterviewersRequest {
      *
      * @return the end date
      */
-    public LocalDate getEndDate(){
+    public LocalDate getEndDate() {
         return endDate;
     }
 
@@ -109,5 +113,7 @@ public class FindInterviewersRequest {
      *
      * @return the list of skill IDs
      */
-    public List<Integer> getSkills(){return skills;}
+    public List<Integer> getSkills() {
+        return skills;
+    }
 }

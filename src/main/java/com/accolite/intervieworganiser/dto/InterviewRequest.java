@@ -1,12 +1,11 @@
 package com.accolite.intervieworganiser.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * Stores information about a new interview.
@@ -44,14 +43,19 @@ public class InterviewRequest {
      * @param endTime the interview end time
      * @param interviewerIds the list of interviewer IDs
      */
-    public InterviewRequest(LocalDate date, LocalTime startTime, LocalTime endTime, List<Integer> interviewerIds){
-        this.date=date;
-        this.startTime=startTime;
-        this.endTime=endTime;
-        this.interviewerIds=interviewerIds;
+    public InterviewRequest(
+        LocalDate date,
+        LocalTime startTime,
+        LocalTime endTime,
+        List<Integer> interviewerIds
+    ) {
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.interviewerIds = interviewerIds;
     }
 
-    public InterviewRequest(){}
+    public InterviewRequest() {}
 
     /**
      * Gets list of IDs of interviewers on interview panel.
@@ -97,5 +101,4 @@ public class InterviewRequest {
     public String getInfo() {
         return info;
     }
-
 }

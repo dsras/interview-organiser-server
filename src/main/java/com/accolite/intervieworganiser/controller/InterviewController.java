@@ -4,15 +4,14 @@ import com.accolite.intervieworganiser.dto.*;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.service.InterviewService;
 import com.accolite.intervieworganiser.service.UserService;
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Provides handling of interview-related requests.
@@ -30,9 +29,12 @@ public class InterviewController {
      * @param interviewService interview service layer
      * @param userService user service layer
      */
-    public InterviewController(@Autowired InterviewService interviewService, @Autowired UserService userService){
-        this.interviewService=interviewService;
-        this.userService=userService;
+    public InterviewController(
+        @Autowired InterviewService interviewService,
+        @Autowired UserService userService
+    ) {
+        this.interviewService = interviewService;
+        this.userService = userService;
     }
 
     /**
@@ -44,11 +46,18 @@ public class InterviewController {
      */
     @PostMapping("/{username}")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<InterviewResponse> newInterview(@PathVariable("username") String username,
-                                                          @Valid @RequestBody InterviewRequest newInterview) {
-        InterviewRequestWrapper wrapper = new InterviewRequestWrapper
-                (newInterview, userService.findOne(username));
-        return new ResponseEntity<>(interviewService.save(wrapper), HttpStatus.CREATED);
+    public ResponseEntity<InterviewResponse> newInterview(
+        @PathVariable("username") String username,
+        @Valid @RequestBody InterviewRequest newInterview
+    ) {
+        InterviewRequestWrapper wrapper = new InterviewRequestWrapper(
+            newInterview,
+            userService.findOne(username)
+        );
+        return new ResponseEntity<>(
+            interviewService.save(wrapper),
+            HttpStatus.CREATED
+        );
     }
 
     /**
@@ -58,8 +67,13 @@ public class InterviewController {
      */
     @GetMapping("/{username}")
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<Interview>> findByInterviewer(@PathVariable("username") String username){
-        return new ResponseEntity<>(interviewService.findByInterviewer(userService.findOne(username)), HttpStatus.OK);
+    public ResponseEntity<List<Interview>> findByInterviewer(
+        @PathVariable("username") String username
+    ) {
+        return new ResponseEntity<>(
+            interviewService.findByInterviewer(userService.findOne(username)),
+            HttpStatus.OK
+        );
     }
 
     /**
@@ -69,9 +83,13 @@ public class InterviewController {
      */
     @GetMapping("/organiser/{username}")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<Interview>> findByRecruiter(@PathVariable("username") String username){
-        return new ResponseEntity<>(interviewService.findByRecruiter
-                (userService.findOne(username)), HttpStatus.OK);
+    public ResponseEntity<List<Interview>> findByRecruiter(
+        @PathVariable("username") String username
+    ) {
+        return new ResponseEntity<>(
+            interviewService.findByRecruiter(userService.findOne(username)),
+            HttpStatus.OK
+        );
     }
 
     /**
@@ -81,7 +99,7 @@ public class InterviewController {
      */
     @GetMapping("/")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<Interview>> findAll(){
+    public ResponseEntity<List<Interview>> findAll() {
         return new ResponseEntity<>(interviewService.findAll(), HttpStatus.OK);
     }
 
@@ -92,9 +110,13 @@ public class InterviewController {
      */
     @GetMapping("/{username}/completed")
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
-    public ResponseEntity<Integer> findCompleted(@PathVariable("username") String username){
-        return new ResponseEntity<>(interviewService.findCompleted
-                (userService.findOne(username)), HttpStatus.OK);
+    public ResponseEntity<Integer> findCompleted(
+        @PathVariable("username") String username
+    ) {
+        return new ResponseEntity<>(
+            interviewService.findCompleted(userService.findOne(username)),
+            HttpStatus.OK
+        );
     }
 
     /**
@@ -104,10 +126,17 @@ public class InterviewController {
      */
     @GetMapping("/{username}/status/{status}")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<Interview>> findByStatus(@PathVariable("username") String username,
-                                                                 @PathVariable("status") String status){
-        return new ResponseEntity<>(interviewService.findByStatus(userService.findOne(username), status),
-                HttpStatus.OK);
+    public ResponseEntity<List<Interview>> findByStatus(
+        @PathVariable("username") String username,
+        @PathVariable("status") String status
+    ) {
+        return new ResponseEntity<>(
+            interviewService.findByStatus(
+                userService.findOne(username),
+                status
+            ),
+            HttpStatus.OK
+        );
     }
 
     /**
@@ -118,10 +147,17 @@ public class InterviewController {
      */
     @GetMapping("/{username}/outcome/{outcome}")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<List<Interview>> findByOutcome(@PathVariable("username") String username,
-                                                                 @PathVariable("outcome") String outcome){
-        return new ResponseEntity<>(interviewService.findByOutcome
-                (userService.findOne(username), outcome), HttpStatus.OK);
+    public ResponseEntity<List<Interview>> findByOutcome(
+        @PathVariable("username") String username,
+        @PathVariable("outcome") String outcome
+    ) {
+        return new ResponseEntity<>(
+            interviewService.findByOutcome(
+                userService.findOne(username),
+                outcome
+            ),
+            HttpStatus.OK
+        );
     }
 
     /**
@@ -134,9 +170,16 @@ public class InterviewController {
      */
     @PostMapping("/updateStatus")
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER', 'ADMIN')")
-    public ResponseEntity<InterviewResponse> updateStatus(@Valid @RequestBody InterviewUpdate statusUpdate){
-        return new ResponseEntity<>(interviewService.updateStatus
-                (statusUpdate.getUpdate(), statusUpdate.getInterviewId()), HttpStatus.OK);
+    public ResponseEntity<InterviewResponse> updateStatus(
+        @Valid @RequestBody InterviewUpdate statusUpdate
+    ) {
+        return new ResponseEntity<>(
+            interviewService.updateStatus(
+                statusUpdate.getUpdate(),
+                statusUpdate.getInterviewId()
+            ),
+            HttpStatus.OK
+        );
     }
 
     /**
@@ -148,9 +191,16 @@ public class InterviewController {
      */
     @PostMapping("/updateOutcome")
     @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
-    public ResponseEntity<InterviewResponse> updateOutcome(@Valid @RequestBody InterviewUpdate outcomeUpdate){
-        return new ResponseEntity<>(interviewService.updateOutcome
-                (outcomeUpdate.getUpdate(), outcomeUpdate.getInterviewId()), HttpStatus.OK);
+    public ResponseEntity<InterviewResponse> updateOutcome(
+        @Valid @RequestBody InterviewUpdate outcomeUpdate
+    ) {
+        return new ResponseEntity<>(
+            interviewService.updateOutcome(
+                outcomeUpdate.getUpdate(),
+                outcomeUpdate.getInterviewId()
+            ),
+            HttpStatus.OK
+        );
     }
 
     /**
@@ -162,7 +212,12 @@ public class InterviewController {
      * @return list of user availability
      */
     @PostMapping("/interviewers")
-    public ResponseEntity<List<UserAvailability>> findInterviewers(@RequestBody FindInterviewersRequest findInterviewersRequest) {
-        return new ResponseEntity<>(userService.getAvailableInterviewers(findInterviewersRequest), HttpStatus.OK);
+    public ResponseEntity<List<UserAvailability>> findInterviewers(
+        @RequestBody FindInterviewersRequest findInterviewersRequest
+    ) {
+        return new ResponseEntity<>(
+            userService.getAvailableInterviewers(findInterviewersRequest),
+            HttpStatus.OK
+        );
     }
 }

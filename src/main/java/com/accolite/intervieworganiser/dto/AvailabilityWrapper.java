@@ -2,7 +2,6 @@ package com.accolite.intervieworganiser.dto;
 
 import com.accolite.intervieworganiser.entities.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
@@ -22,11 +21,14 @@ public class AvailabilityWrapper {
      * @param request the interviewer's availability request
      * @param interviewer the interviewer
      */
-    public AvailabilityWrapper(AvailabilityRequest request, User interviewer){
-        Objects.requireNonNull(request, "availability request must not be null");
+    public AvailabilityWrapper(AvailabilityRequest request, User interviewer) {
+        Objects.requireNonNull(
+            request,
+            "availability request must not be null"
+        );
         Objects.requireNonNull(interviewer, "interviewer must not be null");
 
-        this.availabilityRequest=request;
+        this.availabilityRequest = request;
         this.interviewer = interviewer;
     }
 
@@ -35,7 +37,7 @@ public class AvailabilityWrapper {
      *
      * @return the interviewer's ID
      */
-    public Integer getId(){
+    public Integer getId() {
         return interviewer.getId();
     }
 
@@ -44,7 +46,7 @@ public class AvailabilityWrapper {
      *
      * @return the interviewer's name
      */
-    public String getName(){
+    public String getName() {
         return interviewer.getName();
     }
 
@@ -53,7 +55,7 @@ public class AvailabilityWrapper {
      *
      * @return the availability request start date
      */
-    public LocalDate getStartDate(){
+    public LocalDate getStartDate() {
         return availabilityRequest.getStartDate();
     }
 
@@ -62,7 +64,7 @@ public class AvailabilityWrapper {
      *
      * @return the availability request end date
      */
-    public LocalDate getEndDate(){
+    public LocalDate getEndDate() {
         return availabilityRequest.getEndDate();
     }
 
@@ -71,7 +73,7 @@ public class AvailabilityWrapper {
      *
      * @return the availability request start time
      */
-    public LocalTime getStartTime(){
+    public LocalTime getStartTime() {
         return availabilityRequest.getStartTime();
     }
 
@@ -80,7 +82,7 @@ public class AvailabilityWrapper {
      *
      * @return the availability request end time
      */
-    public LocalTime getEndTime(){
+    public LocalTime getEndTime() {
         return availabilityRequest.getEndTime();
     }
 
@@ -90,8 +92,7 @@ public class AvailabilityWrapper {
      * @return the interviewer
      */
     @JsonIgnore
-    public User getInterviewer(){
+    public User getInterviewer() {
         return interviewer;
     }
-
 }

@@ -6,7 +6,8 @@ import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
 public class InterviewOrganiserApplication {
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         SpringApplication.run(InterviewOrganiserApplication.class, args);
     }
 }

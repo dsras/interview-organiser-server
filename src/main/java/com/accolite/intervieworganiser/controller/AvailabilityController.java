@@ -5,15 +5,14 @@ import com.accolite.intervieworganiser.dto.AvailabilityWrapper;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.service.AvailabilityService;
 import com.accolite.intervieworganiser.service.UserService;
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Provides handling of availability-related requests.
@@ -30,10 +29,12 @@ public class AvailabilityController {
      * @param availabilityService availability service layer
      * @param userService user service layer
      */
-    public AvailabilityController(@Autowired AvailabilityService availabilityService,
-                                  @Autowired UserService userService){
-        this.availabilityService=availabilityService;
-        this.userService=userService;
+    public AvailabilityController(
+        @Autowired AvailabilityService availabilityService,
+        @Autowired UserService userService
+    ) {
+        this.availabilityService = availabilityService;
+        this.userService = userService;
     }
 
     /**
@@ -45,10 +46,14 @@ public class AvailabilityController {
      */
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/availability/{username}")
-    public List<UserAvailability> addUserAvailability(@PathVariable("username") String username,
-                                                  @Valid @RequestBody AvailabilityRequest availability) {
-        AvailabilityWrapper newAvailability = new AvailabilityWrapper(availability,
-                userService.findOne(username));
+    public List<UserAvailability> addUserAvailability(
+        @PathVariable("username") String username,
+        @Valid @RequestBody AvailabilityRequest availability
+    ) {
+        AvailabilityWrapper newAvailability = new AvailabilityWrapper(
+            availability,
+            userService.findOne(username)
+        );
         return availabilityService.save(newAvailability);
     }
 
@@ -59,8 +64,13 @@ public class AvailabilityController {
      */
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/availability/{username}")
-    public ResponseEntity<List<UserAvailability>> getUserAvailability(@PathVariable("username") String username){
-        return new ResponseEntity<>(availabilityService.getUserAvailability(username), HttpStatus.OK);
+    public ResponseEntity<List<UserAvailability>> getUserAvailability(
+        @PathVariable("username") String username
+    ) {
+        return new ResponseEntity<>(
+            availabilityService.getUserAvailability(username),
+            HttpStatus.OK
+        );
     }
 
     /**
@@ -73,10 +83,18 @@ public class AvailabilityController {
      */
     @PreAuthorize("hasRole('ADMIN', 'RECRUITER')")
     @GetMapping("/availability")
-    public ResponseEntity<List<UserAvailability>> getAvailability(@RequestParam(required = false, name = "ids") List<Integer> skillIds){
-        if (skillIds == null || skillIds.isEmpty()){
-            return new ResponseEntity<>(availabilityService.getAllAvailability(), HttpStatus.OK);
+    public ResponseEntity<List<UserAvailability>> getAvailability(
+        @RequestParam(required = false, name = "ids") List<Integer> skillIds
+    ) {
+        if (skillIds == null || skillIds.isEmpty()) {
+            return new ResponseEntity<>(
+                availabilityService.getAllAvailability(),
+                HttpStatus.OK
+            );
         }
-        return new ResponseEntity<>(availabilityService.findBySkills(skillIds), HttpStatus.OK);
+        return new ResponseEntity<>(
+            availabilityService.findBySkills(skillIds),
+            HttpStatus.OK
+        );
     }
 }

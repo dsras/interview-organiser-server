@@ -1,6 +1,7 @@
 package com.accolite.intervieworganiser.config;
 
-
+import java.util.Arrays;
+import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +19,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.annotation.Resource;
-import java.util.Arrays;
-
 /**
  * Configures server security settings.
  */
@@ -34,7 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UnauthorizedEntryPoint unauthorizedEntryPoint;
-
 
     /**
      * Set password encoder
@@ -56,18 +53,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/users/authenticate", "/users/register").permitAll()
-                .anyRequest().authenticated()
-                .and().cors()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http
+            .csrf()
+            .disable()
+            .authorizeRequests()
+            .antMatchers("/users/authenticate", "/users/register")
+            .permitAll()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .cors()
+            .and()
+            .exceptionHandling()
+            .authenticationEntryPoint(unauthorizedEntryPoint)
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(
+            authenticationTokenFilterBean(),
+            UsernamePasswordAuthenticationFilter.class
+        );
     }
-
 
     /**
      * Returns BCrypt password encoder
@@ -75,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @return the password encoder
      */
     @Bean
-    public BCryptPasswordEncoder encoder(){
+    public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -98,7 +105,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @throws Exception
      */
     @Bean
-    public JwtAuthenticationFilter authenticationTokenFilterBean() throws Exception {
+    public JwtAuthenticationFilter authenticationTokenFilterBean()
+        throws Exception {
         return new JwtAuthenticationFilter();
     }
 
@@ -112,9 +120,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         final CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(Arrays.asList("http://localhost:5003"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
+        config.setAllowedMethods(
+            Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH")
+        );
         config.setAllowCredentials(true);
-        config.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        config.setAllowedHeaders(
+            Arrays.asList("Authorization", "Cache-Control", "Content-Type")
+        );
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
@@ -128,8 +140,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @param userService user service
      * @param unauthorizedEntryPoint unauthorised entry point
      */
-    public SecurityConfig(UserDetailsService userService, UnauthorizedEntryPoint unauthorizedEntryPoint){
-        this.unauthorizedEntryPoint=unauthorizedEntryPoint;
-        this.userDetailsService=userService;
+    public SecurityConfig(
+        UserDetailsService userService,
+        UnauthorizedEntryPoint unauthorizedEntryPoint
+    ) {
+        this.unauthorizedEntryPoint = unauthorizedEntryPoint;
+        this.userDetailsService = userService;
     }
 }

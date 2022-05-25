@@ -4,6 +4,7 @@ package com.accolite.intervieworganiser.dto;
  * Wraps token string.
  */
 public class AuthToken {
+
     private String token;
 
     public AuthToken(String token) {
@@ -17,6 +18,4 @@ public class AuthToken {
     public void setToken(String token) {
         this.token = token;
     }
-
-
 }

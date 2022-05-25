@@ -5,6 +5,7 @@ package com.accolite.intervieworganiser.dto;
  * <p>User data transfer object that stores username, password and login type of user.</p>
  */
 public class LoginUser {
+
     private String username;
     private String password;
     private String type;
@@ -62,6 +63,4 @@ public class LoginUser {
     public void setType(String type) {
         this.type = type;
     }
-
 }
-

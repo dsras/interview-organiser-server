@@ -1,10 +1,10 @@
 package com.accolite.intervieworganiser.entities;
 
+import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
-import java.util.List;
 
 /**
  * User persistent object.
@@ -15,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "accolite_user")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
@@ -63,9 +64,11 @@ public class User {
     private Integer priorExperience;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "USER_ROLES",
-            joinColumns = @JoinColumn(name = "USER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+    @JoinTable(
+        name = "USER_ROLES",
+        joinColumns = @JoinColumn(name = "USER_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ROLE_ID")
+    )
     private List<Role> roles;
 
     /**
@@ -80,8 +83,8 @@ public class User {
      *
      * @param id the user's ID
      */
-    public void setId(Integer id){
-        this.id=id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     /**
@@ -105,7 +108,7 @@ public class User {
      * @param password the user's password
      */
     public void setPassword(String password) {
-        this.password=password;
+        this.password = password;
     }
 
     /**
@@ -176,7 +179,7 @@ public class User {
      *
      * @return the user's roles (authorities)
      */
-    public List<Role> getRoles(){
+    public List<Role> getRoles() {
         return roles;
     }
 
@@ -184,7 +187,7 @@ public class User {
      *
      * @param roles the user's roles
      */
-    public void setRoles(List<Role> roles){
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
@@ -214,7 +217,13 @@ public class User {
      * @param name the user's name
      * @param businessTitle the user's business title
      */
-    public User(String username, String password, String email, String name, String businessTitle) {
+    public User(
+        String username,
+        String password,
+        String email,
+        String name,
+        String businessTitle
+    ) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -222,8 +231,7 @@ public class User {
         this.businessTitle = businessTitle;
     }
 
-    public User(){}
-
+    public User() {}
 
     public void setUsername(String username) {
         this.username = username;

@@ -1,11 +1,11 @@
 package com.accolite.intervieworganiser.entities;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * Interview persistent object.
@@ -16,6 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "interview")
 public class Interview {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "interview_id", nullable = false)
@@ -40,7 +41,7 @@ public class Interview {
     @Column(name = "outcome", nullable = true)
     private String outcome;
 
-    @Column(name = "additional_info",  nullable = true)
+    @Column(name = "additional_info", nullable = true)
     private String info;
 
     @OneToMany(mappedBy = "interview")
@@ -58,7 +59,7 @@ public class Interview {
      * @param id the interview ID
      */
     public void setId(Integer id) {
-        this.id=id;
+        this.id = id;
     }
 
     /**
@@ -93,8 +94,7 @@ public class Interview {
         return timeEnd;
     }
 
-    public Interview() {
-    }
+    public Interview() {}
 
     /**
      *
@@ -122,7 +122,13 @@ public class Interview {
      * @param timeEnd the interview end time
      * @param info additional information about the interview e.g., applicant name and skills being evaluated
      */
-    public Interview(User organiser, LocalDate interviewDate, LocalTime timeStart, LocalTime timeEnd, String info) {
+    public Interview(
+        User organiser,
+        LocalDate interviewDate,
+        LocalTime timeStart,
+        LocalTime timeEnd,
+        String info
+    ) {
         this.organiser = organiser;
         this.interviewDate = interviewDate;
         this.timeStart = timeStart;

@@ -14,6 +14,11 @@ import com.accolite.intervieworganiser.service.SkillService;
 import com.accolite.intervieworganiser.service.TokenValidationService;
 import com.accolite.intervieworganiser.service.UserService;
 import com.accolite.intervieworganiser.service.UserSkillService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,12 +31,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Provides handling of user-related requests
@@ -54,12 +53,16 @@ public class UserController {
      * @param tokenValidationService to validate tokens
      * @param userService user service layer
      */
-    public UserController(@Autowired AuthenticationManager authenticationManager, @Autowired TokenProvider tokenProvider,
-                          @Autowired TokenValidationService tokenValidationService, @Autowired UserService userService){
-        this.authenticationManager=authenticationManager;
-        this.tokenProvider=tokenProvider;
-        this.tokenValidationService=tokenValidationService;
-        this.userService=userService;
+    public UserController(
+        @Autowired AuthenticationManager authenticationManager,
+        @Autowired TokenProvider tokenProvider,
+        @Autowired TokenValidationService tokenValidationService,
+        @Autowired UserService userService
+    ) {
+        this.authenticationManager = authenticationManager;
+        this.tokenProvider = tokenProvider;
+        this.tokenValidationService = tokenValidationService;
+        this.userService = userService;
     }
 
     /**
@@ -70,24 +73,42 @@ public class UserController {
      * @throws AuthenticationException
      */
     @PostMapping("/authenticate")
-    public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
+    public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser)
+        throws AuthenticationException {
         String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@accolitedigital.com";
         if (Pattern.compile(regex).matcher(loginUser.getUsername()).matches()) {
-            if (tokenValidationService.isTokenValid(loginUser.getUsername(),loginUser.getPassword())) {
+            if (
+                tokenValidationService.isTokenValid(
+                    loginUser.getUsername(),
+                    loginUser.getPassword()
+                )
+            ) {
                 if (userService.checkIfUserExists(loginUser)) {
-                    AuthToken token = new AuthToken(tokenProvider.generateTokenFromGoogleToken(loginUser.getUsername(),
-                            loginUser.getPassword()));
+                    AuthToken token = new AuthToken(
+                        tokenProvider.generateTokenFromGoogleToken(
+                            loginUser.getUsername(),
+                            loginUser.getPassword()
+                        )
+                    );
                     return ResponseEntity.ok(token);
                 } else {
                     throw new EntityNotFoundException("User Not Registered");
                 }
             } else {
-                throw new InvalidTokenException("for username " + loginUser.getUsername());
+                throw new InvalidTokenException(
+                    "for username " + loginUser.getUsername()
+                );
             }
         } else {
             final Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                new UsernamePasswordAuthenticationToken(
+                    loginUser.getUsername(),
+                    loginUser.getPassword()
+                )
+            );
+            SecurityContextHolder
+                .getContext()
+                .setAuthentication(authentication);
             final String token = tokenProvider.generateToken(authentication);
             return ResponseEntity.ok(new AuthToken(token));
         }
@@ -101,7 +122,7 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
     @GetMapping("/{username}")
-    public User getUserDetails(@PathVariable("username") String username){
+    public User getUserDetails(@PathVariable("username") String username) {
         return userService.getUserDetailsByUsername(username);
     }
 }

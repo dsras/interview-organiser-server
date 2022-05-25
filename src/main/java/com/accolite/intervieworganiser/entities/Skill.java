@@ -11,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 @Table(name = "skill")
 public class Skill {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "skill_id", nullable = false)
@@ -48,9 +49,10 @@ public class Skill {
         return skillLevel;
     }
 
-    public Skill(){}
-    public Skill(String skillName, String skillLevel){
-        this.skillName=skillName;
-        this.skillLevel=skillLevel;
+    public Skill() {}
+
+    public Skill(String skillName, String skillLevel) {
+        this.skillName = skillName;
+        this.skillLevel = skillLevel;
     }
 }

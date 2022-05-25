@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user_skills")
 public class UserSkill {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userskill_id", nullable = false)
@@ -22,10 +23,11 @@ public class UserSkill {
     @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
 
-    public UserSkill(){}
-    public UserSkill(User user, Skill skill){
-        this.user=user;
-        this.skill=skill;
+    public UserSkill() {}
+
+    public UserSkill(User user, Skill skill) {
+        this.user = user;
+        this.skill = skill;
     }
 
     /**

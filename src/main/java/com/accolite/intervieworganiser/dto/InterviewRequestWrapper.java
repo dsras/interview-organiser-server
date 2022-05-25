@@ -1,7 +1,6 @@
 package com.accolite.intervieworganiser.dto;
 
 import com.accolite.intervieworganiser.entities.User;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -21,10 +20,10 @@ public class InterviewRequestWrapper {
      * @param request the interview request
      * @param organiser the interview organiser
      */
-    public InterviewRequestWrapper(InterviewRequest request, User organiser){
+    public InterviewRequestWrapper(InterviewRequest request, User organiser) {
         Objects.requireNonNull(request, "InterviewRequest is required");
         Objects.requireNonNull(organiser, "Organiser is required");
-        this.interviewRequest=request;
+        this.interviewRequest = request;
         this.organiser = organiser;
     }
 
@@ -33,7 +32,7 @@ public class InterviewRequestWrapper {
      *
      * @return the interview organiser
      */
-    public User getOrganiser(){
+    public User getOrganiser() {
         return organiser;
     }
 
@@ -42,7 +41,7 @@ public class InterviewRequestWrapper {
      *
      * @return list of interviewer IDs
      */
-    public List<Integer> getInterviewerIds(){
+    public List<Integer> getInterviewerIds() {
         return interviewRequest.getInterviewerIds();
     }
 
@@ -51,7 +50,7 @@ public class InterviewRequestWrapper {
      *
      * @return the interview date
      */
-    public LocalDate getDate(){
+    public LocalDate getDate() {
         return interviewRequest.getDate();
     }
 
@@ -60,7 +59,7 @@ public class InterviewRequestWrapper {
      *
      * @return the interview start time
      */
-    public LocalTime getStartTime(){
+    public LocalTime getStartTime() {
         return interviewRequest.getStartTime();
     }
 
@@ -69,7 +68,7 @@ public class InterviewRequestWrapper {
      *
      * @return the interview end time
      */
-    public LocalTime getEndTime(){
+    public LocalTime getEndTime() {
         return interviewRequest.getEndTime();
     }
 
@@ -78,8 +77,7 @@ public class InterviewRequestWrapper {
      *
      * @return the additional info
      */
-    public String getInfo(){
+    public String getInfo() {
         return interviewRequest.getInfo();
     }
-
 }
