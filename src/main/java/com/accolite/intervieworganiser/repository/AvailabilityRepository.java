@@ -5,12 +5,20 @@ import com.accolite.intervieworganiser.entities.UserAvailability;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
+import org.hibernate.mapping.Any;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface AvailabilityRepository
     extends JpaRepository<UserAvailability, Integer> {
+
+    @Query(
+            "Delete from user_availability where availability_id = :avail_id"
+    )
+    List<UserAvailability> deleteAvailability(@Param("avail_id") Integer availability_id);
+
     @Query(
         "SELECT a " +
         "FROM UserAvailability a " +

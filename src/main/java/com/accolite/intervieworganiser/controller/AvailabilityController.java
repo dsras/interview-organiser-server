@@ -37,6 +37,15 @@ public class AvailabilityController {
         this.userService = userService;
     }
 
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/availability/delete")
+    public void deleteAvailability(
+            @Valid @RequestBody Integer id
+    ){
+        availabilityService.delete(id);
+    }
+
     /**
      * Adds new availability for a user.
      * <p>Takes availability details and adds to the database for user.</p>
