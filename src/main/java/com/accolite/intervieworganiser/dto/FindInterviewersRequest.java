@@ -23,22 +23,22 @@ import lombok.Setter;
 @Setter
 public class FindInterviewersRequest {
 
-    @JsonProperty("start_date")
+    @JsonProperty("startDate")
     @NotNull(message = "Please provide a start date")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate startDate;
 
-    @JsonProperty("end_date")
+    @JsonProperty("endDate")
     @NotNull(message = "Please provide an end date")
     private LocalDate endDate;
 
-    @JsonProperty("start_time")
+    @JsonProperty("startTime")
     @JsonFormat(pattern = "HH:mm")
     @NotNull(message = "Please provide a start time")
     private LocalTime startTime;
 
-    @JsonProperty("end_time")
+    @JsonProperty("endTime")
     @JsonFormat(pattern = "HH:mm")
     @NotNull(message = "Please provide an end time")
     private LocalTime endTime;

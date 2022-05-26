@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
  */
 public class InterviewRequest {
 
-    @JsonProperty("interviewer_ids")
+    @JsonProperty("interviewerIds")
     @NotEmpty(message = "Please provide list of interviewer IDs")
     private List<Integer> interviewerIds;
 
@@ -24,15 +24,15 @@ public class InterviewRequest {
     @NotNull(message = "Please provide an interview date")
     private LocalDate date;
 
-    @JsonProperty("start_time")
+    @JsonProperty("startTime")
     @NotNull(message = "Please provide an interview start time")
     private LocalTime startTime;
 
-    @JsonProperty("end_time")
+    @JsonProperty("endTime")
     @NotNull(message = "Please provide an interview end time")
     private LocalTime endTime;
 
-    @JsonProperty("additional_info")
+    @JsonProperty("additionalInfo")
     private String info;
 
     /**

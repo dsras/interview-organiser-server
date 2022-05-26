@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 public class InterviewUpdate {
 
-    @JsonProperty("interview_id")
+    @JsonProperty("interviewId")
     @NotNull(message = "Please provide interview ID")
     private Integer interviewId;
 

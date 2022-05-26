@@ -14,19 +14,19 @@ import javax.validation.constraints.NotNull;
  */
 public class AvailabilityRequest {
 
-    @JsonProperty("start_date")
+    @JsonProperty("startDate")
     @NotNull(message = "Please provide a start date")
     private LocalDate startDate;
 
-    @JsonProperty("end_date")
+    @JsonProperty("endDate")
     @NotNull(message = "Please provide an end date")
     private LocalDate endDate;
 
-    @JsonProperty("start_time")
+    @JsonProperty("startTime")
     @NotNull(message = "Please provide a start time")
     private LocalTime startTime;
 
-    @JsonProperty("end_time")
+    @JsonProperty("endTime")
     @NotNull(message = "Please provide an end time")
     private LocalTime endTime;
 
