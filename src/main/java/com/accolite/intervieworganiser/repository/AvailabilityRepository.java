@@ -8,18 +8,23 @@ import java.util.List;
 
 import org.hibernate.mapping.Any;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import javax.transaction.Transactional;
 
 public interface AvailabilityRepository
     extends JpaRepository<UserAvailability, Integer> {
 
+    @Transactional
+    @Modifying
     @Query(
             "DELETE " +
             "FROM UserAvailability a " +
-            "WHERE a.availabilityId = :avail_id"
+            "WHERE a.id = :availId"
     )
-    List<UserAvailability> deleteAvailability(@Param("avail_id") Integer availability_id);
+    void deleteAvailability(@Param("availId") Integer availabilityId);
 
     @Query(
         "SELECT a " +
