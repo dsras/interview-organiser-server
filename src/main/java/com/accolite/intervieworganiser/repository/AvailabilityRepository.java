@@ -15,7 +15,9 @@ public interface AvailabilityRepository
     extends JpaRepository<UserAvailability, Integer> {
 
     @Query(
-            "Delete from user_availability where availability_id = :avail_id"
+            "DELETE " +
+            "FROM UserAvailability a " +
+            "WHERE a.availabilityId = :avail_id"
     )
     List<UserAvailability> deleteAvailability(@Param("avail_id") Integer availability_id);
 
