@@ -40,6 +40,9 @@ public class AvailabilityService {
         this.availabilityRepository.deleteAvailability(oldAvailabilityId);
     }
 
+    public List<UserAvailability> getByRange(String userName, LocalDate start, LocalDate end){
+        return availabilityRepository.getByRange(userName, start, end);
+    }
 
 
     /* create new availability */

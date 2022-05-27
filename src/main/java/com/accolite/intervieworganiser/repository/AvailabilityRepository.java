@@ -27,6 +27,20 @@ public interface AvailabilityRepository
     void deleteAvailability(@Param("availId") Integer availabilityId);
 
     @Query(
+            "SELECT a " +
+                    "FROM UserAvailability a " +
+                    "WHERE a.user.username = :username " +
+                    "AND a.availableDate >= :startDate " +
+                    "AND a.availableDate <= :endDate "
+    )
+    List<UserAvailability> getByRange(
+            @Param("username") String username,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
+
+
+    @Query(
         "SELECT a " +
         "FROM UserAvailability a " +
         "WHERE a.user.username = :username"
@@ -50,13 +64,13 @@ public interface AvailabilityRepository
     );
 
     @Query(
-        "SELECT a " +
-        "FROM UserAvailability a " +
-        "WHERE a.user in :users " +
-        "AND a.availableDate >= :startDate " +
-        "AND a.availableDate <= :endDate " +
-        "AND a.availableFrom >= :startTime " +
-        "AND a.availableFrom <= :endTime "
+            "SELECT a " +
+                    "FROM UserAvailability a " +
+                    "WHERE a.user in :users " +
+                    "AND a.availableDate >= :startDate " +
+                    "AND a.availableDate <= :endDate " +
+                    "AND a.availableFrom >= :startTime " +
+                    "AND a.availableFrom <= :endTime "
     )
     List<UserAvailability> getAvailableInterviewers(
         @Param("users") List<User> users,

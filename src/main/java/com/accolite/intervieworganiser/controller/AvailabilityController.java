@@ -2,16 +2,18 @@ package com.accolite.intervieworganiser.controller;
 
 import com.accolite.intervieworganiser.dto.AvailabilityRequest;
 import com.accolite.intervieworganiser.dto.AvailabilityWrapper;
+import com.accolite.intervieworganiser.dto.DateRange;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.service.AvailabilityService;
 import com.accolite.intervieworganiser.service.UserService;
+
+import java.time.LocalDate;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -44,6 +46,19 @@ public class AvailabilityController {
             @Valid @RequestBody Integer id
     ){
         availabilityService.delete(id);
+    }
+
+
+    //@PreAuthorize("hasRole('USER')")
+    @PostMapping("/availability/{username}/range")
+    public ResponseEntity<List<UserAvailability>> getAvailabilityInRange(
+            @PathVariable("username") String username,
+            @Valid @RequestBody DateRange range
+    ) {
+        return new ResponseEntity<List<UserAvailability>>(
+                availabilityService.getByRange(username, range.getStart(), range.getEnd()),
+                HttpStatus.OK
+        );
     }
 
     /**
