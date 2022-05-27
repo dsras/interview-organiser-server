@@ -36,6 +36,12 @@ public class AvailabilityService {
         this.userSkillService = userSkillService;
     }
 
+    public void delete(Integer oldAvailabilityId){
+        this.availabilityRepository.deleteAvailability(oldAvailabilityId);
+    }
+
+
+
     /* create new availability */
     public List<UserAvailability> save(AvailabilityWrapper newAvailability) {
         List<UserAvailability> newAvailabilities = new ArrayList<>();
