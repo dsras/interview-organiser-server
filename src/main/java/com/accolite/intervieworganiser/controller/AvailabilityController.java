@@ -105,7 +105,7 @@ public class AvailabilityController {
      * @param skillIds the list of skill IDs
      * @return a list of all availability of users with all specified skill IDs
      */
-    @PreAuthorize("hasRole('ADMIN', 'RECRUITER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECRUITER')")
     @GetMapping("/availability")
     public ResponseEntity<List<UserAvailability>> getAvailability(
         @RequestParam(required = false, name = "ids") List<Integer> skillIds
