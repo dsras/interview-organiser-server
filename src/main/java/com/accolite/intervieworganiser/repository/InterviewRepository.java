@@ -9,6 +9,40 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface InterviewRepository extends JpaRepository<Interview, Integer> {
+
+    @Query(
+            value = "Select a.name as Organiser, " +
+                    "majData.interviewer as Interviewers, " +
+                    "majData.interview_id as InterviewId, " +
+                    "majData.interview_date as date, " +
+                    "majData.time_start as startTime, " +
+                    "majData.time_end as endTime, " +
+                    "majData.status as status, " +
+                    "majData.outcome as outcome, " +
+                    "majData.additional_info as additionalInfo " +
+                    "from " +
+                        "(Select iname.name as interviewer, idata.interview_id, idata.organiser_id, idata.interview_date, idata.time_start, idata.time_end, idata.status, idata.outcome, idata.additional_info " +
+                        "from " +
+                            "(Select au.name, ip.interview_id " +
+                            "from accolite_user au join interview_panel ip " +
+                            "on au.user_id = ip.interviewer_id " +
+                            "where au.username = :username) iname inner join " +
+                            "(Select i.interview_id, i.organiser_id, i.interview_date, i.time_start, i.time_end, i.status, i.outcome, i.additional_info " +
+                            "from interview i " +
+                            "where i.interview_date > :startDate " +
+                            "and i.interview_date < :endDate) idata " +
+                        "on iname.interview_id = idata.interview_id) majData inner join accolite_user a " +
+                    "where a.user_id = majData.organiser_id;",
+            nativeQuery = true
+
+    )
+    List<com.accolite.intervieworganiser.dto.Interview> findByInterviewerPerMonth(
+            @Param("username") String username,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
+
+
     @Query(
         "SELECT i.interviewer FROM InterviewPanel i WHERE i.interview.id = :id"
     )

@@ -37,6 +37,20 @@ public class InterviewController {
         this.userService = userService;
     }
 
+    //@PreAuthorize("hasRole('USER')")
+    @PostMapping("/{username}/range")
+    public ResponseEntity<List<com.accolite.intervieworganiser.dto.Interview>> getAvailabilityInRange(
+            @PathVariable("username") String username,
+            @Valid @RequestBody DateRange range
+    ) {
+        return new ResponseEntity<List<com.accolite.intervieworganiser.dto.Interview>>(
+                interviewService.getInterviewsInRange(username, range.getStart(), range.getEnd()),
+                HttpStatus.OK
+        );
+    }
+
+
+
     /**
      * Adds a new interview to the database.
      * <p> Takes a new interview and saves to the database, returning the newly created interview. </p>

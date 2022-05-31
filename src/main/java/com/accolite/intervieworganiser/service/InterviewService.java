@@ -41,6 +41,10 @@ public class InterviewService {
         this.availabilityService = availabilityService;
     }
 
+    public List<com.accolite.intervieworganiser.dto.Interview> getInterviewsInRange(String userName,  LocalDate startTime, LocalDate endTime){
+        return this.interviewRepository.findByInterviewerPerMonth(userName, startTime, endTime);
+    }
+
     /* update interview status */
     public InterviewResponse updateStatus(String status, Integer id) {
         Interview i = interviewRepository.getById(id);
