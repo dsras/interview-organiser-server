@@ -38,13 +38,14 @@ public class InterviewController {
     }
 
     //@PreAuthorize("hasRole('USER')")
-    @PostMapping("/{username}/range")
+    @PostMapping("/range/{username}/{isrec}")
     public ResponseEntity<List<com.accolite.intervieworganiser.dto.Interview>> getAvailabilityInRange(
             @PathVariable("username") String username,
+            @PathVariable("isrec") boolean isRec,
             @Valid @RequestBody DateRange range
     ) {
         return new ResponseEntity<List<com.accolite.intervieworganiser.dto.Interview>>(
-                interviewService.getInterviewsInRange(username, range.getStart(), range.getEnd()),
+                interviewService.getInterviewsInRange((isRec?"":username), range.getStart(), range.getEnd()),
                 HttpStatus.OK
         );
     }

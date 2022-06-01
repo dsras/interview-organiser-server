@@ -26,7 +26,7 @@ public interface InterviewRepository extends JpaRepository<Interview, Integer> {
                             "(Select au.name, ip.interview_id " +
                             "from accolite_user au join interview_panel ip " +
                             "on au.user_id = ip.interviewer_id " +
-                            "where au.username = :username) iname inner join " +
+                            "where au.username = :username OR :username = '') iname inner join " +
                             "(Select i.interview_id, i.organiser_id, i.interview_date, i.time_start, i.time_end, i.status, i.outcome, i.additional_info " +
                             "from interview i " +
                             "where i.interview_date > :startDate " +
