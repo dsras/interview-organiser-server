@@ -67,6 +67,7 @@ public class InterviewService {
         return new InterviewResponse(i, interviewers);
     }
 
+
     /* save Interview and return new InterviewResponse representing new interview */
     public InterviewResponse save(InterviewRequestWrapper wrapper) {
         /* amend availability to reflect new booking */
@@ -97,10 +98,7 @@ public class InterviewService {
 
     /* find all interviews that recruiter has organised */
     public List<com.accolite.intervieworganiser.dto.Interview> findByRecruiter(User user){
-        System.out.print("LOGGGING FOR ERROR: " + user.getId() + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         List<com.accolite.intervieworganiser.dto.Interview> myList = interviewRepository.findAllByRecruiter(user.getId(), LocalDate.now().minusMonths(2));
-        System.out.print(myList);
-        System.out.print('\n');
         return myList;
     }
 

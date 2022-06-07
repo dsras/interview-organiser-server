@@ -44,6 +44,32 @@ public class AvailabilityService {
         return availabilityRepository.getByRange(userName, start, end);
     }
 
+    public List<UserAvailability> saveRange(List<AvailabilityWrapper> newAvailabilities ){
+        List<UserAvailability> newAvailabilitiesList = new ArrayList<>();
+        for (int i = 0; i < newAvailabilities.size(); i++) {
+            User user = newAvailabilities.get(i).getInterviewer();
+            LocalDate startDate = newAvailabilities.get(i).getStartDate();
+            LocalDate endDate = newAvailabilities.get(i).getEndDate();
+            LocalTime startTime = newAvailabilities.get(i).getStartTime();
+            LocalTime endTime = newAvailabilities.get(i).getEndTime();
+
+            for (
+                    LocalDate date = startDate;
+                    !date.isAfter(endDate);
+                    date = date.plusDays(1)
+            ) {
+                newAvailabilitiesList.add(
+                        availabilityRepository.save(
+                                new UserAvailability(user, date, startTime, endTime)
+                        )
+                );
+            }
+            for (UserAvailability a : newAvailabilitiesList) {
+                a.setInterviewer();
+            }
+        }
+        return newAvailabilitiesList;
+    }
 
     /* create new availability */
     public List<UserAvailability> save(AvailabilityWrapper newAvailability) {

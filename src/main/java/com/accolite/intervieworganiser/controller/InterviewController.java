@@ -101,7 +101,6 @@ public class InterviewController {
     public ResponseEntity<List<Interview>> findByRecruiter(
         @PathVariable("username") String username
     ) {
-        System.out.print("Got into API call ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         return new ResponseEntity<>(
             interviewService.findByRecruiter(userService.findOne(username)),
             HttpStatus.OK

@@ -1,5 +1,6 @@
 package com.accolite.intervieworganiser.controller;
 
+import com.accolite.intervieworganiser.dto.AvailabilityRangeRequest;
 import com.accolite.intervieworganiser.dto.AvailabilityRequest;
 import com.accolite.intervieworganiser.dto.AvailabilityWrapper;
 import com.accolite.intervieworganiser.dto.DateRange;
@@ -8,8 +9,11 @@ import com.accolite.intervieworganiser.service.AvailabilityService;
 import com.accolite.intervieworganiser.service.UserService;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
+
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +63,26 @@ public class AvailabilityController {
                 availabilityService.getByRange(username, range.getStart(), range.getEnd()),
                 HttpStatus.OK
         );
+    }
+
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/availabilityRange/{username}")
+    public List<UserAvailability> addUserAvailabilityOverRange(
+            @PathVariable("username") String username,
+            @Valid @RequestBody AvailabilityRangeRequest availability
+    ) {
+        List<AvailabilityWrapper> wrappers = new ArrayList<>();
+        for (int i = 0; i < availability.getDates().length; i++) {
+            AvailabilityRequest myAvail = new AvailabilityRequest( availability.getDates()[i],availability.getDates()[i], availability.getStartTime(), availability.getEndTime() );
+            AvailabilityWrapper newAvailability = new AvailabilityWrapper(
+                    myAvail,
+                    userService.findOne(username)
+            );
+            wrappers.add(newAvailability);
+        }
+
+        return availabilityService.saveRange(wrappers);
     }
 
     /**
