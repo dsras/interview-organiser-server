@@ -97,7 +97,11 @@ public class InterviewService {
 
     /* find all interviews that recruiter has organised */
     public List<com.accolite.intervieworganiser.dto.Interview> findByRecruiter(User user){
-        return interviewRepository.findAllByRecruiter(user.getId(), LocalDate.now().minusDays(28));
+        System.out.print("LOGGGING FOR ERROR: " + user.getId() + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        List<com.accolite.intervieworganiser.dto.Interview> myList = interviewRepository.findAllByRecruiter(user.getId(), LocalDate.now().minusMonths(2));
+        System.out.print(myList);
+        System.out.print('\n');
+        return myList;
     }
 
     /* find all interviews */

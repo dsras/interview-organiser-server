@@ -35,6 +35,16 @@ public class InterviewRequest {
     @JsonProperty("additionalInfo")
     private String info;
 
+    @JsonProperty("status")
+    @NotNull(message= "Please select status")
+    private String status;
+
+    @JsonProperty("outcome")
+    @NotNull(message= "Please select outcome")
+    private String outcome;
+
+
+
     /**
      * Parameterised constructor.
      *
@@ -57,6 +67,10 @@ public class InterviewRequest {
 
     public InterviewRequest() {}
 
+
+    public String getStatus() {
+        return status;
+    }
     /**
      * Gets list of IDs of interviewers on interview panel.
      *
