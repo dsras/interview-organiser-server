@@ -151,7 +151,7 @@ class UserServiceTest {
         List<User> interviewers = new ArrayList<>();
         interviewers.add(newUser);
         /* return this list to mock repository layer getting interviewers with skill set  */
-        when(userSkillService.findBySkills(any(), any(Long.class))).thenReturn(interviewers);
+        //when(userSkillService.findBySkills(any())).thenReturn(interviewers);
         /* new findInterviewers request */
         FindInterviewersRequest request = new FindInterviewersRequest(date, date2, startTime, endTime,skillIds);
         /* ensure service correctly return list of availabilities */

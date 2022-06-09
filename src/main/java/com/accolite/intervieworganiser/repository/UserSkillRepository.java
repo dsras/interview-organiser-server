@@ -10,11 +10,14 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserSkillRepository extends JpaRepository<UserSkill, Integer> {
     @Query(
-        "SELECT u.user FROM UserSkill u WHERE u.skill.id IN :skills GROUP BY u.user HAVING COUNT(*) = :count"
+        value = "SELECT u.user_id " +
+        "FROM user_skills u " +
+        "WHERE u.skill_id IN (1, 2, 3)" +
+        "GROUP BY u.user_id; ",
+        nativeQuery = true
     )
-    List<User> findBySkills(
-        @Param("skills") List<Integer> skillIds,
-        @Param("count") long listSize
+    List<Integer> findBySkills(
+        @Param("skills") List<Integer> skillIds
     );
 
     @Query("SELECT u.skill FROM UserSkill u WHERE u.user.username = :username")

@@ -48,7 +48,7 @@ public interface AvailabilityRepository
     List<UserAvailability> getByUsername(@Param("username") String username);
 
     @Query("SELECT a " + "FROM UserAvailability a " + "WHERE a.user in :users")
-    List<UserAvailability> getByUsers(@Param("users") List<User> users);
+    List<UserAvailability> getByUsers(@Param("users") List<Integer> users);
 
     @Query(
         "SELECT a " +
@@ -66,14 +66,14 @@ public interface AvailabilityRepository
     @Query(
             "SELECT a " +
                     "FROM UserAvailability a " +
-                    "WHERE a.user in :users " +
+                    "WHERE a.user.id in :users " +
                     "AND a.availableDate >= :startDate " +
                     "AND a.availableDate <= :endDate " +
                     "AND a.availableFrom >= :startTime " +
                     "AND a.availableFrom <= :endTime "
     )
     List<UserAvailability> getAvailableInterviewers(
-        @Param("users") List<User> users,
+        @Param("users") List<Integer> users,
         @Param("startDate") LocalDate startDate,
         @Param("endDate") LocalDate endDate,
         @Param("startTime") LocalTime startTime,

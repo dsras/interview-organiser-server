@@ -128,9 +128,8 @@ public class UserService implements UserDetailsService {
     ) {
         /* get users with required skills */
         List<Integer> skills = request.getSkills();
-        List<User> potentialInterviewers = userSkillService.findBySkills(
-            skills,
-            skills.size()
+        List<Integer> potentialInterviewers = userSkillService.findBySkills(
+            skills
         );
         /* filter users to those available */
         return availabilityService.getAvailableInterviewers(

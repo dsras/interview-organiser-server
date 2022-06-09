@@ -179,9 +179,8 @@ public class AvailabilityService {
     /* get availability by skill */
     public List<UserAvailability> findBySkills(List<Integer> skillIds) {
         /* get users with all listed skills */
-        List<User> users = userSkillService.findBySkills(
-            skillIds,
-            skillIds.size()
+        List<Integer> users = userSkillService.findBySkills(
+            skillIds
         );
         /* get availability of users found to have all skills */
         List<UserAvailability> availabilities = availabilityRepository.getByUsers(
@@ -196,7 +195,7 @@ public class AvailabilityService {
 
     /* get interviewer availabilities in time slot from list of qualified interviewers */
     public List<UserAvailability> getAvailableInterviewers(
-        List<User> users,
+        List<Integer> users,
         FindInterviewersRequest request
     ) {
         /* get available interviewers */
