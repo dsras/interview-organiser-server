@@ -10,29 +10,58 @@ import org.springframework.data.repository.query.Param;
 
 public interface InterviewRepository extends JpaRepository<Interview, Integer> {
 
+
+
     @Query(
-            value = "Select a.name as Organiser, " +
-                    "majData.interviewer as Interviewers, " +
-                    "majData.interview_id as InterviewId, " +
-                    "majData.interview_date as date, " +
-                    "majData.time_start as startTime, " +
+            value = "Select majData.interview_id as InterviewId, " +
+                    "majData.organiser as Organiser, " +
+                    "majData.organiserID as OrganiserID, " +
+                    "au2.name as interviewers , " +
+                    "majData.interview_date as date , " +
+                    "majData.time_start as startTime , " +
                     "majData.time_end as endTime, " +
                     "majData.status as status, " +
                     "majData.outcome as outcome, " +
                     "majData.additional_info as additionalInfo " +
-                    "from " +
-                        "(Select iname.name as interviewer, idata.interview_id, idata.organiser_id, idata.interview_date, idata.time_start, idata.time_end, idata.status, idata.outcome, idata.additional_info " +
-                        "from " +
-                            "(Select au.name, ip.interview_id " +
-                            "from accolite_user au join interview_panel ip " +
-                            "on au.user_id = ip.interviewer_id " +
-                            "where au.username = :username OR :username = '') iname inner join " +
-                            "(Select i.interview_id, i.organiser_id, i.interview_date, i.time_start, i.time_end, i.status, i.outcome, i.additional_info " +
-                            "from interview i " +
-                            "where i.interview_date > :startDate " +
-                            "and i.interview_date < :endDate) idata " +
-                        "on iname.interview_id = idata.interview_id) majData inner join accolite_user a " +
-                    "where a.user_id = majData.organiser_id;",
+                    "from accolite_user au2 " +
+                    "join ( " +
+                        "Select ip.interview_id, " +
+                        "ints.organiser, " +
+                        "ints.organiserID, " +
+                        "ip.interviewer_id, " +
+                        "ints.interview_date, " +
+                        "ints.time_start, " +
+                        "ints.time_end, " +
+                        "ints.status, " +
+                        "ints.outcome, " +
+                        "ints.additional_info " +
+                        "from interview_panel ip " +
+                        "join ( " +
+                            "Select i.interview_id, " +
+                            "u.name as organiser, " +
+                            "u.user_id as organiserID, " +
+                            "i.interview_date, " +
+                            "i.time_start, " +
+                            "i.time_end, " +
+                            "i.status, " +
+                            "i.outcome, " +
+                            "i.additional_info " +
+                            "from ( " +
+                                "Select * " +
+                                "from interview " +
+                                "where interview.interview_date > :startDate " +
+                                "and interview.interview_date < :endDate " +
+                            ") i " +
+                            "join ( " +
+                                "Select * " +
+                                "from accolite_user au " +
+                                "where au.userName = :username " +
+                            ") as u " +
+                            "on i.organiser_id = u.user_id " +
+                        ") as ints " +
+                        "on ip.interview_id = ints.interview_id " +
+                    ") as majData " +
+                "on au2.user_id = majData.interviewer_id;",
             nativeQuery = true
 
     )
