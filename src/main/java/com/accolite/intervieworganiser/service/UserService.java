@@ -65,6 +65,18 @@ public class UserService implements UserDetailsService {
         return userRepository.getByEmail(email);
     }
 
+    public List<String> getRoles(User user){
+        List<String> myOut = new ArrayList<>();
+        userRepository.getRolesByUsername(user.getUsername())
+                .forEach(
+                        role ->
+                                myOut.add(
+                                        role.getName()
+                                )
+                );
+        return myOut;
+    }
+
     /* get permissions for user by retrieving roles from database */
     public Set<SimpleGrantedAuthority> getAuthority(User user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();

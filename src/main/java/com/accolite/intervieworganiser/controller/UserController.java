@@ -16,6 +16,7 @@ import com.accolite.intervieworganiser.service.UserService;
 import com.accolite.intervieworganiser.service.UserSkillService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
@@ -28,6 +29,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -124,5 +126,17 @@ public class UserController {
     @GetMapping("/{username}")
     public User getUserDetails(@PathVariable("username") String username) {
         return userService.getUserDetailsByUsername(username);
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
+    @GetMapping("/{username}/roles")
+    public List<String> getUserRoles(@PathVariable("username") String username) {
+        User user = userService.getByEmail(username);
+        List<String> myAuths = userService.getRoles(user);
+        List<String> output= new ArrayList<>();
+        for (String role: myAuths) {
+            output.add(role);
+        }
+        return output;
     }
 }
