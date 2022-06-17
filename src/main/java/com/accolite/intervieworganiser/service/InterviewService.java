@@ -1,17 +1,16 @@
 package com.accolite.intervieworganiser.service;
 
+import com.accolite.intervieworganiser.dto.*;
 import com.accolite.intervieworganiser.entities.Interview;
 import com.accolite.intervieworganiser.entities.InterviewPanel;
 import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.repository.InterviewPanelRepository;
 import com.accolite.intervieworganiser.repository.InterviewRepository;
-import com.accolite.intervieworganiser.dto.InterviewRequestWrapper;
-import com.accolite.intervieworganiser.dto.InterviewResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +39,97 @@ public class InterviewService {
         this.userService = userService;
         this.availabilityService = availabilityService;
     }
+
+    public List<AvailTempReturn> deleteInterviewRecompAvail(String id){
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        List<AvailTempReturn> avails = this.interviewRepository.getAvailabilitiesToRecompile(id);
+        System.out.println(id);
+
+        if(avails.size() == 1){
+            LocalTime startTime1 =  avails.get(0).getStart();
+            LocalTime IStartTime =  avails.get(0).getInterview_start();
+            LocalTime myStartTime;
+            if(startTime1.toSecondOfDay()<IStartTime.toSecondOfDay()){
+                myStartTime=startTime1;
+            }
+            else{
+                myStartTime=IStartTime;
+            }
+
+            LocalTime endTime1 =  avails.get(0).getEnd();
+            LocalTime IEndTime =  avails.get(0).getInterview_end();
+            LocalTime myEndTime;
+            if(endTime1.toSecondOfDay()>IEndTime.toSecondOfDay()){
+                myEndTime=endTime1;
+            }
+            else{
+                myEndTime=IEndTime;
+            }
+
+            AvailabilityRequest myAvailRequest = new AvailabilityRequest(
+                    avails.get(0).getDate(),
+                    avails.get(0).getDate(),
+                    myStartTime,
+                    myEndTime
+            );
+            AvailabilityWrapper myWrap = new AvailabilityWrapper(
+                    myAvailRequest,
+                    userService.findOne(avails.get(0).getUsername())
+            );
+            this.availabilityService.save(myWrap);
+            this.availabilityService.delete(Integer.parseInt(avails.get(0).getAvailability_id()));
+            this.interviewRepository.deleteIPanel(Integer.parseInt(id));
+            this.interviewRepository.deleteInterview(Integer.parseInt(id));
+
+        }
+        else if(avails.size() ==2){
+            LocalTime startTime1 =  avails.get(0).getStart();
+            LocalTime startTime2 =  avails.get(1).getStart();
+            LocalTime IStartTime =  avails.get(1).getInterview_start();
+            LocalTime myStartTime;
+            if(startTime1.toSecondOfDay()<IStartTime.toSecondOfDay() && startTime1.toSecondOfDay() < startTime2.toSecondOfDay()){
+                myStartTime=startTime1;
+            }
+            else if(IStartTime.toSecondOfDay() < startTime2.toSecondOfDay()){
+                myStartTime= IStartTime;
+            }
+            else{
+                myStartTime = startTime2;
+            }
+            LocalTime endTime1 =  avails.get(0).getEnd();
+            LocalTime endTime2 =  avails.get(1).getEnd();
+            LocalTime IEndTime =  avails.get(1).getInterview_end();
+            LocalTime myEndTime;
+            if(endTime2.toSecondOfDay()>IEndTime.toSecondOfDay() && endTime2.toSecondOfDay() > endTime1.toSecondOfDay()){
+                myEndTime=endTime2;
+            }
+            else if(IEndTime.toSecondOfDay() > endTime1.toSecondOfDay()){
+                myEndTime= IEndTime;
+            }
+            else{
+                myEndTime = endTime1;
+            }
+
+            AvailabilityRequest myAvailRequest = new AvailabilityRequest(
+                    avails.get(0).getDate(),
+                    avails.get(0).getDate(),
+                    myStartTime,
+                    myEndTime
+            );
+            AvailabilityWrapper myWrap = new AvailabilityWrapper(
+                    myAvailRequest,
+                    userService.findOne(avails.get(0).getUsername())
+            );
+            this.availabilityService.save(myWrap);
+            this.availabilityService.delete(Integer.parseInt(avails.get(0).getAvailability_id()));
+            this.availabilityService.delete(Integer.parseInt(avails.get(1).getAvailability_id()));
+            this.interviewRepository.deleteIPanel(Integer.parseInt(id));
+            this.interviewRepository.deleteInterview(Integer.parseInt(id));
+        }
+        return avails;
+
+    }
+
 
     public List<com.accolite.intervieworganiser.dto.Interview> getInterviewsInRange(String userName,  LocalDate startTime, LocalDate endTime){
         return this.interviewRepository.findByInterviewerPerMonth(userName, startTime, endTime);

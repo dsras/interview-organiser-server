@@ -1,15 +1,77 @@
 package com.accolite.intervieworganiser.repository;
 
+import com.accolite.intervieworganiser.dto.AvailTempReturn;
 import com.accolite.intervieworganiser.entities.Interview;
 import com.accolite.intervieworganiser.entities.User;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
+
 public interface InterviewRepository extends JpaRepository<Interview, Integer> {
 
+    @Transactional
+    @Modifying
+    @Query(
+            value = "Delete " +
+                    "from interview i " +
+                    "where i.interview_id = :intId ",
+
+            nativeQuery = true
+    )
+    void deleteInterview(
+            @Param("intId") Integer intId
+    );
+    @Transactional
+    @Modifying
+    @Query(
+            value =
+                    "Delete " +
+                    "from interview_panel ip " +
+                    "where ip.interview_id = :intId ",
+            nativeQuery = true
+    )
+    void deleteIPanel(
+            @Param("intId") Integer intId
+    );
+
+
+    @Query(
+            value = "Select " +
+                    "info.availability_id as availability_id, " +
+                    "au.username as username, " +
+                    "info.available_date as date, " +
+                    "info.available_from as start, " +
+                    "info.available_to as end, " +
+                    "info.interview_start as interview_start, " +
+                    "info.interview_end as interview_end " +
+                    "From ( " +
+                        "Select ua.availability_id, ua.user_id, ua.available_date, ua.available_from, ua.available_to, iinfo.time_start as interview_start, iinfo.time_end as interview_end " +
+                        "from user_availability ua " +
+                        "join ( " +
+                            "Select ip.interview_id, ip.interviewer_id, ifo.interview_date, ifo.time_start, ifo.time_end " +
+                            "from ( " +
+                                "Select i.interview_id, i.interview_date, i.time_start, i.time_end " +
+                                "From interview i " +
+                                "where i.interview_id = :id " +
+                            ") as ifo " +
+                            "join interview_panel ip " +
+                            "on ifo.interview_id = ip.interview_id " +
+                        ") as iinfo " +
+                        "on iinfo.interviewer_id = ua.user_id " +
+                        "where ua.available_date = iinfo.interview_date " +
+                    ") as info " +
+                    "join accolite_user au " +
+                    "on au.user_id = info.user_id;",
+            nativeQuery = true
+    )
+    List<AvailTempReturn> getAvailabilitiesToRecompile(
+            @Param("id") String id
+    );
 
 
     @Query(

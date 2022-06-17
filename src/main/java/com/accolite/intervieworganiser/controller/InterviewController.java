@@ -37,6 +37,13 @@ public class InterviewController {
         this.userService = userService;
     }
 
+    @PostMapping("/delete")
+    public void deleteInterviewRecompAvails(
+            @RequestBody String id
+    ){
+        interviewService.deleteInterviewRecompAvail(id);
+    }
+
     //@PreAuthorize("hasRole('USER')")
     @PostMapping("/range/{username}/{isrec}")
     public ResponseEntity<List<com.accolite.intervieworganiser.dto.Interview>> getAvailabilityInRange(
