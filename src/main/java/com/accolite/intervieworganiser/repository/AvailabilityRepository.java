@@ -39,6 +39,19 @@ public interface AvailabilityRepository
             @Param("endDate") LocalDate endDate
     );
 
+    @Query(
+            "SELECT a " +
+                    "FROM UserAvailability a " +
+                    "WHERE a.user.username != ''" +
+                    "AND a.availableDate >= :startDate " +
+                    "AND a.availableDate <= :endDate "
+    )
+    List<UserAvailability> getByRangeRec(
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
+
+
 
     @Query(
         "SELECT a " +

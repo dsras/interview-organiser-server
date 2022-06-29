@@ -145,4 +145,16 @@ public class AvailabilityController {
             HttpStatus.OK
         );
     }
+
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECRUITER')")
+    @PostMapping("/availability/recruiter")
+    public ResponseEntity<List<UserAvailability>> getRecruiterAvailability(
+            @Valid @RequestBody DateRange range
+    ){
+        return new ResponseEntity<List<UserAvailability>>(
+                availabilityService.getByRange("", range.getStart(), range.getEnd()),
+                HttpStatus.OK
+        );
+    }
 }
