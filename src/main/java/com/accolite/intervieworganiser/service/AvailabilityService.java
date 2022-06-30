@@ -41,12 +41,18 @@ public class AvailabilityService {
     }
 
     public List<UserAvailability> getByRange(String userName, LocalDate start, LocalDate end){
+        List<UserAvailability> newAvailabilities = new ArrayList<>();
         if(userName ==""){
-            return availabilityRepository.getByRangeRec(start, end);
+            newAvailabilities = availabilityRepository.getByRangeRec(start, end);
         }
         else{
-            return availabilityRepository.getByRange(userName, start, end);
+            newAvailabilities = availabilityRepository.getByRange(userName, start, end);
         }
+
+        for (UserAvailability a : newAvailabilities) {
+            a.setInterviewer();
+        }
+        return newAvailabilities;
     }
 
     public List<UserAvailability> saveRange(List<AvailabilityWrapper> newAvailabilities ){
