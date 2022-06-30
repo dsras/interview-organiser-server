@@ -169,7 +169,7 @@ public class InterviewService {
                 .map(x -> userService.getById(x))
                 .collect(Collectors.toList());
         Interview interview = new Interview(wrapper.getOrganiser(), wrapper.getDate(),
-                wrapper.getStartTime(), wrapper.getEndTime(), info);
+                wrapper.getStartTime(), wrapper.getEndTime(), info, wrapper.getStatus(), wrapper.getOutcome());
         interview = interviewRepository.save(interview);
 
         /* create InterviewPanel entries */

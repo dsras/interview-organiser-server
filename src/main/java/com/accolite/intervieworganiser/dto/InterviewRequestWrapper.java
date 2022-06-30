@@ -80,4 +80,7 @@ public class InterviewRequestWrapper {
     public String getInfo() {
         return interviewRequest.getInfo();
     }
+
+    public String getStatus(){ return interviewRequest.getStatus(); }
+    public String getOutcome() { return interviewRequest.getOutcome();}
 }

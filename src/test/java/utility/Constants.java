@@ -37,6 +37,6 @@ public final class Constants {
     public static final UserAvailability availability2 = new UserAvailability(interviewer,
             endDate, startTime, endTime);
 
-    public static final Interview interview = new Interview(recruiter, startDate, startTime, endTime, " ");
+    public static final Interview interview = new Interview(recruiter, startDate, startTime, endTime, " ", "Pending", "Awaiting Completion");
 
 }

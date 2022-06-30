@@ -127,12 +127,17 @@ public class Interview {
         LocalDate interviewDate,
         LocalTime timeStart,
         LocalTime timeEnd,
-        String info
+        String info,
+        String status,
+        String outcome
     ) {
         this.organiser = organiser;
         this.interviewDate = interviewDate;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
+        this.info = info;
+        this.status = status;
+        this.outcome = outcome;
         this.info = info;
     }
 

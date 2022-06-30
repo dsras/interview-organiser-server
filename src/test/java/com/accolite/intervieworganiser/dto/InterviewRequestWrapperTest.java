@@ -33,7 +33,7 @@ public class InterviewRequestWrapperTest {
     static void init(){
         interviewerIds.add(1);
         interviewRequest = new InterviewRequest(date, startTime,
-                endTime, interviewerIds);
+                endTime, interviewerIds, "pending", "Awaiting Completion");
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }

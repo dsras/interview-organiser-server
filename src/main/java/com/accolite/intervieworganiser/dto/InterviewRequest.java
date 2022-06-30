@@ -57,16 +57,22 @@ public class InterviewRequest {
         LocalDate date,
         LocalTime startTime,
         LocalTime endTime,
-        List<Integer> interviewerIds
+        List<Integer> interviewerIds,
+        String status,
+        String outcome
     ) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.interviewerIds = interviewerIds;
+        this.status = status;
+        this.outcome = outcome;
     }
 
-    public InterviewRequest() {}
 
+    public String getOutcome() {
+        return outcome;
+    }
 
     public String getStatus() {
         return status;
