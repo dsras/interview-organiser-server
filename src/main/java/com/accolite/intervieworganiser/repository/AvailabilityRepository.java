@@ -92,4 +92,39 @@ public interface AvailabilityRepository
         @Param("startTime") LocalTime startTime,
         @Param("endTime") LocalTime endTime
     );
+
+    @Query(
+            value =
+            "Select " +
+                    "myData.id as availability_id, " +
+                    "myData.available_date as available_date, " +
+                    "myData.user_id as user_id, " +
+                    "myData.startTime as available_from, " +
+                    "myData.endTime as available_to "+
+                "from( "+
+                    "Select "+
+                        "If(ua.available_from > :startTime, ua.available_from, :startTime) as startTime, "+
+                        "If(ua.available_to < :endTime, ua.available_to, :endTime) as endTime, "+
+                        "ua.availability_id as id, "+
+                        "ua.user_id, "+
+                        "ua.available_date "+
+                    "from ( " +
+                        "Select * "+
+                        "from "+
+                        "user_availability as u "+
+                        "where u.available_date >= :startDate "+
+                        "and u.available_date <= :endDate "+
+                        ") as ua "+
+                ") as myData "+
+            "where myData.user_id in :users "+
+            "and myData.startTime != myData.endTime; ",
+            nativeQuery = true
+    )
+    List<UserAvailability> getAvailableInterviewersAccurate(
+            @Param("users") List<Integer> users,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate,
+            @Param("startTime") LocalTime startTime,
+            @Param("endTime") LocalTime endTime
+    );
 }

@@ -224,4 +224,24 @@ public class AvailabilityService {
         }
         return availabilities;
     }
+
+    public List<UserAvailability> getAvailableInterviewersAccurate(
+            List<Integer> users,
+            FindInterviewersRequest request
+    ) {
+        /* get available interviewers */
+        List<UserAvailability> availabilities = availabilityRepository.getAvailableInterviewersAccurate(
+                users,
+                request.getStartDate(),
+                request.getEndDate(),
+                request.getStartTime(),
+                request.getEndTime()
+        );
+
+        /* assign interviewer attributes to availabilities */
+        for (UserAvailability a : availabilities) {
+            a.setInterviewer();
+        }
+        return availabilities;
+    }
 }

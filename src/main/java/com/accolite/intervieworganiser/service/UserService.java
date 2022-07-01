@@ -149,4 +149,18 @@ public class UserService implements UserDetailsService {
             request
         );
     }
+    public List<UserAvailability> getAvailableInterviewersAccurate(
+            FindInterviewersRequest request
+    ) {
+        /* get users with required skills */
+        List<Integer> skills = request.getSkills();
+        List<Integer> potentialInterviewers = userSkillService.findBySkills(
+                skills
+        );
+        /* filter users to those available */
+        return availabilityService.getAvailableInterviewersAccurate(
+                potentialInterviewers,
+                request
+        );
+    }
 }

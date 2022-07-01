@@ -242,4 +242,20 @@ public class InterviewController {
             HttpStatus.OK
         );
     }
+
+    @PostMapping("/interviewersAccurate")
+    public ResponseEntity<List<UserAvailability>> findInterviewersAccurate(
+            @RequestBody FindInterviewersRequest findInterviewersRequest
+    ) {
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println(findInterviewersRequest.getStartDate());
+        System.out.println(findInterviewersRequest.getEndDate());
+        System.out.println(findInterviewersRequest.getStartTime());
+        System.out.println(findInterviewersRequest.getEndTime());
+        System.out.println(findInterviewersRequest.getSkills());
+        return new ResponseEntity<List<UserAvailability>>(
+                userService.getAvailableInterviewersAccurate(findInterviewersRequest),
+                HttpStatus.OK
+        );
+    }
 }
