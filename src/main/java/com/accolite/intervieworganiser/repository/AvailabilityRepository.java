@@ -117,7 +117,9 @@ public interface AvailabilityRepository
                         ") as ua "+
                 ") as myData "+
             "where myData.user_id in :users "+
-            "and myData.startTime != myData.endTime; ",
+                    "and myData.startTime != myData.endTime " +
+                    "and myData.startTime < myData.endTime " +
+                    "and myData.endTime > myData.startTime; ",
             nativeQuery = true
     )
     List<UserAvailability> getAvailableInterviewersAccurate(
