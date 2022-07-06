@@ -7,7 +7,6 @@ import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.repository.UserRepository;
 import java.util.*;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,10 +32,10 @@ public class UserService implements UserDetailsService {
      * @param userSkillService user skill service layer
      */
     public UserService(
-        @Autowired UserRepository userRepository,
-        @Autowired RoleService roleService,
-        @Autowired AvailabilityService availabilityService,
-        @Autowired UserSkillService userSkillService
+            @Autowired UserRepository userRepository,
+            @Autowired RoleService roleService,
+            @Autowired AvailabilityService availabilityService,
+            @Autowired UserSkillService userSkillService
     ) {
         this.roleService = roleService;
         this.userRepository = userRepository;
@@ -65,15 +64,14 @@ public class UserService implements UserDetailsService {
         return userRepository.getByEmail(email);
     }
 
-    public List<String> getRoles(User user){
+    public List<String> getRoles(User user) {
         List<String> myOut = new ArrayList<>();
         userRepository.getRolesByUsername(user.getUsername())
-                .forEach(
-                        role ->
-                                myOut.add(
-                                        role.getName()
-                                )
-                );
+            .forEach(
+                role -> myOut.add(
+                    role.getName()
+                )
+            );
         return myOut;
     }
 
@@ -83,10 +81,9 @@ public class UserService implements UserDetailsService {
         userRepository
             .getRolesByUsername(user.getUsername())
             .forEach(
-                role ->
-                    authorities.add(
-                        new SimpleGrantedAuthority("ROLE_" + role.getName())
-                    )
+                role -> authorities.add(
+                    new SimpleGrantedAuthority("ROLE_" + role.getName())
+                )
             );
         for (SimpleGrantedAuthority authority : authorities) {
             System.out.println(authority);
@@ -97,15 +94,15 @@ public class UserService implements UserDetailsService {
     /* load user by username */
     @Override
     public UserDetails loadUserByUsername(String username)
-        throws UsernameNotFoundException {
+            throws UsernameNotFoundException {
         User user = userRepository.getByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("invalid username or password");
         }
         return new org.springframework.security.core.userdetails.User(
-            user.getUsername(),
-            user.getPassword(),
-            getAuthority(user)
+                user.getUsername(),
+                user.getPassword(),
+                getAuthority(user)
         );
     }
 
@@ -136,7 +133,7 @@ public class UserService implements UserDetailsService {
 
     /* get users with required skills available for interview time */
     public List<UserAvailability> getAvailableInterviewers(
-        FindInterviewersRequest request
+            FindInterviewersRequest request
     ) {
         /* get users with required skills */
         List<Integer> skills = request.getSkills();
@@ -149,18 +146,19 @@ public class UserService implements UserDetailsService {
             request
         );
     }
+
     public List<UserAvailability> getAvailableInterviewersAccurate(
             FindInterviewersRequest request
     ) {
         /* get users with required skills */
         List<Integer> skills = request.getSkills();
         List<Integer> potentialInterviewers = userSkillService.findBySkills(
-                skills
+            skills
         );
         /* filter users to those available */
         return availabilityService.getAvailableInterviewersAccurate(
-                potentialInterviewers,
-                request
+            potentialInterviewers,
+            request
         );
     }
 }

@@ -11,7 +11,7 @@ class LoginUserTest {
     String type = "Social";
 
     @Test
-    void testCreationCorrectAttributes(){
+    void testCreationCorrectAttributes() {
         LoginUser loginUser = new LoginUser();
         loginUser.setUsername(username);
         loginUser.setPassword(password);

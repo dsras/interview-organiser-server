@@ -5,8 +5,10 @@ import javax.validation.constraints.NotEmpty;
 
 /**
  * Skill persistent object.
- * <p>This object stores skill name and level e.g., Java Expert. This is referenced by {@link User}
- * to store a user's skills.</p>
+ * <p>
+ * This object stores skill name and level e.g., Java Expert. This is referenced by {@link User}
+ * to store a user's skills.
+ * </p>
  */
 @Entity
 @Table(name = "skill")
@@ -49,7 +51,8 @@ public class Skill {
         return skillLevel;
     }
 
-    public Skill() {}
+    public Skill() {
+    }
 
     public Skill(String skillName, String skillLevel) {
         this.skillName = skillName;

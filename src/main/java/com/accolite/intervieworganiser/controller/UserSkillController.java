@@ -6,7 +6,6 @@ import com.accolite.intervieworganiser.service.SkillService;
 import com.accolite.intervieworganiser.service.UserService;
 import com.accolite.intervieworganiser.service.UserSkillService;
 import java.util.List;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +30,9 @@ public class UserSkillController {
      * @param skillService skill service layer
      */
     public UserSkillController(
-        @Autowired UserService userService,
-        @Autowired UserSkillService userSkillService,
-        @Autowired SkillService skillService
+            @Autowired UserService userService,
+            @Autowired UserSkillService userSkillService,
+            @Autowired SkillService skillService
     ) {
         this.userSkillService = userSkillService;
         this.userService = userService;
@@ -47,11 +46,11 @@ public class UserSkillController {
      */
     @GetMapping("/{username}")
     public ResponseEntity<List<Skill>> findSkill(
-        @PathVariable("username") String username
+            @PathVariable("username") String username
     ) {
         return new ResponseEntity<>(
-            userSkillService.findByUser(username),
-            HttpStatus.OK
+                userSkillService.findByUser(username),
+                HttpStatus.OK
         );
     }
 
@@ -63,13 +62,13 @@ public class UserSkillController {
      */
     @PostMapping("/{username}")
     public Integer newSkill(
-        @RequestBody Integer newSkillId,
-        @PathVariable("username") String username
+            @RequestBody Integer newSkillId,
+            @PathVariable("username") String username
     ) {
         userSkillService.save(
             new UserSkill(
-                userService.findOne(username),
-                skillService.getById(newSkillId)
+                    userService.findOne(username),
+                    skillService.getById(newSkillId)
             )
         );
         return newSkillId;

@@ -17,7 +17,7 @@ public class InterviewUpdateTest {
     static Validator validator;
 
     @BeforeAll
-    static void init(){
+    static void init() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
@@ -39,8 +39,8 @@ public class InterviewUpdateTest {
 
         /* assert 1 violation (null interview ID) */
         Set<ConstraintViolation<InterviewUpdate>> violations = validator.validate(interviewUpdateNullInterviewId);
-        System.err.println("VIOLATION: "+violations);
-        assertEquals(1,violations.size());
+        System.err.println("VIOLATION: " + violations);
+        assertEquals(1, violations.size());
         assertEquals("Please provide interview ID", violations.iterator().next().getMessage());
     }
 
@@ -51,8 +51,8 @@ public class InterviewUpdateTest {
 
         /* assert 1 violation (null updated message) */
         Set<ConstraintViolation<InterviewUpdate>> violations = validator.validate(interviewUpdateNullUpdate);
-        System.err.println("VIOLATION: "+violations);
-        assertEquals(1,violations.size());
+        System.err.println("VIOLATION: " + violations);
+        assertEquals(1, violations.size());
         assertEquals("Please provide update", violations.iterator().next().getMessage());
     }
 }

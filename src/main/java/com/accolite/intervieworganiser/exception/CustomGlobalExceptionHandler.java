@@ -18,12 +18,15 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  */
 @ControllerAdvice
 public class CustomGlobalExceptionHandler
-    extends ResponseEntityExceptionHandler {
+        extends
+            ResponseEntityExceptionHandler {
 
     /**
      * Returns custom error response entity when arguments annotated with @Valid are
      * invalid.
-     *<p>Adds errors and status to the body of the response entity.</p>
+     * <p>
+     * Adds errors and status to the body of the response entity.
+     * </p>
      *
      * @param exception invalid argument exception
      * @param headers the http request headers
@@ -32,10 +35,10 @@ public class CustomGlobalExceptionHandler
      */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
-        MethodArgumentNotValidException exception,
-        HttpHeaders headers,
-        HttpStatus status,
-        WebRequest request
+            MethodArgumentNotValidException exception,
+            HttpHeaders headers,
+            HttpStatus status,
+            WebRequest request
     ) {
         /* add status and timestamp to response body */
         Map<String, Object> body = new LinkedHashMap<>();

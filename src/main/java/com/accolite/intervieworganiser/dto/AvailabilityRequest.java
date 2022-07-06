@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
  * Stores information about new availabilities with set time range over one or more days.
- * <p>Availability data transfer object that stores information about a range of availabilities
- * provided in one request.</p>
+ * <p>
+ * Availability data transfer object that stores information about a range of availabilities
+ * provided in one request.
+ * </p>
  */
 public class AvailabilityRequest {
 
@@ -75,10 +76,10 @@ public class AvailabilityRequest {
      * @param endTime the availability end time
      */
     public AvailabilityRequest(
-        LocalDate startDate,
-        LocalDate endDate,
-        LocalTime startTime,
-        LocalTime endTime
+            LocalDate startDate,
+            LocalDate endDate,
+            LocalTime startTime,
+            LocalTime endTime
     ) {
         Objects.requireNonNull(startDate, "start date must not be null");
         Objects.requireNonNull(endDate, "end date must not be null");

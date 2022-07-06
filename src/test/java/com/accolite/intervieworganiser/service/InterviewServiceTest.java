@@ -38,15 +38,19 @@ class InterviewServiceTest {
 
     @BeforeEach
     void init() {
-        interviewService = new InterviewService(interviewRepository, interviewPanelRepository,
-                userService, availabilityService);
+        interviewService = new InterviewService(
+                interviewRepository,
+                interviewPanelRepository,
+                userService,
+                availabilityService
+        );
     }
 
     /**
      * Tests that updateStatus correctly returns updated interview
      */
     @Test
-    void testUpdateStatus(){
+    void testUpdateStatus() {
         /* interview */
         Interview interview = Constants.interview;
         interview.setStatus("Confirmed");
@@ -81,10 +85,17 @@ class InterviewServiceTest {
      * Tests that updateOutcome correctly returns updated interview
      */
     @Test
-    void testUpdateOutcome(){
+    void testUpdateOutcome() {
         /* interview */
-        Interview interview = new Interview(Constants.recruiter, Constants.startDate, Constants.startTime,
-                Constants.endTime, " ");
+        Interview interview = new Interview(
+                Constants.recruiter,
+                Constants.startDate,
+                Constants.startTime,
+                Constants.endTime,
+                " ",
+                "Pending",
+                "Awaiting Completion"
+        );
         interview.setOutcome("Hired");
         interview.setId(1);
         Set<InterviewPanel> panel = new HashSet<>();
@@ -117,17 +128,32 @@ class InterviewServiceTest {
      * Tests that save correctly returns new interview
      */
     @Test
-    void testSaveInterviewReturnsCorrectResponse(){
+    void testSaveInterviewReturnsCorrectResponse() {
         /* prerequisites */
-        Interview interview = new Interview(Constants.recruiter, Constants.startDate, Constants.startTime,
-                Constants.endTime, " ");
+        Interview interview = new Interview(
+                Constants.recruiter,
+                Constants.startDate,
+                Constants.startTime,
+                Constants.endTime,
+                " ",
+                "Pending",
+                "Awaiting Completion"
+        );
         User interviewer = Constants.interviewer;
         List<Integer> interviewerIds = new ArrayList<>();
         interviewerIds.add(1);
-        InterviewRequest interviewRequest = new InterviewRequest(Constants.startDate, Constants.startTime,
-                Constants.endTime, interviewerIds);
-        InterviewRequestWrapper interviewRequestWrapper = new InterviewRequestWrapper(interviewRequest,
-                Constants.recruiter);
+        InterviewRequest interviewRequest = new InterviewRequest(
+                Constants.startDate,
+                Constants.startTime,
+                Constants.endTime,
+                interviewerIds,
+                "Pending",
+                "Awaiting Completion"
+        );
+        InterviewRequestWrapper interviewRequestWrapper = new InterviewRequestWrapper(
+                interviewRequest,
+                Constants.recruiter
+        );
 
         /* mock interview repository and user service calls */
         when(interviewRepository.save(any())).thenReturn(interview);
@@ -154,8 +180,7 @@ class InterviewServiceTest {
      * from new interview object
      */
     @Test
-    void testSaveInterviewCreatesCorrectNumInterviewPanelObjects(){
-
+    void testSaveInterviewCreatesCorrectNumInterviewPanelObjects() {
         User interviewer1 = Constants.interviewer;
         User interviewer2 = Constants.interviewer;
         User interviewer3 = Constants.interviewer;
@@ -163,13 +188,28 @@ class InterviewServiceTest {
 
         /* 1 interviewer */
         interviewerIds.add(1);
-        Interview interview = new Interview(Constants.recruiter, Constants.startDate, Constants.startTime,
-                Constants.endTime, " ");
+        Interview interview = new Interview(
+                Constants.recruiter,
+                Constants.startDate,
+                Constants.startTime,
+                Constants.endTime,
+                " ",
+                "Pending",
+                "Awaiting Completion"
+        );
 
-        InterviewRequest interviewRequest = new InterviewRequest(Constants.startDate, Constants.startTime,
-                Constants.endTime, interviewerIds);
-        InterviewRequestWrapper interviewRequestWrapper = new InterviewRequestWrapper(interviewRequest,
-                Constants.recruiter);
+        InterviewRequest interviewRequest = new InterviewRequest(
+                Constants.startDate,
+                Constants.startTime,
+                Constants.endTime,
+                interviewerIds,
+                "Pending",
+                "Awaiting Completion"
+        );
+        InterviewRequestWrapper interviewRequestWrapper = new InterviewRequestWrapper(
+                interviewRequest,
+                Constants.recruiter
+        );
 
         /* mock interview repository and user service calls */
         when(interviewRepository.save(any())).thenReturn(interview);
@@ -180,11 +220,20 @@ class InterviewServiceTest {
         Mockito.verify(interviewPanelRepository, Mockito.times(1)).save(any());
 
         /* 3 interviewers */
-        interviewerIds.add(2); interviewerIds.add(3);
-        interviewRequest = new InterviewRequest(Constants.startDate, Constants.startTime,
-                Constants.endTime, interviewerIds);
-        interviewRequestWrapper = new InterviewRequestWrapper(interviewRequest,
-                Constants.recruiter);
+        interviewerIds.add(2);
+        interviewerIds.add(3);
+        interviewRequest = new InterviewRequest(
+                Constants.startDate,
+                Constants.startTime,
+                Constants.endTime,
+                interviewerIds,
+                "Pending",
+                "Awaiting Completion"
+        );
+        interviewRequestWrapper = new InterviewRequestWrapper(
+                interviewRequest,
+                Constants.recruiter
+        );
 
         /* mock interview repository and user service calls */
         when(userService.getById(2)).thenReturn(interviewer2);
@@ -200,26 +249,26 @@ class InterviewServiceTest {
      * Tests correct interview response objects are returned by getInterviewResponseList
      * and subsequently by findAll()
      */
-//    @Test
-//    void testFindAll(){
-//        /* interviewers and interview to pass */
-//        List<User> interviewers = new ArrayList<>();
-//        interviewers.add(Constants.interviewer);
-//        List<Interview> interviews = new ArrayList<>();
-//        Interview interview = Constants.interview;
-//        interview.setId(1);
-//        interviews.add(interview);
-//
-//        /* mock repository call */
-//        when(interviewRepository.findAll()).thenReturn(interviews);
-//        when(interviewRepository.findInterviewers(1)).thenReturn(interviewers);
-//
-//        /* assert correct interview response objects are returned */
-//        List<InterviewResponse> returnedInterviewResponse = interviewService.findAll();
-//        assertEquals(1, returnedInterviewResponse.size());
-//        assertEquals(1, returnedInterviewResponse.get(0).getInterviewers().size());
-//        assertEquals(interviewers.get(0).getName(), returnedInterviewResponse.get(0).getInterviewers().get(0));
-//        assertEquals(1,returnedInterviewResponse.get(0).getInterviewId());
-//    }
+    // @Test
+    // void testFindAll(){
+    // /* interviewers and interview to pass */
+    // List<User> interviewers = new ArrayList<>();
+    // interviewers.add(Constants.interviewer);
+    // List<Interview> interviews = new ArrayList<>();
+    // Interview interview = Constants.interview;
+    // interview.setId(1);
+    // interviews.add(interview);
+    //
+    // /* mock repository call */
+    // when(interviewRepository.findAll()).thenReturn(interviews);
+    // when(interviewRepository.findInterviewers(1)).thenReturn(interviewers);
+    //
+    // /* assert correct interview response objects are returned */
+    // List<InterviewResponse> returnedInterviewResponse = interviewService.findAll();
+    // assertEquals(1, returnedInterviewResponse.size());
+    // assertEquals(1, returnedInterviewResponse.get(0).getInterviewers().size());
+    // assertEquals(interviewers.get(0).getName(), returnedInterviewResponse.get(0).getInterviewers().get(0));
+    // assertEquals(1,returnedInterviewResponse.get(0).getInterviewId());
+    // }
 
 }

@@ -8,7 +8,9 @@ import java.util.Objects;
 
 /**
  * Wraps {@link AvailabilityRequest} request with interviewer, a {@link User}.
- * <p>Availability data tranfer object that stores availability and interviewer information.</p>
+ * <p>
+ * Availability data tranfer object that stores availability and interviewer information.
+ * </p>
  */
 public class AvailabilityWrapper {
 

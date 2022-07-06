@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Provides custom date deserialization for JSON  (DD MM YYYY)
+ * Provides custom date deserialization for JSON (DD MM YYYY)
  */
 public class DateHandler extends StdDeserializer<LocalDate> {
 
@@ -30,10 +30,10 @@ public class DateHandler extends StdDeserializer<LocalDate> {
      */
     @Override
     public LocalDate deserialize(
-        JsonParser jsonParser,
-        DeserializationContext context
+            JsonParser jsonParser,
+            DeserializationContext context
     )
-        throws IOException {
+            throws IOException {
         String date = jsonParser.getText();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return LocalDate.parse(date, formatter);

@@ -4,10 +4,12 @@ import javax.persistence.*;
 
 /**
  * Interview panel persistent object.
- * <p>This contains one interviewer as a member of a panel which may consist of one or more interviewers.
+ * <p>
+ * This contains one interviewer as a member of a panel which may consist of one or more interviewers.
  * To form a panel multiple interview panel objects are saved with the same interview ID, referencing the
  * {@link Interview} the panel is for. The ID of this object refers to the combination of the interview and ONE
- * interviewer - each interviewer will generate a new interview panel ID referencing this combination. </p>
+ * interviewer - each interviewer will generate a new interview panel ID referencing this combination.
+ * </p>
  */
 @Entity
 @Table(name = "interview_panel")
@@ -58,7 +60,8 @@ public class InterviewPanel {
         this.id = id;
     }
 
-    public InterviewPanel() {}
+    public InterviewPanel() {
+    }
 
     /**
      *

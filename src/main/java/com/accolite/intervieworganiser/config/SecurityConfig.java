@@ -46,7 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Configures http security
-     * <p>Permits all requests to register and save users, requires all other requests to be authenticated.</p>
+     * <p>
+     * Permits all requests to register and save users, requires all other requests to be authenticated.
+     * </p>
      *
      * @param http the HttpSecurity
      * @throws Exception
@@ -106,7 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public JwtAuthenticationFilter authenticationTokenFilterBean()
-        throws Exception {
+            throws Exception {
         return new JwtAuthenticationFilter();
     }
 
@@ -141,8 +143,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @param unauthorizedEntryPoint unauthorised entry point
      */
     public SecurityConfig(
-        UserDetailsService userService,
-        UnauthorizedEntryPoint unauthorizedEntryPoint
+            UserDetailsService userService,
+            UnauthorizedEntryPoint unauthorizedEntryPoint
     ) {
         this.unauthorizedEntryPoint = unauthorizedEntryPoint;
         this.userDetailsService = userService;

@@ -13,7 +13,7 @@ class AvailabilityRequestTest {
     LocalTime startTime = Constants.startTime, endTime = Constants.endTime;
 
     @Test
-    void testCreationCorrectAttributes(){
+    void testCreationCorrectAttributes() {
         /* valid availability request */
         AvailabilityRequest validAvailabilityRequest = new AvailabilityRequest(startDate, endDate, startTime, endTime);
         /* assert attributes are correctly assigned */
@@ -26,8 +26,10 @@ class AvailabilityRequestTest {
     @Test
     void testCreationNullStartDate() {
         /* assert creation throws null pointer when start date is null */
-        Exception exception = assertThrows(NullPointerException.class,
-                () -> new AvailabilityRequest(null, endDate, startTime, endTime));
+        Exception exception = assertThrows(
+            NullPointerException.class,
+            () -> new AvailabilityRequest(null, endDate, startTime, endTime)
+        );
         /* assert correct error message */
         String expectedMessage = "start date must not be null";
         String actualMessage = exception.getMessage();
@@ -37,8 +39,10 @@ class AvailabilityRequestTest {
     @Test
     void testCreationNullEndDate() {
         /* assert creation throws null pointer when end date is null */
-        Exception exception = assertThrows(NullPointerException.class, () ->
-            new AvailabilityRequest(startDate, null, startTime, endTime));
+        Exception exception = assertThrows(
+            NullPointerException.class,
+            () -> new AvailabilityRequest(startDate, null, startTime, endTime)
+        );
         /* assert correct error message */
         String expectedMessage = "end date must not be null";
         String actualMessage = exception.getMessage();
@@ -48,8 +52,10 @@ class AvailabilityRequestTest {
     @Test
     void testCreationNullStartTime() {
         /* assert creation throws null pointer when start time is null */
-        Exception exception = assertThrows(NullPointerException.class, () ->
-            new AvailabilityRequest(startDate, endDate, null, endTime));
+        Exception exception = assertThrows(
+            NullPointerException.class,
+            () -> new AvailabilityRequest(startDate, endDate, null, endTime)
+        );
         /* assert correct error message */
         String expectedMessage = "start time must not be null";
         String actualMessage = exception.getMessage();
@@ -59,8 +65,10 @@ class AvailabilityRequestTest {
     @Test
     void testCreationNullEndTime() {
         /* assert creation throws null pointer when end time is null */
-        Exception exception = assertThrows(NullPointerException.class, () ->
-            new AvailabilityRequest(startDate, endDate, startTime, null));
+        Exception exception = assertThrows(
+            NullPointerException.class,
+            () -> new AvailabilityRequest(startDate, endDate, startTime, null)
+        );
         /* assert correct error message */
         String expectedMessage = "end time must not be null";
         String actualMessage = exception.getMessage();

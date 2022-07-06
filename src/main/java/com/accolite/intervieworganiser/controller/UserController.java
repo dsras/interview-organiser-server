@@ -2,36 +2,23 @@ package com.accolite.intervieworganiser.controller;
 
 import com.accolite.intervieworganiser.config.TokenProvider;
 import com.accolite.intervieworganiser.dto.AuthToken;
-import com.accolite.intervieworganiser.dto.FindInterviewersRequest;
 import com.accolite.intervieworganiser.dto.LoginUser;
-import com.accolite.intervieworganiser.entities.Skill;
 import com.accolite.intervieworganiser.entities.User;
-import com.accolite.intervieworganiser.entities.UserAvailability;
-import com.accolite.intervieworganiser.entities.UserSkill;
 import com.accolite.intervieworganiser.exception.InvalidTokenException;
-import com.accolite.intervieworganiser.repository.UserSkillRepository;
-import com.accolite.intervieworganiser.service.SkillService;
 import com.accolite.intervieworganiser.service.TokenValidationService;
 import com.accolite.intervieworganiser.service.UserService;
-import com.accolite.intervieworganiser.service.UserSkillService;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
 import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -56,10 +43,10 @@ public class UserController {
      * @param userService user service layer
      */
     public UserController(
-        @Autowired AuthenticationManager authenticationManager,
-        @Autowired TokenProvider tokenProvider,
-        @Autowired TokenValidationService tokenValidationService,
-        @Autowired UserService userService
+            @Autowired AuthenticationManager authenticationManager,
+            @Autowired TokenProvider tokenProvider,
+            @Autowired TokenValidationService tokenValidationService,
+            @Autowired UserService userService
     ) {
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
@@ -68,7 +55,9 @@ public class UserController {
     }
 
     /**
-     * <p> Generates authentication token. </p>
+     * <p>
+     * Generates authentication token.
+     * </p>
      *
      * @param loginUser the login user
      * @return the generated token
@@ -76,7 +65,7 @@ public class UserController {
      */
     @PostMapping("/authenticate")
     public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser)
-        throws AuthenticationException {
+            throws AuthenticationException {
         String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@accolitedigital.com";
         if (Pattern.compile(regex).matcher(loginUser.getUsername()).matches()) {
             if (
@@ -87,10 +76,10 @@ public class UserController {
             ) {
                 if (userService.checkIfUserExists(loginUser)) {
                     AuthToken token = new AuthToken(
-                        tokenProvider.generateTokenFromGoogleToken(
-                            loginUser.getUsername(),
-                            loginUser.getPassword()
-                        )
+                            tokenProvider.generateTokenFromGoogleToken(
+                                loginUser.getUsername(),
+                                loginUser.getPassword()
+                            )
                     );
                     return ResponseEntity.ok(token);
                 } else {
@@ -98,14 +87,14 @@ public class UserController {
                 }
             } else {
                 throw new InvalidTokenException(
-                    "for username " + loginUser.getUsername()
+                        "for username " + loginUser.getUsername()
                 );
             }
         } else {
             final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                    loginUser.getUsername(),
-                    loginUser.getPassword()
+                        loginUser.getUsername(),
+                        loginUser.getPassword()
                 )
             );
             SecurityContextHolder
@@ -118,7 +107,9 @@ public class UserController {
 
     /**
      * Gets user's personal details.
-     * <p> Returns personal details as a list. </p>
+     * <p>
+     * Returns personal details as a list.
+     * </p>
      *
      * @return list of user details
      */
@@ -133,8 +124,8 @@ public class UserController {
     public List<String> getUserRoles(@PathVariable("username") String username) {
         User user = userService.getByEmail(username);
         List<String> myAuths = userService.getRoles(user);
-        List<String> output= new ArrayList<>();
-        for (String role: myAuths) {
+        List<String> output = new ArrayList<>();
+        for (String role : myAuths) {
             output.add(role);
         }
         return output;

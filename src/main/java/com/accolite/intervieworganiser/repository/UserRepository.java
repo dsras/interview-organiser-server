@@ -1,9 +1,7 @@
 package com.accolite.intervieworganiser.repository;
 
-import com.accolite.intervieworganiser.dto.FindInterviewersRequest;
 import com.accolite.intervieworganiser.entities.Role;
 import com.accolite.intervieworganiser.entities.User;
-import java.util.List;
 import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,9 +18,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User getById(@Param("id") Integer id);
 
     @Query(
-        "select r " +
-        "from Role r " +
-        "where r in (select u.role from UserRole u where u.user.username = :username)"
+        "select r "
+            +
+            "from Role r "
+            +
+            "where r in (select u.role from UserRole u where u.user.username = :username)"
     )
     Set<Role> getRolesByUsername(@Param("username") String username);
 

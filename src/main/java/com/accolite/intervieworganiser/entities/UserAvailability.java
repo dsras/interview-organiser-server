@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 /**
  * User availability persistent object.
- * <p>This object stores information about user availability windows: date, start time, end time and user
- * which references {@link User}. </p>
+ * <p>
+ * This object stores information about user availability windows: date, start time, end time and user
+ * which references {@link User}.
+ * </p>
  */
 @Entity
 @Table(name = "user_availability")
@@ -49,17 +50,20 @@ public class UserAvailability {
 
     /**
      * Parameterised constructor.
-     * <p>Sets the information needed for an availability window.</p>
+     * <p>
+     * Sets the information needed for an availability window.
+     * </p>
+     *
      * @param user the user whose availability this is
      * @param availableDate the availability date
      * @param availableFrom the availability start time
      * @param availableTo the availability end time
      */
     public UserAvailability(
-        User user,
-        LocalDate availableDate,
-        LocalTime availableFrom,
-        LocalTime availableTo
+            User user,
+            LocalDate availableDate,
+            LocalTime availableFrom,
+            LocalTime availableTo
     ) {
         this.user = user;
         this.availableDate = availableDate;
@@ -69,7 +73,8 @@ public class UserAvailability {
         this.interviewerId = user.getId();
     }
 
-    public UserAvailability() {}
+    public UserAvailability() {
+    }
 
     /**
      *

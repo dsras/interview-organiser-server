@@ -21,19 +21,27 @@ class InterviewResponseTest {
     List<User> interviewers = new ArrayList<>();
 
     @BeforeEach
-    void init(){
+    void init() {
         interviewers.add(interviewer);
     }
 
     @Test
-    void testCreationCorrectAttributes(){
-        /* valid interview & interview response*/
-        Interview validInterview = new Interview(organiser, date, startTime, endTime, " ");
+    void testCreationCorrectAttributes() {
+        /* valid interview & interview response */
+        Interview validInterview = new Interview(
+                organiser,
+                date,
+                startTime,
+                endTime,
+                " ",
+                "Pending",
+                "Awaiting Completion"
+        );
         validInterview.setId(1);
         InterviewResponse validInterviewResponse = new InterviewResponse(validInterview, interviewers);
         /* assert InterviewResponse attributes are correctly assigned */
         assertEquals(1, validInterviewResponse.getInterviewId());
-        assertEquals( organiser.getName(), validInterviewResponse.getOrganiser());
+        assertEquals(organiser.getName(), validInterviewResponse.getOrganiser());
         assertEquals(1, validInterviewResponse.getInterviewers().size());
         assertEquals(interviewer.getName(), validInterviewResponse.getInterviewers().get(0));
         assertEquals(date, validInterviewResponse.getDate());
@@ -44,10 +52,19 @@ class InterviewResponseTest {
         assertNull(validInterviewResponse.getOutcome());
 
     }
+
     @Test
     void testCreationNullOrganiserThrowsException() {
         /* interview with null organiser */
-        Interview interviewNullOrganiser = new Interview(null, date, startTime, endTime, " ");
+        Interview interviewNullOrganiser = new Interview(
+                null,
+                date,
+                startTime,
+                endTime,
+                " ",
+                "Pending",
+                "Awaiting Completion"
+        );
         /* assert interview response creation throws null pointer */
         Exception exception = assertThrows(NullPointerException.class, () -> {
             new InterviewResponse(interviewNullOrganiser, interviewers);
@@ -61,7 +78,15 @@ class InterviewResponseTest {
     @Test
     void testCreationNullDateThrowsException() {
         /* interview with null date */
-        Interview interviewNullDate = new Interview(organiser, null, startTime, endTime, " ");
+        Interview interviewNullDate = new Interview(
+                organiser,
+                null,
+                startTime,
+                endTime,
+                " ",
+                "Pending",
+                "Awaiting Completion"
+        );
         /* assert interview response creation throws null pointer */
         Exception exception = assertThrows(NullPointerException.class, () -> {
             new InterviewResponse(interviewNullDate, interviewers);
@@ -75,7 +100,15 @@ class InterviewResponseTest {
     @Test
     void testCreationNullStartTimeThrowsException() {
         /* interview with null start time */
-        Interview interviewNullStartTime = new Interview(organiser, date, null, endTime, " ");
+        Interview interviewNullStartTime = new Interview(
+                organiser,
+                date,
+                null,
+                endTime,
+                " ",
+                "Pending",
+                "Awaiting Completion"
+        );
         /* assert interview response creation throws null pointer */
         Exception exception = assertThrows(NullPointerException.class, () -> {
             new InterviewResponse(interviewNullStartTime, interviewers);
@@ -89,7 +122,15 @@ class InterviewResponseTest {
     @Test
     void testCreationNullEndTimeThrowsException() {
         /* interview with null end time */
-        Interview interviewNullEndTime = new Interview(organiser, date, startTime, null, " ");
+        Interview interviewNullEndTime = new Interview(
+                organiser,
+                date,
+                startTime,
+                null,
+                " ",
+                "Pending",
+                "Awaiting Completion"
+        );
         /* assert interview response creation throws null pointer */
         Exception exception = assertThrows(NullPointerException.class, () -> {
             new InterviewResponse(interviewNullEndTime, interviewers);

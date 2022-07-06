@@ -4,7 +4,9 @@ import javax.persistence.*;
 
 /**
  * User skill persistent object.
- * <p>This object stores users assigned skills, referencing {@link Skill}, {@link User}.</p>
+ * <p>
+ * This object stores users assigned skills, referencing {@link Skill}, {@link User}.
+ * </p>
  */
 @Entity
 @Table(name = "user_skills")
@@ -23,7 +25,8 @@ public class UserSkill {
     @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
 
-    public UserSkill() {}
+    public UserSkill() {
+    }
 
     public UserSkill(User user, Skill skill) {
         this.user = user;

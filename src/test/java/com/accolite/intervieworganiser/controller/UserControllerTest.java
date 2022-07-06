@@ -8,8 +8,6 @@ import com.accolite.intervieworganiser.service.TokenValidationService;
 import com.accolite.intervieworganiser.service.UserService;
 import com.accolite.intervieworganiser.service.UserSkillService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,25 +16,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import utility.Constants;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.main.lazy-initialization=true", classes = UserController.class)
 @AutoConfigureMockMvc
-//@WebMvcTest(UserController.class)
-class UserControllerTest{
+// @WebMvcTest(UserController.class)
+class UserControllerTest {
 
     @Autowired
     MockMvc mvc;
@@ -62,20 +56,24 @@ class UserControllerTest{
     @MockBean
     UserSkillRepository userSkillRepository;
 
-//    @Autowired
-//    WebApplicationContext webApplicationContext;
+    // @Autowired
+    // WebApplicationContext webApplicationContext;
 
     @Test
-    @WithMockUser(username="tester",roles={"RECRUITER", "ADMIN"})
+    @WithMockUser(username = "tester", roles = { "RECRUITER", "ADMIN" })
     void testFindUserReturnsCorrectResponse() throws Exception {
-
         /* build mock request */
         RequestBuilder request = MockMvcRequestBuilders.get("/users/findUser?username=tester")
-                .accept(MediaType.TEXT_PLAIN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("utf-8");
-        User expectedUser = new User("tester", "password", "email", "name",
-                "title");
+            .accept(MediaType.TEXT_PLAIN)
+            .contentType(MediaType.APPLICATION_JSON)
+            .characterEncoding("utf-8");
+        User expectedUser = new User(
+                "tester",
+                "password",
+                "email",
+                "name",
+                "title"
+        );
 
         /* mock user service getUserDetailsByUsername */
         when(userService.getUserDetailsByUsername("tester")).thenReturn(expectedUser);
@@ -90,31 +88,31 @@ class UserControllerTest{
         assertEquals(expectedUser, response);
     }
 
-//    @Test
-//    void testSaveUserReturnsCorrectResponse() throws Exception {
-//
-//        User newInterviewer = Constants.interviewer;
-//        User newRecruiter = Constants.recruiter;
-//
-//        when(userService.save(newInterviewer)).thenReturn(newInterviewer);
-//        when(userService.save(newRecruiter)).thenReturn(newRecruiter);
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-//        ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
-//        String newInterviewerJson = writer.writeValueAsString(newInterviewer);
-//
-//        mvc.perform(post("/users/register")
-//                .content(newInterviewerJson))
-//                .andExpect(status().isCreated())
-//                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
-//                .andExpect(jsonPath("$", hasSize(1)))
-//                .andExpect(jsonPath("$[0].id", is(1)))
-//                .andExpect(jsonPath("$[0].description", is("Lorem ipsum")))
-//                .andExpect(jsonPath("$[0].title", is("Foo")));
-//
-//
-//        verify(userServiceMock, times(1)).save(newInterviewer);
-//        verifyNoMoreInteractions(userServiceMock);
-//    }
+    // @Test
+    // void testSaveUserReturnsCorrectResponse() throws Exception {
+    //
+    // User newInterviewer = Constants.interviewer;
+    // User newRecruiter = Constants.recruiter;
+    //
+    // when(userService.save(newInterviewer)).thenReturn(newInterviewer);
+    // when(userService.save(newRecruiter)).thenReturn(newRecruiter);
+    //
+    // ObjectMapper mapper = new ObjectMapper();
+    // mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+    // ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
+    // String newInterviewerJson = writer.writeValueAsString(newInterviewer);
+    //
+    // mvc.perform(post("/users/register")
+    // .content(newInterviewerJson))
+    // .andExpect(status().isCreated())
+    // .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+    // .andExpect(jsonPath("$", hasSize(1)))
+    // .andExpect(jsonPath("$[0].id", is(1)))
+    // .andExpect(jsonPath("$[0].description", is("Lorem ipsum")))
+    // .andExpect(jsonPath("$[0].title", is("Foo")));
+    //
+    //
+    // verify(userServiceMock, times(1)).save(newInterviewer);
+    // verifyNoMoreInteractions(userServiceMock);
+    // }
 }

@@ -6,7 +6,9 @@ import javax.validation.constraints.NotEmpty;
 
 /**
  * Role persistent object.
- * <p>This contains the authority of a user and is used to decide user permissions.</p>
+ * <p>
+ * This contains the authority of a user and is used to decide user permissions.
+ * </p>
  */
 @Entity
 @Table(name = "role")

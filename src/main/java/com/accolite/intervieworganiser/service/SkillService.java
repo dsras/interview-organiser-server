@@ -3,7 +3,6 @@ package com.accolite.intervieworganiser.service;
 import com.accolite.intervieworganiser.entities.Skill;
 import com.accolite.intervieworganiser.repository.SkillRepository;
 import java.util.List;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

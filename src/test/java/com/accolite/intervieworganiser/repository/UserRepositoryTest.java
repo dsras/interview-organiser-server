@@ -2,8 +2,6 @@ package com.accolite.intervieworganiser.repository;
 
 import com.accolite.intervieworganiser.entities.Role;
 import com.accolite.intervieworganiser.entities.User;
-import com.accolite.intervieworganiser.repository.RoleRepository;
-import com.accolite.intervieworganiser.repository.UserRepository;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,7 +35,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    void testGetByEmail(){
+    void testGetByEmail() {
         /* save new user */
         repository.save(new User(username, password, email, name, title));
         /* ensure repository correctly gets user by email */
@@ -46,7 +44,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    void testGetById(){
+    void testGetById() {
         /* new user */
         User newUser = new User(username, password, email, name, title);
         /* save user */
@@ -58,7 +56,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    void testGetRolesByUsername(){
+    void testGetRolesByUsername() {
         /* new user */
         User newUser = new User(username, password, email, name, title);
         /* list of roles assigned to user */

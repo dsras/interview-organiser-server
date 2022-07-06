@@ -16,8 +16,10 @@ import lombok.Setter;
 
 /**
  * Stores information about a request for interviewer(s) with specified availability and skills.
- * <p>Interview/availability data transfer object that stores date and time range during which
- * recruiter would like to create an interview, as well as list of skill IDs required of interviewer(s).</p>
+ * <p>
+ * Interview/availability data transfer object that stores date and time range during which
+ * recruiter would like to create an interview, as well as list of skill IDs required of interviewer(s).
+ * </p>
  */
 @Getter
 @Setter
@@ -47,7 +49,8 @@ public class FindInterviewersRequest {
     @NotEmpty(message = "Please provide a list of required skill IDs")
     private List<Integer> skills;
 
-    public FindInterviewersRequest() {}
+    public FindInterviewersRequest() {
+    }
 
     /**
      * Parameterised constructor.
@@ -59,11 +62,11 @@ public class FindInterviewersRequest {
      * @param skillIds the list of skill IDs indicating skills required by interviewer(s)
      */
     public FindInterviewersRequest(
-        LocalDate startDate,
-        LocalDate endDate,
-        LocalTime startTime,
-        LocalTime endTime,
-        List<Integer> skillIds
+            LocalDate startDate,
+            LocalDate endDate,
+            LocalTime startTime,
+            LocalTime endTime,
+            List<Integer> skillIds
     ) {
         this.startDate = startDate;
         this.endDate = endDate;

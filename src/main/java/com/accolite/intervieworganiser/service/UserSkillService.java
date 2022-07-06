@@ -1,7 +1,6 @@
 package com.accolite.intervieworganiser.service;
 
 import com.accolite.intervieworganiser.entities.Skill;
-import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.entities.UserSkill;
 import com.accolite.intervieworganiser.repository.UserSkillRepository;
 
@@ -16,7 +15,7 @@ public class UserSkillService {
     private UserSkillRepository userSkillRepository;
 
     public UserSkillService(
-        @Autowired UserSkillRepository userSkillRepository
+            @Autowired UserSkillRepository userSkillRepository
     ) {
         this.userSkillRepository = userSkillRepository;
     }
@@ -29,15 +28,15 @@ public class UserSkillService {
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.out.println(skillIds);
         List<Integer> allTheSkillIds = new ArrayList<>();
-        for( Integer element : skillIds){
+        for (Integer element : skillIds) {
             System.out.println(element);
-            int rem = (element-1)%3;
+            int rem = (element - 1) % 3;
             allTheSkillIds.add(element);
             for (int i = 0; i < rem; i++) {
-                allTheSkillIds.add(element-(i+1));
+                allTheSkillIds.add(element - (i + 1));
             }
         }
-        for (Integer element: allTheSkillIds) {
+        for (Integer element : allTheSkillIds) {
             System.out.println(element);
         }
 

@@ -4,7 +4,9 @@ import javax.persistence.*;
 
 /**
  * User role persistent object.
- * <p>This object stores users assigned roles, referencing {@link User} and {@link Role}.</p>
+ * <p>
+ * This object stores users assigned roles, referencing {@link User} and {@link Role}.
+ * </p>
  */
 @Entity
 @Table(name = "user_roles")

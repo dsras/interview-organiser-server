@@ -35,15 +35,20 @@ class AvailabilityServiceTest {
     UserAvailability availability1, availability2;
 
     @BeforeEach
-    void init(){
-        availabilityService = new AvailabilityService(availabilityRepository,
-                userSkillService);
-        availability1  = Constants.availability1; availability2 = Constants.availability2;
+    void init() {
+        availabilityService = new AvailabilityService(
+                availabilityRepository,
+                userSkillService
+        );
+        availability1 = Constants.availability1;
+        availability2 = Constants.availability2;
     }
 
     /**
      * Tests saving availabilities when availability request details availability windows over multiple days.
-     * <p>Tests availability per day is saved when passed request spanning multiple days.</p>
+     * <p>
+     * Tests availability per day is saved when passed request spanning multiple days.
+     * </p>
      */
     @Test
     void testSaveAvailabilitiesOverMultipleDays() {
@@ -66,20 +71,29 @@ class AvailabilityServiceTest {
 
     /**
      * Tests amending availability with interview at start of availability.
-     * <p>Tests amending availability with:
+     * <p>
+     * Tests amending availability with:
      * interview start time before or on availability start time and
-     * interview end time after availability start time and before availability end time.</p>
+     * interview end time after availability start time and before availability end time.
+     * </p>
      */
     @Test
-    void testAmendAvailabilityInterviewAtStart(){
+    void testAmendAvailabilityInterviewAtStart() {
         /* new interview request */
         LocalDate interviewDate = startDate;
         LocalTime interviewStartTime = startTime;
         LocalTime interviewEndTime = startTime.plusMinutes(15);
         List<Integer> interviewerIds = new ArrayList<>();
-        interviewerIds.add(1); interviewerIds.add(2);
-        InterviewRequest interviewRequest = new InterviewRequest(interviewDate, interviewStartTime, interviewEndTime,
-                interviewerIds);
+        interviewerIds.add(1);
+        interviewerIds.add(2);
+        InterviewRequest interviewRequest = new InterviewRequest(
+                interviewDate,
+                interviewStartTime,
+                interviewEndTime,
+                interviewerIds,
+                "Pending",
+                "Awaiting Completion"
+        );
 
         /* amend availability */
         List<UserAvailability> returnedAvailabilityList = mockAddInterview(interviewRequest);
@@ -91,20 +105,29 @@ class AvailabilityServiceTest {
 
     /**
      * Tests amending availability with interview at end of availability.
-     * <p>Tests amending availability with:
+     * <p>
+     * Tests amending availability with:
      * interview start time before availability end time and
-     * interview end time after availability end time.</p>
+     * interview end time after availability end time.
+     * </p>
      */
     @Test
-    void testAmendAvailabilityInterviewAtEnd(){
+    void testAmendAvailabilityInterviewAtEnd() {
         /* new interview request */
         LocalDate interviewDate = startDate;
         LocalTime interviewStartTime = endTime.minusMinutes(15);
         LocalTime interviewEndTime = endTime;
         List<Integer> interviewerIds = new ArrayList<>();
-        interviewerIds.add(1); interviewerIds.add(2);
-        InterviewRequest interviewRequest = new InterviewRequest(interviewDate, interviewStartTime, interviewEndTime,
-                interviewerIds);
+        interviewerIds.add(1);
+        interviewerIds.add(2);
+        InterviewRequest interviewRequest = new InterviewRequest(
+                interviewDate,
+                interviewStartTime,
+                interviewEndTime,
+                interviewerIds,
+                "Pending",
+                "Awaiting Completion"
+        );
 
         /* amend availability */
         List<UserAvailability> returnedAvailabilityList = mockAddInterview(interviewRequest);
@@ -116,20 +139,29 @@ class AvailabilityServiceTest {
 
     /**
      * Tests amending availability with interview spanning availability.
-     * <p>Tests amending availability with:
+     * <p>
+     * Tests amending availability with:
      * interview start time before or on availability start time and
-     * interview end time on or after availability end time.</p>
+     * interview end time on or after availability end time.
+     * </p>
      */
     @Test
-    void testAmendAvailabilityInterviewOverEntireAvailability(){
+    void testAmendAvailabilityInterviewOverEntireAvailability() {
         /* new interview request */
         LocalDate interviewDate = startDate;
         LocalTime interviewStartTime = startTime;
         LocalTime interviewEndTime = endTime;
         List<Integer> interviewerIds = new ArrayList<>();
-        interviewerIds.add(1); interviewerIds.add(2);
-        InterviewRequest interviewRequest = new InterviewRequest(interviewDate, interviewStartTime, interviewEndTime,
-                interviewerIds);
+        interviewerIds.add(1);
+        interviewerIds.add(2);
+        InterviewRequest interviewRequest = new InterviewRequest(
+                interviewDate,
+                interviewStartTime,
+                interviewEndTime,
+                interviewerIds,
+                "Pending",
+                "Awaiting Completion"
+        );
 
         /* amend availability */
         List<UserAvailability> returnedAvailabilityList = mockAddInterview(interviewRequest);
@@ -140,20 +172,29 @@ class AvailabilityServiceTest {
 
     /**
      * Tests amending availability with interview splitting availability.
-     * <p>Tests amending availability with:
+     * <p>
+     * Tests amending availability with:
      * interview start time after availability start time
-     * interview end time before availability end time.</p>
+     * interview end time before availability end time.
+     * </p>
      */
     @Test
-    void testAmendAvailabilityInterviewSplittingAvailability(){
+    void testAmendAvailabilityInterviewSplittingAvailability() {
         /* new interview request */
         LocalDate interviewDate = startDate;
-        LocalTime interviewStartTime = startTime.plusMinutes(15); //10:15
-        LocalTime interviewEndTime = endTime.minusMinutes(15); //10:45
+        LocalTime interviewStartTime = startTime.plusMinutes(15); // 10:15
+        LocalTime interviewEndTime = endTime.minusMinutes(15); // 10:45
         List<Integer> interviewerIds = new ArrayList<>();
-        interviewerIds.add(1); interviewerIds.add(2);
-        InterviewRequest interviewRequest = new InterviewRequest(interviewDate, interviewStartTime, interviewEndTime,
-                interviewerIds);
+        interviewerIds.add(1);
+        interviewerIds.add(2);
+        InterviewRequest interviewRequest = new InterviewRequest(
+                interviewDate,
+                interviewStartTime,
+                interviewEndTime,
+                interviewerIds,
+                "Pending",
+                "Awaiting Completion"
+        );
 
         /* amend availability */
         List<UserAvailability> returnedAvailabilityList = mockAddInterview(interviewRequest);
@@ -175,24 +216,31 @@ class AvailabilityServiceTest {
      * @param interviewRequest the interview request
      * @return list of user availabilities amended after interview is saved
      */
-    private List<UserAvailability> mockAddInterview(InterviewRequest interviewRequest){
+    private List<UserAvailability> mockAddInterview(InterviewRequest interviewRequest) {
         /* new interview request wrapper to attach organising user */
         InterviewRequestWrapper interviewRequestWrapper = new InterviewRequestWrapper(interviewRequest, organiser);
 
         /* new user availability list */
         List<UserAvailability> originalAvailabilityList = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2022, 5, 3);
-        LocalTime startTime = LocalTime.of(10,0);
-        LocalTime endTime = LocalTime.of(11,0);
+        LocalTime startTime = LocalTime.of(10, 0);
+        LocalTime endTime = LocalTime.of(11, 0);
         availability1 = new UserAvailability(interviewer, startDate, startTime, endTime);
         originalAvailabilityList.add(availability1);
 
         /* mock repository layer returning current availability and new availability */
-        when(availabilityRepository.getInTimeInterval(any(LocalDate.class), any(LocalTime.class),
-                any(LocalTime.class))).thenReturn(originalAvailabilityList);
+        when(
+            availabilityRepository.getInTimeInterval(
+                any(LocalDate.class),
+                any(LocalTime.class),
+                any(LocalTime.class)
+            )
+        ).thenReturn(originalAvailabilityList);
 
         /* amend availability */
-        List<UserAvailability> returnedAvailabilityList = availabilityService.amendAvailability(interviewRequestWrapper);
+        List<UserAvailability> returnedAvailabilityList = availabilityService.amendAvailability(
+            interviewRequestWrapper
+        );
         return returnedAvailabilityList;
     }
 
@@ -211,7 +259,7 @@ class AvailabilityServiceTest {
         users.add(interviewer);
 
         /* mock skill service */
-        //when(userSkillService.findBySkills(anyList())).thenReturn(users);
+        // when(userSkillService.findBySkills(anyList())).thenReturn(users);
 
         /* new user availability list */
         UserAvailability availability = new UserAvailability(interviewer, startDate, startTime, endTime);
@@ -231,13 +279,13 @@ class AvailabilityServiceTest {
      * assigns interviewer attributes (required for JSON output of UserAvailability objects)
      */
     @Test
-    void testGetAllAvailability(){
+    void testGetAllAvailability() {
         /* list of user availabilities */
         List<UserAvailability> originalAvailabilityList = new ArrayList<>();
         originalAvailabilityList.add(availability1);
         originalAvailabilityList.add(availability2);
 
-        /* mock repository call to find all and call getAllAvailability method in service class*/
+        /* mock repository call to find all and call getAllAvailability method in service class */
         when(availabilityRepository.findAll()).thenReturn(originalAvailabilityList);
         List<UserAvailability> returnedAvailabilityList = availabilityService.getAllAvailability();
 
@@ -249,7 +297,7 @@ class AvailabilityServiceTest {
     }
 
     @Test
-    void testGetAvailableInterviewers(){
+    void testGetAvailableInterviewers() {
         /* list of interviewer availability */
         List<User> users = new ArrayList<>();
         users.add(interviewer);
@@ -260,21 +308,26 @@ class AvailabilityServiceTest {
         /* find interviewers request */
         List<Integer> skillIds = new ArrayList<>();
         skillIds.add(1);
-        FindInterviewersRequest findInterviewersRequest = new FindInterviewersRequest(startDate, endDate,
-                startTime, endTime, skillIds);
+        FindInterviewersRequest findInterviewersRequest = new FindInterviewersRequest(
+                startDate,
+                endDate,
+                startTime,
+                endTime,
+                skillIds
+        );
 
         /* mock repository returning filtered results */
-        //when(availabilityRepository.getAvailableInterviewers(users,
-                //startDate, endDate, startTime,endTime)).thenReturn(originalAvailabilityList);
+        // when(availabilityRepository.getAvailableInterviewers(users,
+        // startDate, endDate, startTime,endTime)).thenReturn(originalAvailabilityList);
 
-        //List<UserAvailability> returnedAvailabilityList = availabilityService.getAvailableInterviewers(users,
-                //findInterviewersRequest);
+        // List<UserAvailability> returnedAvailabilityList = availabilityService.getAvailableInterviewers(users,
+        // findInterviewersRequest);
         /* assert correct list is returned */
-        //assertEquals(originalAvailabilityList, returnedAvailabilityList);
+        // assertEquals(originalAvailabilityList, returnedAvailabilityList);
 
         /* assert interviewer attributes correctly assigned */
-        //assertEquals(interviewer.getName(), returnedAvailabilityList.get(0).getInterviewer());
-        //assertEquals(interviewer.getName(), returnedAvailabilityList.get(1).getInterviewer());
+        // assertEquals(interviewer.getName(), returnedAvailabilityList.get(0).getInterviewer());
+        // assertEquals(interviewer.getName(), returnedAvailabilityList.get(1).getInterviewer());
     }
 
     /**
@@ -282,15 +335,17 @@ class AvailabilityServiceTest {
      * assigns interviewer attributes (required for JSON output of UserAvailability objects)
      */
     @Test
-    void testGetUserAvailability(){
+    void testGetUserAvailability() {
         /* list of user availabilities */
         List<UserAvailability> originalAvailabilityList = new ArrayList<>();
         originalAvailabilityList.add(availability1);
         originalAvailabilityList.add(availability2);
 
-        /* mock repository call to find all and call getAllAvailability method in service class*/
+        /* mock repository call to find all and call getAllAvailability method in service class */
         when(availabilityRepository.getByUsername(interviewer.getUsername())).thenReturn(originalAvailabilityList);
-        List<UserAvailability> returnedAvailabilityList = availabilityService.getUserAvailability(interviewer.getUsername());
+        List<UserAvailability> returnedAvailabilityList = availabilityService.getUserAvailability(
+            interviewer.getUsername()
+        );
 
         /* assert returned availabilityList is correct */
         assertEquals(originalAvailabilityList, returnedAvailabilityList);
@@ -300,4 +355,3 @@ class AvailabilityServiceTest {
     }
 
 }
-

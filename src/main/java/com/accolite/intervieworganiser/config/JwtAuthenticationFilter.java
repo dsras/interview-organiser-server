@@ -54,11 +54,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(
-        HttpServletRequest req,
-        HttpServletResponse res,
-        FilterChain chain
+            HttpServletRequest req,
+            HttpServletResponse res,
+            FilterChain chain
     )
-        throws ServletException, IOException {
+            throws ServletException,
+                IOException {
         String header = req.getHeader(HEADER_STRING);
         String username = null;
         String authToken = null;
@@ -86,12 +87,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         );
                         authentication.setDetails(
                             new WebAuthenticationDetailsSource()
-                            .buildDetails(req)
+                                .buildDetails(req)
                         );
                         logger.info(
-                            "authenticated user " +
-                            username +
-                            ", setting security context"
+                            "authenticated user "
+                                +
+                                username
+                                +
+                                ", setting security context"
                         );
                         SecurityContextHolder
                             .getContext()
@@ -114,8 +117,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             logger.warn("Couldn't find bearer string, header will be ignored");
         }
         if (
-            username != null &&
-            SecurityContextHolder.getContext().getAuthentication() == null
+            username != null
+                &&
+                SecurityContextHolder.getContext().getAuthentication() == null
         ) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(
                 username
@@ -135,9 +139,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     new WebAuthenticationDetailsSource().buildDetails(req)
                 );
                 logger.info(
-                    "authenticated user " +
-                    username +
-                    ", setting security context"
+                    "authenticated user "
+                        +
+                        username
+                        +
+                        ", setting security context"
                 );
                 SecurityContextHolder
                     .getContext()

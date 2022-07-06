@@ -1,6 +1,5 @@
 package com.accolite.intervieworganiser.config;
 
-import antlr.Token;
 import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.service.UserService;
 import io.jsonwebtoken.*;
@@ -44,8 +43,8 @@ public class TokenProvider implements Serializable {
     }
 
     public <T> T getClaimFromToken(
-        String token,
-        Function<Claims, T> claimsResolver
+            String token,
+            Function<Claims, T> claimsResolver
     ) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
@@ -85,15 +84,13 @@ public class TokenProvider implements Serializable {
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
-        return (
-            username.equals(userDetails.getUsername()) && !isTokenExpired(token)
-        );
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     UsernamePasswordAuthenticationToken getAuthenticationToken(
-        final String token,
-        final Authentication existingAuth,
-        final UserDetails userDetails
+            final String token,
+            final Authentication existingAuth,
+            final UserDetails userDetails
     ) {
         final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
 
@@ -107,15 +104,15 @@ public class TokenProvider implements Serializable {
             .collect(Collectors.toList());
 
         return new UsernamePasswordAuthenticationToken(
-            userDetails,
-            "",
-            authorities
+                userDetails,
+                "",
+                authorities
         );
     }
 
     public String generateTokenFromGoogleToken(
-        String email,
-        String googleToken
+            String email,
+            String googleToken
     ) {
         User user = userService.getByEmail(email);
         Set<SimpleGrantedAuthority> autho = userService.getAuthority(user);

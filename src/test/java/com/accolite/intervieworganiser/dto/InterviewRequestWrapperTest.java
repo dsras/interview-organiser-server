@@ -1,12 +1,10 @@
 package com.accolite.intervieworganiser.dto;
 
 import com.accolite.intervieworganiser.entities.User;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utility.Constants;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -14,7 +12,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,10 +27,16 @@ public class InterviewRequestWrapperTest {
     static Validator validator;
 
     @BeforeAll
-    static void init(){
+    static void init() {
         interviewerIds.add(1);
-        interviewRequest = new InterviewRequest(date, startTime,
-                endTime, interviewerIds, "pending", "Awaiting Completion");
+        interviewRequest = new InterviewRequest(
+                date,
+                startTime,
+                endTime,
+                interviewerIds,
+                "pending",
+                "Awaiting Completion"
+        );
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
@@ -42,7 +45,9 @@ public class InterviewRequestWrapperTest {
     void testCreationCorrectAttributes() {
         /* valid interview request wrapper object */
         InterviewRequestWrapper validInterviewRequestWrapper = new InterviewRequestWrapper(
-                interviewRequest,organiser);
+                interviewRequest,
+                organiser
+        );
 
         /* assert attributes are correctly assigned */
         assertEquals(date, validInterviewRequestWrapper.getDate());
@@ -54,7 +59,7 @@ public class InterviewRequestWrapperTest {
     }
 
     @Test
-    void testCreationNullRequestThrowsException(){
+    void testCreationNullRequestThrowsException() {
         /* assert creation throws null pointer when null interview request */
         Exception exception = assertThrows(NullPointerException.class, () -> {
             new InterviewRequestWrapper(null, organiser);
@@ -67,7 +72,7 @@ public class InterviewRequestWrapperTest {
     }
 
     @Test
-    void testCreationNullOrganiserThrowsException(){
+    void testCreationNullOrganiserThrowsException() {
         /* assert creation throws null pointer when null organiser */
         Exception exception = assertThrows(NullPointerException.class, () -> {
             new InterviewRequestWrapper(interviewRequest, null);

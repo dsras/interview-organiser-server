@@ -16,15 +16,16 @@ public class GetRequestLogger implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        Object handler
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Object handler
     ) {
         if (
             DispatcherType.REQUEST
                 .name()
-                .equals(request.getDispatcherType().name()) &&
-            request.getMethod().equals(HttpMethod.GET.name())
+                .equals(request.getDispatcherType().name())
+                &&
+                request.getMethod().equals(HttpMethod.GET.name())
         ) {
             loggingService.logRequest(request, null);
         }

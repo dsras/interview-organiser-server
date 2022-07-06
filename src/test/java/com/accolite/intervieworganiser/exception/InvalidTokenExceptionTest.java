@@ -11,7 +11,7 @@ class InvalidTokenExceptionTest {
      * and that getMessage & toString return correct message.
      */
     @Test
-    void testCorrectExceptionsCreated(){
+    void testCorrectExceptionsCreated() {
         /* test toString returns message */
         InvalidTokenException invalidTokenExceptionDefault = new InvalidTokenException();
         assertEquals("Invalid / Expired Token", invalidTokenExceptionDefault.toString());
@@ -22,7 +22,7 @@ class InvalidTokenExceptionTest {
 
         /* test custom message and cause message are returned */
         InvalidTokenException invalidTokenExceptionWithMessageAndCause =
-                new InvalidTokenException("Please try again", new Throwable("Token has expired"));
+            new InvalidTokenException("Please try again", new Throwable("Token has expired"));
         assertEquals("Please try again, Token has expired", invalidTokenExceptionWithMessageAndCause.getMessage());
     }
 }

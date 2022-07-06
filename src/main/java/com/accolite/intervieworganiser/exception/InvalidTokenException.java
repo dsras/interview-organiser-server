@@ -4,7 +4,8 @@ public class InvalidTokenException extends RuntimeException {
 
     String message = "Invalid / Expired Token";
 
-    public InvalidTokenException() {}
+    public InvalidTokenException() {
+    }
 
     public InvalidTokenException(String str) {
         message += ": " + str;

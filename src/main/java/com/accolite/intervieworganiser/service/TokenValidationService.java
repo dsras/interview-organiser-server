@@ -1,6 +1,5 @@
 package com.accolite.intervieworganiser.service;
 
-import com.accolite.intervieworganiser.exception.InvalidTokenException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -43,8 +42,8 @@ public class TokenValidationService {
      */
     public GoogleIdToken getTokenPayload(String token) throws Exception {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
-            new NetHttpTransport(),
-            new GsonFactory()
+                new NetHttpTransport(),
+                new GsonFactory()
         )
             .setAudience(Collections.singletonList(clientId))
             .build();
@@ -56,19 +55,19 @@ public class TokenValidationService {
         }
         return idTokenVerified;
     }
-    //    /**
-    //     * Fetches the email from the Google token payload by calling google verify
-    //     * token Api.
-    //     *
-    //     * @param token the token
-    //     * @return the email from the token
-    //     */
-    //    public String getEmailFromToken(String token) {
-    //        try {
-    //            return getTokenPayload(token).getPayload().getEmail();
+    // /**
+    // * Fetches the email from the Google token payload by calling google verify
+    // * token Api.
+    // *
+    // * @param token the token
+    // * @return the email from the token
+    // */
+    // public String getEmailFromToken(String token) {
+    // try {
+    // return getTokenPayload(token).getPayload().getEmail();
     //
-    //        } catch (Exception ex) {
-    //            throw new InvalidTokenException();
-    //        }
-    //    }
+    // } catch (Exception ex) {
+    // throw new InvalidTokenException();
+    // }
+    // }
 }

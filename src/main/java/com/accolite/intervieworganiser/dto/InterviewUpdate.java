@@ -6,7 +6,9 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Stores information about new {@link com.accolite.intervieworganiser.entities.Interview} status or outcome.
- * <p>Interview data transfer object that stores interview ID and new status or outcome. </p>
+ * <p>
+ * Interview data transfer object that stores interview ID and new status or outcome.
+ * </p>
  */
 public class InterviewUpdate {
 

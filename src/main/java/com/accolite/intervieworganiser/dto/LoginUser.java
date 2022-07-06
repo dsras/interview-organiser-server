@@ -2,7 +2,9 @@ package com.accolite.intervieworganiser.dto;
 
 /**
  * Stores information about a {@link com.accolite.intervieworganiser.entities.User}.
- * <p>User data transfer object that stores username, password and login type of user.</p>
+ * <p>
+ * User data transfer object that stores username, password and login type of user.
+ * </p>
  */
 public class LoginUser {
 

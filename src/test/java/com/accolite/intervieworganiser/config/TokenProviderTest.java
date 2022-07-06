@@ -6,9 +6,7 @@ import io.jsonwebtoken.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,9 +38,8 @@ class TokenProviderTest {
     static Authentication authentication;
     static List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-
     @BeforeAll
-    static void init(){
+    static void init() {
         /* set required attributes of token provider instance */
         tokenProvider.setSigningKey("signingkey");
         tokenProvider.setAuthoritiesKey(authoritiesKey);
@@ -57,24 +54,25 @@ class TokenProviderTest {
     }
 
     @Test
-    void testGetUsernameFromToken(){
+    void testGetUsernameFromToken() {
         String returnedUsername = tokenProvider.getUsernameFromToken(token);
         assertEquals(subject, returnedUsername);
     }
 
     @Test
-    void testGetJtiToken(){
+    void testGetJtiToken() {
         String returnedJti = tokenProvider.getJtiFromToken(token);
         assertEquals(id, returnedJti);
     }
 
     @Test
-    void testIsTokenExpired(){
+    void testIsTokenExpired() {
         String validToken = token;
         String expiredToken = createJWT(id, issuer, subject, 1L);
 
-        /* assert method returns false for valid token
-        and token expired exception is thrown for expired token
+        /*
+         * assert method returns false for valid token
+         * and token expired exception is thrown for expired token
          */
         assertFalse(tokenProvider.isTokenExpired(validToken));
         Exception exception = assertThrows(ExpiredJwtException.class, () -> {
@@ -83,7 +81,7 @@ class TokenProviderTest {
     }
 
     @Test
-    void testValidateTokenIsTrueWithValidUsernameAndValidToken(){
+    void testValidateTokenIsTrueWithValidUsernameAndValidToken() {
         String username = "tester";
         UserDetails userDetails = createUserDetailsForTesting(subject);
 
@@ -92,7 +90,7 @@ class TokenProviderTest {
     }
 
     @Test
-    void testValidateTokenIsFalseWithInvalidUsernameAndValidToken(){
+    void testValidateTokenIsFalseWithInvalidUsernameAndValidToken() {
         String username = "tester";
         UserDetails userDetails = createUserDetailsForTesting("other_user@accolitedigital.com");
 
@@ -101,7 +99,7 @@ class TokenProviderTest {
     }
 
     @Test
-    void testValidateTokenThrowsExceptionWithValidUsernameAndExpiredToken(){
+    void testValidateTokenThrowsExceptionWithValidUsernameAndExpiredToken() {
         String username = "tester";
         String expiredToken = createJWT(id, issuer, subject, 1L);
         UserDetails userDetails = createUserDetailsForTesting(subject);
@@ -113,7 +111,7 @@ class TokenProviderTest {
     }
 
     @Test
-    void testValidateTokenThrowsExceptionWithInvalidUsernameAndExpiredToken(){
+    void testValidateTokenThrowsExceptionWithInvalidUsernameAndExpiredToken() {
         String username = "tester";
         String expiredToken = createJWT(id, issuer, subject, 1L);
         UserDetails userDetails = createUserDetailsForTesting("other_user@accolitedigital.com");
@@ -125,13 +123,12 @@ class TokenProviderTest {
     }
 
     @Test
-    void testGenerateTokenCreatesCorrectToken(){
-
+    void testGenerateTokenCreatesCorrectToken() {
         /* create token and record time before and after creation */
         Date dateBeforeCreation = new Date(System.currentTimeMillis());
         String generatedToken = tokenProvider.generateToken(authentication);
         Date dateAfterCreation = new Date(System.currentTimeMillis());
-        Date latestExpirationDate = new Date(dateAfterCreation.getTime()+expiration*1000);
+        Date latestExpirationDate = new Date(dateAfterCreation.getTime() + expiration * 1000);
 
         /* assert correct subject */
         assertEquals(subject, tokenProvider.getUsernameFromToken(generatedToken));
@@ -142,9 +139,12 @@ class TokenProviderTest {
     }
 
     @Test
-    void testGetAuthenticationTokenCreatesCorrectToken(){
-        UsernamePasswordAuthenticationToken generatedToken = tokenProvider.getAuthenticationToken(token,
-                authentication, createUserDetailsForTesting(subject));
+    void testGetAuthenticationTokenCreatesCorrectToken() {
+        UsernamePasswordAuthenticationToken generatedToken = tokenProvider.getAuthenticationToken(
+            token,
+            authentication,
+            createUserDetailsForTesting(subject)
+        );
 
         /* assert one authority is added to token authorities */
         Collection<GrantedAuthority> returnedAuthorities = generatedToken.getAuthorities();
@@ -152,16 +152,21 @@ class TokenProviderTest {
 
         /* assert authority contains "User" */
         String authoritiesAsString = returnedAuthorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(","));
         assertTrue(authoritiesAsString.contains("User"));
     }
 
-//    @Test
-    void testGenerateTokenFromGoogleTokenGeneratesCorrectToken(){
+    // @Test
+    void testGenerateTokenFromGoogleTokenGeneratesCorrectToken() {
         /* mock user service calls */
-        User user = new User(subject, Constants.password, Constants.email,
-                Constants.interviewerName, Constants.interviewerBusTitle);
+        User user = new User(
+                subject,
+                Constants.password,
+                Constants.email,
+                Constants.interviewerName,
+                Constants.interviewerBusTitle
+        );
         when(userService.getByEmail(subject)).thenReturn(user);
 
         Set<SimpleGrantedAuthority> authoritySet = new HashSet<>(authorities);
@@ -175,56 +180,95 @@ class TokenProviderTest {
         assertEquals(googleToken, tokenProvider.getJtiFromToken(generatedToken));
     }
 
-    static UserDetails createUserDetailsForTesting(String username){
+    static UserDetails createUserDetailsForTesting(String username) {
         return new UserDetails() {
             @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {return authorities;}
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return authorities;
+            }
+
             @Override
-            public String getPassword() {return null;}
+            public String getPassword() {
+                return null;
+            }
+
             @Override
-            public String getUsername() {return username;}
+            public String getUsername() {
+                return username;
+            }
+
             @Override
-            public boolean isAccountNonExpired() {return false;}
+            public boolean isAccountNonExpired() {
+                return false;
+            }
+
             @Override
-            public boolean isAccountNonLocked() {return false;}
+            public boolean isAccountNonLocked() {
+                return false;
+            }
+
             @Override
-            public boolean isCredentialsNonExpired() {return false;}
+            public boolean isCredentialsNonExpired() {
+                return false;
+            }
+
             @Override
-            public boolean isEnabled() {return false;}
+            public boolean isEnabled() {
+                return false;
+            }
         };
     }
 
-    static Authentication createAuthenticationForTesting(){
+    static Authentication createAuthenticationForTesting() {
         return new Authentication() {
             @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {return authorities;}
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return authorities;
+            }
+
             @Override
-            public Object getCredentials() {return null;}
+            public Object getCredentials() {
+                return null;
+            }
+
             @Override
-            public Object getDetails() {return null;}
+            public Object getDetails() {
+                return null;
+            }
+
             @Override
-            public Object getPrincipal() {return null;}
+            public Object getPrincipal() {
+                return null;
+            }
+
             @Override
-            public boolean isAuthenticated() {return true;}
+            public boolean isAuthenticated() {
+                return true;
+            }
+
             @Override
-            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {}
+            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+            }
+
             @Override
-            public String getName() {return subject;}
+            public String getName() {
+                return subject;
+            }
         };
     }
 
     String createJWT(String id, String issuer, String subject, long expiration) {
-
         long nowMs = System.currentTimeMillis();
         Date now = new Date(nowMs);
 
         /* set JWT claims */
-        JwtBuilder builder = Jwts.builder().setId(id)
-                .setIssuedAt(now)
-                .setSubject(subject)
-                .setIssuer(issuer)
-                .claim(authoritiesKey, authorities)
-                .signWith(signatureAlgorithm, "signingkey");
+        JwtBuilder builder = Jwts.builder()
+            .setId(id)
+            .setIssuedAt(now)
+            .setSubject(subject)
+            .setIssuer(issuer)
+            .claim(authoritiesKey, authorities)
+            .signWith(signatureAlgorithm, "signingkey");
 
         /* set expiration if applicable */
         if (expiration > 0) {

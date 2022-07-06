@@ -8,12 +8,10 @@ import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.service.AvailabilityService;
 import com.accolite.intervieworganiser.service.UserService;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,24 +34,22 @@ public class AvailabilityController {
      * @param userService user service layer
      */
     public AvailabilityController(
-        @Autowired AvailabilityService availabilityService,
-        @Autowired UserService userService
+            @Autowired AvailabilityService availabilityService,
+            @Autowired UserService userService
     ) {
         this.availabilityService = availabilityService;
         this.userService = userService;
     }
 
-
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/availability/delete")
     public void deleteAvailability(
             @Valid @RequestBody Integer id
-    ){
+    ) {
         availabilityService.delete(id);
     }
 
-
-    //@PreAuthorize("hasRole('USER')")
+    // @PreAuthorize("hasRole('USER')")
     @PostMapping("/availability/{username}/range")
     public ResponseEntity<List<UserAvailability>> getAvailabilityInRange(
             @PathVariable("username") String username,
@@ -65,7 +61,6 @@ public class AvailabilityController {
         );
     }
 
-
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/availabilityRange/{username}")
     public List<UserAvailability> addUserAvailabilityOverRange(
@@ -74,7 +69,12 @@ public class AvailabilityController {
     ) {
         List<AvailabilityWrapper> wrappers = new ArrayList<>();
         for (int i = 0; i < availability.getDates().length; i++) {
-            AvailabilityRequest myAvail = new AvailabilityRequest( availability.getDates()[i],availability.getDates()[i], availability.getStartTime(), availability.getEndTime() );
+            AvailabilityRequest myAvail = new AvailabilityRequest(
+                    availability.getDates()[i],
+                    availability.getDates()[i],
+                    availability.getStartTime(),
+                    availability.getEndTime()
+            );
             AvailabilityWrapper newAvailability = new AvailabilityWrapper(
                     myAvail,
                     userService.findOne(username)
@@ -87,7 +87,9 @@ public class AvailabilityController {
 
     /**
      * Adds new availability for a user.
-     * <p>Takes availability details and adds to the database for user.</p>
+     * <p>
+     * Takes availability details and adds to the database for user.
+     * </p>
      *
      * @param availability the new availability details
      * @return the newly saved availability
@@ -95,12 +97,12 @@ public class AvailabilityController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/availability/{username}")
     public List<UserAvailability> addUserAvailability(
-        @PathVariable("username") String username,
-        @Valid @RequestBody AvailabilityRequest availability
+            @PathVariable("username") String username,
+            @Valid @RequestBody AvailabilityRequest availability
     ) {
         AvailabilityWrapper newAvailability = new AvailabilityWrapper(
-            availability,
-            userService.findOne(username)
+                availability,
+                userService.findOne(username)
         );
         return availabilityService.save(newAvailability);
     }
@@ -113,18 +115,20 @@ public class AvailabilityController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/availability/{username}")
     public ResponseEntity<List<UserAvailability>> getUserAvailability(
-        @PathVariable("username") String username
+            @PathVariable("username") String username
     ) {
         return new ResponseEntity<>(
-            availabilityService.getUserAvailability(username),
-            HttpStatus.OK
+                availabilityService.getUserAvailability(username),
+                HttpStatus.OK
         );
     }
 
     /**
      * Gets availability of all users can can be filtered by specified skills.
-     * <p> Takes an optional list of skill IDs and returns the availability of users with these skills,
-     * or all availability if no skills specified. </p>
+     * <p>
+     * Takes an optional list of skill IDs and returns the availability of users with these skills,
+     * or all availability if no skills specified.
+     * </p>
      *
      * @param skillIds the list of skill IDs
      * @return a list of all availability of users with all specified skill IDs
@@ -132,26 +136,25 @@ public class AvailabilityController {
     @PreAuthorize("hasAnyRole('ADMIN', 'RECRUITER')")
     @GetMapping("/availability")
     public ResponseEntity<List<UserAvailability>> getAvailability(
-        @RequestParam(required = false, name = "ids") List<Integer> skillIds
+            @RequestParam(required = false, name = "ids") List<Integer> skillIds
     ) {
         if (skillIds == null || skillIds.isEmpty()) {
             return new ResponseEntity<>(
-                availabilityService.getAllAvailability(),
-                HttpStatus.OK
+                    availabilityService.getAllAvailability(),
+                    HttpStatus.OK
             );
         }
         return new ResponseEntity<>(
-            availabilityService.findBySkills(skillIds),
-            HttpStatus.OK
+                availabilityService.findBySkills(skillIds),
+                HttpStatus.OK
         );
     }
-
 
     @PreAuthorize("hasAnyRole('ADMIN', 'RECRUITER')")
     @PostMapping("/availability/recruiter")
     public ResponseEntity<List<UserAvailability>> getRecruiterAvailability(
             @Valid @RequestBody DateRange range
-    ){
+    ) {
         return new ResponseEntity<List<UserAvailability>>(
                 availabilityService.getByRange("", range.getStart(), range.getEnd()),
                 HttpStatus.OK

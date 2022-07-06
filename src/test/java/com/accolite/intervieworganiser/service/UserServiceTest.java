@@ -1,17 +1,11 @@
 package com.accolite.intervieworganiser.service;
 
-
-import com.accolite.intervieworganiser.dto.AvailabilityRequest;
 import com.accolite.intervieworganiser.dto.FindInterviewersRequest;
 import com.accolite.intervieworganiser.dto.LoginUser;
 import com.accolite.intervieworganiser.entities.Role;
 import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.repository.UserRepository;
-import com.accolite.intervieworganiser.service.AvailabilityService;
-import com.accolite.intervieworganiser.service.RoleService;
-import com.accolite.intervieworganiser.service.UserService;
-import com.accolite.intervieworganiser.service.UserSkillService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,8 +50,8 @@ class UserServiceTest {
 
     final LocalDate date = LocalDate.of(2022, 5, 3);
     final LocalDate date2 = LocalDate.of(2022, 5, 4);
-    final LocalTime startTime = LocalTime.of(10,0);
-    final LocalTime endTime = LocalTime.of(11,0);
+    final LocalTime startTime = LocalTime.of(10, 0);
+    final LocalTime endTime = LocalTime.of(11, 0);
 
     @BeforeEach
     void initUseCase() {
@@ -80,7 +74,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testCheckIfUserExists(){
+    void testCheckIfUserExists() {
         /* new user */
         User newUser = new User(username, password, email, name, title);
         /* return this user to mock repository layer getting user by username */
@@ -93,7 +87,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testLoadUserByUsername(){
+    void testLoadUserByUsername() {
         /* new user */
         User newUser = new User(username, password, email, name, title);
         /* return this user to mock repository layer getting user by username */
@@ -109,8 +103,10 @@ class UserServiceTest {
         /* mock repository layer getting null */
         when(repository.getByUsername(any(String.class))).thenReturn(null);
         /* ensure service correctly gets user by username */
-        Exception exception = assertThrows(UsernameNotFoundException.class, () ->
-                userService.loadUserByUsername(username));
+        Exception exception = assertThrows(
+            UsernameNotFoundException.class,
+            () -> userService.loadUserByUsername(username)
+        );
         /* assert correct error message */
         String expectedMessage = "invalid username or password";
         String actualMessage = exception.getMessage();
@@ -118,7 +114,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testGetAuthority(){
+    void testGetAuthority() {
         /* new user */
         User newUser = new User(username, password, email, name, title);
         /* list of roles */
@@ -135,7 +131,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testGetAvailableInterviewers(){
+    void testGetAvailableInterviewers() {
         /* new user */
         User newUser = new User(username, password, email, name, title);
         /* new user availability list */
@@ -150,10 +146,10 @@ class UserServiceTest {
         /* new list of interviewers */
         List<User> interviewers = new ArrayList<>();
         interviewers.add(newUser);
-        /* return this list to mock repository layer getting interviewers with skill set  */
-        //when(userSkillService.findBySkills(any())).thenReturn(interviewers);
+        /* return this list to mock repository layer getting interviewers with skill set */
+        // when(userSkillService.findBySkills(any())).thenReturn(interviewers);
         /* new findInterviewers request */
-        FindInterviewersRequest request = new FindInterviewersRequest(date, date2, startTime, endTime,skillIds);
+        FindInterviewersRequest request = new FindInterviewersRequest(date, date2, startTime, endTime, skillIds);
         /* ensure service correctly return list of availabilities */
         assertThat(userService.getAvailableInterviewers(request)).isEqualTo(availabilities);
     }

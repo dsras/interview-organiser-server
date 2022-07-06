@@ -24,7 +24,7 @@ class InterviewRequestTest {
     static Validator validator;
 
     @BeforeAll
-    static void init(){
+    static void init() {
         interviewerIds.add(1);
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
@@ -33,7 +33,14 @@ class InterviewRequestTest {
     @Test
     void testCreationCorrectAttributes() {
         /* valid interview request object */
-        InterviewRequest validInterviewRequest = new InterviewRequest(date, startTime, endTime,interviewerIds);
+        InterviewRequest validInterviewRequest = new InterviewRequest(
+                date,
+                startTime,
+                endTime,
+                interviewerIds,
+                "Pending",
+                "Awaiting Completion"
+        );
 
         /* assert attributes are correctly assigned */
         assertEquals(date, validInterviewRequest.getDate());
@@ -47,12 +54,18 @@ class InterviewRequestTest {
     void testCreationNullDateIsViolation() {
         /* interview request with null date */
         InterviewRequest interviewRequestNullDate = new InterviewRequest(
-                null, startTime, endTime, interviewerIds);
+                null,
+                startTime,
+                endTime,
+                interviewerIds,
+                "Pending",
+                "Awaiting Completion"
+        );
 
         /* assert 1 violation (null date) */
         Set<ConstraintViolation<InterviewRequest>> violations = validator.validate(interviewRequestNullDate);
-        System.err.println("VIOLATION: "+violations);
-        assertEquals(1,violations.size());
+        System.err.println("VIOLATION: " + violations);
+        assertEquals(1, violations.size());
         assertEquals("Please provide an interview date", violations.iterator().next().getMessage());
     }
 
@@ -60,12 +73,18 @@ class InterviewRequestTest {
     void testCreationNullStartTimeIsViolation() {
         /* interview request with null start time */
         InterviewRequest interviewRequestNullStartTime = new InterviewRequest(
-                date, null, endTime, interviewerIds);
+                date,
+                null,
+                endTime,
+                interviewerIds,
+                "Pending",
+                "Awaiting Completion"
+        );
 
         /* assert 1 violation (null start time) */
         Set<ConstraintViolation<InterviewRequest>> violations = validator.validate(interviewRequestNullStartTime);
-        System.err.println("VIOLATION: "+violations);
-        assertEquals(1,violations.size());
+        System.err.println("VIOLATION: " + violations);
+        assertEquals(1, violations.size());
         assertEquals("Please provide an interview start time", violations.iterator().next().getMessage());
     }
 
@@ -73,25 +92,37 @@ class InterviewRequestTest {
     void testCreationNullEndTimeIsViolation() {
         /* interview request with null end time */
         InterviewRequest interviewRequestNullEndTime = new InterviewRequest(
-                date, startTime, null, interviewerIds);
+                date,
+                startTime,
+                null,
+                interviewerIds,
+                "Pending",
+                "Awaiting Completion"
+        );
 
         /* assert 1 violation (null end time) */
         Set<ConstraintViolation<InterviewRequest>> violations = validator.validate(interviewRequestNullEndTime);
-        System.err.println("VIOLATION: "+violations);
-        assertEquals(1,violations.size());
+        System.err.println("VIOLATION: " + violations);
+        assertEquals(1, violations.size());
         assertEquals("Please provide an interview end time", violations.iterator().next().getMessage());
     }
 
     @Test
     void testCreationNullInterviewerIdsIsViolation() {
         /* interview request with null interviewer ids list */
-        InterviewRequest interviewRequestNullInterviewerIds= new InterviewRequest(
-                date, startTime, endTime, null);
+        InterviewRequest interviewRequestNullInterviewerIds = new InterviewRequest(
+                date,
+                startTime,
+                endTime,
+                null,
+                "Pending",
+                "Awaiting Completion"
+        );
 
-        /* assert 1 violation (null  date) */
+        /* assert 1 violation (null date) */
         Set<ConstraintViolation<InterviewRequest>> violations = validator.validate(interviewRequestNullInterviewerIds);
-        System.err.println("VIOLATION: "+violations);
-        assertEquals(1,violations.size());
+        System.err.println("VIOLATION: " + violations);
+        assertEquals(1, violations.size());
         assertEquals("Please provide list of interviewer IDs", violations.iterator().next().getMessage());
     }
 }

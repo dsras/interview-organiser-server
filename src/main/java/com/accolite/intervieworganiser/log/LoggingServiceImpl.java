@@ -22,7 +22,9 @@ public class LoggingServiceImpl implements LoggingService {
 
     /**
      * Logs requests.
-     * <p>Logs request method, path, headers, parameters (if applicable) and body (if applicable).</p>
+     * <p>
+     * Logs request method, path, headers, parameters (if applicable) and body (if applicable).
+     * </p>
      *
      * @param httpServletRequest the incoming request
      * @param body the request body
@@ -62,16 +64,19 @@ public class LoggingServiceImpl implements LoggingService {
 
     /**
      * Logs responses.
-     * <p>Logs response method, path, header and body.</p>
+     * <p>
+     * Logs response method, path, header and body.
+     * </p>
+     *
      * @param httpServletRequest
      * @param httpServletResponse
      * @param body
      */
     @Override
     public void logResponse(
-        HttpServletRequest httpServletRequest,
-        HttpServletResponse httpServletResponse,
-        Object body
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse,
+            Object body
     ) {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -100,7 +105,7 @@ public class LoggingServiceImpl implements LoggingService {
      * @return a map of parameter names and values
      */
     private Map<String, String> buildParametersMap(
-        HttpServletRequest httpServletRequest
+            HttpServletRequest httpServletRequest
     ) {
         Map<String, String> resultMap = new HashMap<>();
         Enumeration<String> parameterNames = httpServletRequest.getParameterNames();

@@ -9,8 +9,10 @@ import java.util.Objects;
 
 /**
  * Stores information about new availabilities with set time range over one or more days.
- * <p>Availability data transfer object that stores information about a range of availabilities
- * provided in one request.</p>
+ * <p>
+ * Availability data transfer object that stores information about a range of availabilities
+ * provided in one request.
+ * </p>
  */
 public class AvailabilityRangeRequest {
 
@@ -25,6 +27,7 @@ public class AvailabilityRangeRequest {
     @JsonProperty("dates")
     @NotNull(message = "Please provide a start date")
     private LocalDate[] dates;
+
     /**
      * Gets availability range start date.
      *
@@ -60,9 +63,9 @@ public class AvailabilityRangeRequest {
      * @param endTime the availability end time
      */
     public AvailabilityRangeRequest(
-        LocalDate[] dates,
-        LocalTime startTime,
-        LocalTime endTime
+            LocalDate[] dates,
+            LocalTime startTime,
+            LocalTime endTime
     ) {
         Objects.requireNonNull(dates, "dates must not be null");
         Objects.requireNonNull(startTime, "start time must not be null");

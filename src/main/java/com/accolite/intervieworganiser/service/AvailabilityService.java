@@ -29,23 +29,22 @@ public class AvailabilityService {
      * @param userSkillService user skills service layer
      */
     public AvailabilityService(
-        @Autowired AvailabilityRepository availabilityRepository,
-        @Autowired UserSkillService userSkillService
+            @Autowired AvailabilityRepository availabilityRepository,
+            @Autowired UserSkillService userSkillService
     ) {
         this.availabilityRepository = availabilityRepository;
         this.userSkillService = userSkillService;
     }
 
-    public void delete(Integer oldAvailabilityId){
+    public void delete(Integer oldAvailabilityId) {
         this.availabilityRepository.deleteAvailability(oldAvailabilityId);
     }
 
-    public List<UserAvailability> getByRange(String userName, LocalDate start, LocalDate end){
+    public List<UserAvailability> getByRange(String userName, LocalDate start, LocalDate end) {
         List<UserAvailability> newAvailabilities = new ArrayList<>();
-        if(userName ==""){
+        if (userName == "") {
             newAvailabilities = availabilityRepository.getByRangeRec(start, end);
-        }
-        else{
+        } else {
             newAvailabilities = availabilityRepository.getByRange(userName, start, end);
         }
 
@@ -55,7 +54,7 @@ public class AvailabilityService {
         return newAvailabilities;
     }
 
-    public List<UserAvailability> saveRange(List<AvailabilityWrapper> newAvailabilities ){
+    public List<UserAvailability> saveRange(List<AvailabilityWrapper> newAvailabilities) {
         List<UserAvailability> newAvailabilitiesList = new ArrayList<>();
         for (int i = 0; i < newAvailabilities.size(); i++) {
             User user = newAvailabilities.get(i).getInterviewer();
@@ -70,9 +69,9 @@ public class AvailabilityService {
                     date = date.plusDays(1)
             ) {
                 newAvailabilitiesList.add(
-                        availabilityRepository.save(
-                                new UserAvailability(user, date, startTime, endTime)
-                        )
+                    availabilityRepository.save(
+                        new UserAvailability(user, date, startTime, endTime)
+                    )
                 );
             }
             for (UserAvailability a : newAvailabilitiesList) {
@@ -92,9 +91,9 @@ public class AvailabilityService {
         LocalTime endTime = newAvailability.getEndTime();
 
         for (
-            LocalDate date = startDate;
-            !date.isAfter(endDate);
-            date = date.plusDays(1)
+                LocalDate date = startDate;
+                !date.isAfter(endDate);
+                date = date.plusDays(1)
         ) {
             newAvailabilities.add(
                 availabilityRepository.save(
@@ -121,7 +120,7 @@ public class AvailabilityService {
 
     /* get all availability */
     public List<UserAvailability> getAllAvailability() {
-        logger.info("Getting all availability"); //Example logging
+        logger.info("Getting all availability"); // Example logging
         List<UserAvailability> availability = availabilityRepository.findAll();
         for (UserAvailability a : availability) {
             a.setInterviewer();
@@ -131,12 +130,13 @@ public class AvailabilityService {
 
     /* amend availability of user to reflect new booking */
     public List<UserAvailability> amendAvailability(
-        InterviewRequestWrapper wrapper
+            InterviewRequestWrapper wrapper
     ) {
-        List<UserAvailability> currentAvailability = availabilityRepository.getInTimeInterval(
+        List<UserAvailability> currentAvailability = availabilityRepository.getInTimeIntervalWithId(
             wrapper.getDate(),
             wrapper.getStartTime(),
-            wrapper.getEndTime()
+            wrapper.getEndTime(),
+            wrapper.getInterviewerIds()
         );
         /* lists to store availabilities that need to be removed or saved to database */
         List<UserAvailability> availabilitiesToRemove = new ArrayList<>();
@@ -146,12 +146,13 @@ public class AvailabilityService {
             if (
                 !wrapper
                     .getStartTime()
-                    .isAfter(availability.getAvailableFrom()) &&
-                !wrapper.getEndTime().isBefore(availability.getAvailableTo())
+                    .isAfter(availability.getAvailableFrom())
+                    &&
+                    !wrapper.getEndTime().isBefore(availability.getAvailableTo())
             ) {
                 /* delete availability */
                 availabilitiesToRemove.add(availability);
-            }/* if available before interview: */ else if (
+            } /* if available before interview: */ else if (
                 availability.getAvailableFrom().isBefore(wrapper.getStartTime())
             ) {
                 /* and available after: */
@@ -160,10 +161,10 @@ public class AvailabilityService {
                 ) {
                     /* create new availability from interview end time until availability end time */
                     UserAvailability newAvailability = new UserAvailability(
-                        availability.getUser(),
-                        availability.getAvailableDate(),
-                        wrapper.getEndTime(),
-                        availability.getAvailableTo()
+                            availability.getUser(),
+                            availability.getAvailableDate(),
+                            wrapper.getEndTime(),
+                            availability.getAvailableTo()
                     );
                     availabilitiesToAdd.add(newAvailability);
                 }
@@ -206,8 +207,8 @@ public class AvailabilityService {
 
     /* get interviewer availabilities in time slot from list of qualified interviewers */
     public List<UserAvailability> getAvailableInterviewers(
-        List<Integer> users,
-        FindInterviewersRequest request
+            List<Integer> users,
+            FindInterviewersRequest request
     ) {
         /* get available interviewers */
         List<UserAvailability> availabilities = availabilityRepository.getAvailableInterviewers(
@@ -231,11 +232,11 @@ public class AvailabilityService {
     ) {
         /* get available interviewers */
         List<UserAvailability> availabilities = availabilityRepository.getAvailableInterviewersAccurate(
-                users,
-                request.getStartDate(),
-                request.getEndDate(),
-                request.getStartTime(),
-                request.getEndTime()
+            users,
+            request.getStartDate(),
+            request.getEndDate(),
+            request.getStartTime(),
+            request.getEndTime()
         );
 
         /* assign interviewer attributes to availabilities */

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class UserTest {
 
     @Test
-    void testGetAndSetAllAttributes(){
+    void testGetAndSetAllAttributes() {
         int id = 1;
         String username = "tester@accolitedigital.com";
         String name = "Tester";
@@ -28,8 +28,10 @@ class UserTest {
         LocalDate joinDate = LocalDate.of(2022, 3, 1);
         String location = "Glasgow";
         int experience = 1;
-        Role role = new Role(); role.setName("TESTER");
-        List<Role> roles = new ArrayList<>(); roles.add(role);
+        Role role = new Role();
+        role.setName("TESTER");
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
 
         User user = new User(username, password, email, name, title);
         user.setAccount(account);

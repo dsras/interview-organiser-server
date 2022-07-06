@@ -31,7 +31,7 @@ public class RoleController {
      */
     @GetMapping("/role")
     public Role getRole(
-        @RequestParam(value = "name", required = true) String name
+            @RequestParam(value = "name", required = true) String name
     ) {
         return roleService.getByName(name);
     }

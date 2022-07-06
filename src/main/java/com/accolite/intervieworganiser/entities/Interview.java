@@ -5,13 +5,14 @@ import java.time.LocalTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 /**
  * Interview persistent object.
- * <p>This contains the interview information date, start time, end time, organiser and any additional
+ * <p>
+ * This contains the interview information date, start time, end time, organiser and any additional
  * information provided by the organiser. This is reference by {@link InterviewPanel} objects to allocate
- * interviewers to it.</p>
+ * interviewers to it.
+ * </p>
  */
 @Entity
 @Table(name = "interview")
@@ -94,7 +95,8 @@ public class Interview {
         return timeEnd;
     }
 
-    public Interview() {}
+    public Interview() {
+    }
 
     /**
      *
@@ -114,7 +116,9 @@ public class Interview {
 
     /**
      * Parameterised constructor.
-     * <p>Sets minimum information needed for an interview.</p>
+     * <p>
+     * Sets minimum information needed for an interview.
+     * </p>
      *
      * @param organiser the interview organiser
      * @param interviewDate the interview date
@@ -123,13 +127,13 @@ public class Interview {
      * @param info additional information about the interview e.g., applicant name and skills being evaluated
      */
     public Interview(
-        User organiser,
-        LocalDate interviewDate,
-        LocalTime timeStart,
-        LocalTime timeEnd,
-        String info,
-        String status,
-        String outcome
+            User organiser,
+            LocalDate interviewDate,
+            LocalTime timeStart,
+            LocalTime timeEnd,
+            String info,
+            String status,
+            String outcome
     ) {
         this.organiser = organiser;
         this.interviewDate = interviewDate;

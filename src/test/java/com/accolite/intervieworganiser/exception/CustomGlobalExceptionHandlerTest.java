@@ -35,7 +35,7 @@ public class CustomGlobalExceptionHandlerTest {
     MethodParameter parameter = mock(MethodParameter.class);
 
     @BeforeClass
-    public static void init(){
+    public static void init() {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("test header name", "test header content");
     }
@@ -45,16 +45,19 @@ public class CustomGlobalExceptionHandlerTest {
      */
     @Test
     void testCorrectResponseCreated() {
-
-        /* mock errors returned from binding result getFieldErrors*/
+        /* mock errors returned from binding result getFieldErrors */
         FieldError fieldError = new FieldError("Error", "error", "error message");
         List<FieldError> fieldErrorList = new ArrayList<>();
         fieldErrorList.add(fieldError);
         when(result.getFieldErrors()).thenReturn(fieldErrorList);
 
         /* assert handleMethodArgumentNotValid returns correct headers, status and error message */
-        ResponseEntity<Object> responseEntity = exceptionHandler.handleMethodArgumentNotValid(new
-                        MethodArgumentNotValidException(parameter, result), headers, status, webRequest);
+        ResponseEntity<Object> responseEntity = exceptionHandler.handleMethodArgumentNotValid(
+            new MethodArgumentNotValidException(parameter, result),
+            headers,
+            status,
+            webRequest
+        );
         assertTrue(Objects.requireNonNull(responseEntity.getBody()).toString().contains("errors=[error message]"));
         assertEquals("200 OK", responseEntity.getStatusCode().toString());
         assertEquals(headers, responseEntity.getHeaders());

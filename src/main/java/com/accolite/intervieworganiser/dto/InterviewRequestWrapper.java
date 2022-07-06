@@ -81,6 +81,11 @@ public class InterviewRequestWrapper {
         return interviewRequest.getInfo();
     }
 
-    public String getStatus(){ return interviewRequest.getStatus(); }
-    public String getOutcome() { return interviewRequest.getOutcome();}
+    public String getStatus() {
+        return interviewRequest.getStatus();
+    }
+
+    public String getOutcome() {
+        return interviewRequest.getOutcome();
+    }
 }

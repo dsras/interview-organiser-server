@@ -15,7 +15,7 @@ class AvailabilityWrapperTest {
     User interviewer = Constants.interviewer;
 
     @Test
-    void testCreationCorrectAttributes(){
+    void testCreationCorrectAttributes() {
         /* valid availability request */
         AvailabilityRequest validAvailabilityRequest = new AvailabilityRequest(startDate, endDate, startTime, endTime);
         /* assert availability wrapper attributes are correctly assigned */
@@ -30,8 +30,10 @@ class AvailabilityWrapperTest {
     @Test
     void testCreationNullAvailability() {
         /* assert creation throws null pointer when availability request is null */
-        Exception exception = assertThrows(NullPointerException.class,
-                () -> new AvailabilityWrapper(null, interviewer));
+        Exception exception = assertThrows(
+            NullPointerException.class,
+            () -> new AvailabilityWrapper(null, interviewer)
+        );
         /* assert correct error message */
         String expectedMessage = "availability request must not be null";
         String actualMessage = exception.getMessage();
@@ -43,8 +45,10 @@ class AvailabilityWrapperTest {
         /* valid availability request */
         AvailabilityRequest validAvailabilityRequest = new AvailabilityRequest(startDate, endDate, startTime, endTime);
         /* assert creation throws null pointer when interviewer is null */
-        Exception exception = assertThrows(NullPointerException.class,
-                () -> new AvailabilityWrapper(validAvailabilityRequest, null));
+        Exception exception = assertThrows(
+            NullPointerException.class,
+            () -> new AvailabilityWrapper(validAvailabilityRequest, null)
+        );
         /* assert correct error message */
         String expectedMessage = "interviewer must not be null";
         String actualMessage = exception.getMessage();

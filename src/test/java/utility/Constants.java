@@ -15,8 +15,8 @@ public final class Constants {
 
     public static final LocalDate startDate = LocalDate.of(2022, 5, 3);
     public static final LocalDate endDate = LocalDate.of(2022, 5, 4);
-    public static final LocalTime startTime = LocalTime.of(10,0);
-    public static final LocalTime endTime = LocalTime.of(11,0);
+    public static final LocalTime startTime = LocalTime.of(10, 0);
+    public static final LocalTime endTime = LocalTime.of(11, 0);
 
     public static final String interviewerUsername = "interviewer@accolitedigital.com";
     public static final String recruiterUsername = "recruiter@accolitedigital.com";
@@ -27,16 +27,42 @@ public final class Constants {
     public static final String interviewerBusTitle = "Accolite Interviewer";
     public static final String recruiterBusTitle = "Accolite Recruiter";
 
-    public static final User interviewer = new User(interviewerUsername, password, email,
-            interviewerName, interviewerBusTitle);
-    public static final User recruiter = new User(recruiterUsername, password, email,
-            recruiterName, recruiterBusTitle);
+    public static final User interviewer = new User(
+            interviewerUsername,
+            password,
+            email,
+            interviewerName,
+            interviewerBusTitle
+    );
+    public static final User recruiter = new User(
+            recruiterUsername,
+            password,
+            email,
+            recruiterName,
+            recruiterBusTitle
+    );
 
-    public static final UserAvailability availability1 = new UserAvailability(interviewer,
-            startDate, startTime, endTime);
-    public static final UserAvailability availability2 = new UserAvailability(interviewer,
-            endDate, startTime, endTime);
+    public static final UserAvailability availability1 = new UserAvailability(
+            interviewer,
+            startDate,
+            startTime,
+            endTime
+    );
+    public static final UserAvailability availability2 = new UserAvailability(
+            interviewer,
+            endDate,
+            startTime,
+            endTime
+    );
 
-    public static final Interview interview = new Interview(recruiter, startDate, startTime, endTime, " ", "Pending", "Awaiting Completion");
+    public static final Interview interview = new Interview(
+            recruiter,
+            startDate,
+            startTime,
+            endTime,
+            " ",
+            "Pending",
+            "Awaiting Completion"
+    );
 
 }

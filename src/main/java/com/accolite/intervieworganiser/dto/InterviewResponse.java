@@ -8,7 +8,6 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.validation.constraints.NotNull;
 
 /**
  * Wrapper for {@link Interview} object. Provides {@link com.accolite.intervieworganiser.entities.InterviewPanel}

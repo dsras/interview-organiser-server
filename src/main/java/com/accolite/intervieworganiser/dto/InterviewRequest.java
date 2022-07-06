@@ -9,10 +9,12 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Stores information about a new interview.
- * <p>Interview data transfer object that stores date, start time, end time, list of IDs of
+ * <p>
+ * Interview data transfer object that stores date, start time, end time, list of IDs of
  * interviewers on panel and any additional info provided by recruiter.
  * {@link com.accolite.intervieworganiser.entities.Interview} objects are created with this
- * information.</p>
+ * information.
+ * </p>
  */
 public class InterviewRequest {
 
@@ -36,14 +38,12 @@ public class InterviewRequest {
     private String info;
 
     @JsonProperty("status")
-    @NotNull(message= "Please select status")
+    @NotNull(message = "Please select status")
     private String status;
 
     @JsonProperty("outcome")
-    @NotNull(message= "Please select outcome")
+    @NotNull(message = "Please select outcome")
     private String outcome;
-
-
 
     /**
      * Parameterised constructor.
@@ -54,12 +54,12 @@ public class InterviewRequest {
      * @param interviewerIds the list of interviewer IDs
      */
     public InterviewRequest(
-        LocalDate date,
-        LocalTime startTime,
-        LocalTime endTime,
-        List<Integer> interviewerIds,
-        String status,
-        String outcome
+            LocalDate date,
+            LocalTime startTime,
+            LocalTime endTime,
+            List<Integer> interviewerIds,
+            String status,
+            String outcome
     ) {
         this.date = date;
         this.startTime = startTime;
@@ -69,7 +69,6 @@ public class InterviewRequest {
         this.outcome = outcome;
     }
 
-
     public String getOutcome() {
         return outcome;
     }
@@ -77,6 +76,7 @@ public class InterviewRequest {
     public String getStatus() {
         return status;
     }
+
     /**
      * Gets list of IDs of interviewers on interview panel.
      *

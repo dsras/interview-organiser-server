@@ -22,11 +22,12 @@ public class CORSFilter implements Filter {
      * @throws ServletException thrown by FilterChain doFilter
      */
     public void doFilter(
-        ServletRequest req,
-        ServletResponse res,
-        FilterChain chain
+            ServletRequest req,
+            ServletResponse res,
+            FilterChain chain
     )
-        throws IOException, ServletException {
+            throws IOException,
+                ServletException {
         response = (HttpServletResponse) res;
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
@@ -37,8 +38,9 @@ public class CORSFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader(
             "Access-Control-Allow-Headers",
-            "X-Requested-With, Content-Type, " +
-            "Authorization, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers"
+            "X-Requested-With, Content-Type, "
+                +
+                "Authorization, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers"
         );
         if (
             "OPTIONS".equalsIgnoreCase(((HttpServletRequest) req).getMethod())

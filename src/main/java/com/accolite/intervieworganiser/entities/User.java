@@ -8,9 +8,11 @@ import javax.validation.constraints.NotEmpty;
 
 /**
  * User persistent object.
- * <p>This object stores a user's details and is referenced by other entities ({@link InterviewPanel},
+ * <p>
+ * This object stores a user's details and is referenced by other entities ({@link InterviewPanel},
  * {@link UserAvailability}, {@link UserRole}, {@link UserSkill}) to relate users to their availability,
- * interviews, roles and skills. </p>
+ * interviews, roles and skills.
+ * </p>
  */
 @Entity
 @Table(name = "accolite_user")
@@ -209,7 +211,9 @@ public class User {
 
     /**
      * Parameterised constructor.
-     * <p>Sets the minimum information needed for a user. </p>
+     * <p>
+     * Sets the minimum information needed for a user.
+     * </p>
      *
      * @param username the user's username
      * @param password the user's password
@@ -218,11 +222,11 @@ public class User {
      * @param businessTitle the user's business title
      */
     public User(
-        String username,
-        String password,
-        String email,
-        String name,
-        String businessTitle
+            String username,
+            String password,
+            String email,
+            String name,
+            String businessTitle
     ) {
         this.username = username;
         this.password = password;
@@ -231,7 +235,8 @@ public class User {
         this.businessTitle = businessTitle;
     }
 
-    public User() {}
+    public User() {
+    }
 
     public void setUsername(String username) {
         this.username = username;
