@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -107,6 +108,71 @@ public interface AvailabilityRepository
             @Param("startTime") LocalTime startTime,
             @Param("endTime") LocalTime endTime,
             @Param("id") List<Integer> id
+    );
+
+    @Query(
+            "SELECT " +
+                    "a " +
+                    "FROM " +
+                    "UserAvailability a " +
+                    "WHERE " +
+                        "a.availableDate = :date " +
+                        "AND ( " +
+                        "( " +
+                            "a.availableTo > :startTime " +
+                            "and a.availableFrom < :startTime " +
+                        ") " +
+                        "or ( " +
+                            "a.availableTo > :endTime " +
+                            "and a.availableFrom < :endTime " +
+                        ") " +
+                        "or ( " +
+                            "a.availableFrom = :startTime " +
+                            "or a.availableFrom = :endTime " +
+                            "or a.availableTo = :startTime " +
+                            "or a.availableTo = :endTime " +
+                        ") " +
+                        "or ( " +
+                            "a.availableFrom > :startTime " +
+                            "and a.availableTo < :endTime " +
+                        ") " +
+                        "or ( " +
+                            "a.availableFrom < :startTime " +
+                            "and a.availableTo > :endTime " +
+                        ") " +
+                    ") " +
+                    "and a.user.id in :id "
+    )
+    List<UserAvailability> getAdjacentAvailability(
+            @Param("date") LocalDate date,
+            @Param("startTime") LocalTime startTime,
+            @Param("endTime") LocalTime endTime,
+            @Param("id") List<Integer> id
+    );
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "Update user_availability "+
+                    "Set available_from = :startTime "+
+                    "Where availability_id = :id ;",
+            nativeQuery = true
+    )
+    void updateStartTime(
+            @Param("id") Integer id,
+            @Param("startTime") LocalTime startTime
+    );
+    @Transactional
+    @Modifying
+    @Query(
+            value = "Update user_availability "+
+                    "Set available_to = :endTime "+
+                    "Where availability_id = :id ;",
+            nativeQuery = true
+    )
+    void updateEndTime(
+            @Param("id") Integer id,
+            @Param("endTime") LocalTime startTime
     );
 
     @Query(
