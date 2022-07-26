@@ -121,7 +121,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(Arrays.asList("http://localhost:5003"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost:5454", "http://ec2-15-206-194-59.ap-south-1.compute.amazonaws.com:5454"));
         config.setAllowedMethods(
             Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH")
         );

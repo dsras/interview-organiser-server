@@ -235,7 +235,23 @@ public class User {
         this.businessTitle = businessTitle;
     }
 
-    public User() {
+    public User(){
+
+    }
+    public User(User Updated) {
+        this.setAccount(Updated.getAccount());
+        this.setRoles(Updated.getRoles());
+        this.setBusinessTitle(Updated.getBusinessTitle());
+        this.setDesignation(Updated.getDesignation());
+        this.setEmail(Updated.getEmail());
+        this.setId(Updated.getId());
+        this.setDateOfJoining(Updated.getDateOfJoining());
+        this.setBusinessUnit(Updated.getBusinessUnit());
+        this.setMobile(Updated.getMobile());
+        this.setLocation(Updated.getLocation());
+        this.setName(Updated.getName());
+        this.setPassword(Updated.getPassword());
+        this.setPriorExperience(Updated.getPriorExperience());
     }
 
     public void setUsername(String username) {

@@ -23,4 +23,8 @@ public class RoleService {
     public Role getByName(String name) {
         return roleRepository.getByName(name);
     }
+    public void setNewUserRole(Integer user_id){
+        System.out.println(user_id);
+        roleRepository.setNewUserRole(roleRepository.getMaxIdInUserRoles()+1, user_id);
+    }
 }

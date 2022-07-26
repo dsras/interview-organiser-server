@@ -91,6 +91,13 @@ public class UserService implements UserDetailsService {
         return authorities;
     }
 
+    public User changeAccountTagTo(String username, String RoundTag) throws UsernameNotFoundException{
+        User user = userRepository.getByUsername(username);
+        user.setAccount(RoundTag);
+        return userRepository.save(user);
+
+    }
+
     /* load user by username */
     @Override
     public UserDetails loadUserByUsername(String username)
@@ -120,7 +127,16 @@ public class UserService implements UserDetailsService {
         }
         return userRepository.save(user);
     }
+    public User saveNewUser(User user) {
+        user.setPassword(encoder().encode(user.getPassword()));
+        Role role = roleService.getByName("USER");
+        List<Role> roleSet = new ArrayList<>();
+        roleSet.add(role);
 
+        user.setRoles(roleSet);
+
+        return userRepository.save(user);
+    }
     /* password encoder */
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();

@@ -5,6 +5,7 @@ import com.accolite.intervieworganiser.dto.AuthToken;
 import com.accolite.intervieworganiser.dto.LoginUser;
 import com.accolite.intervieworganiser.entities.User;
 import com.accolite.intervieworganiser.exception.InvalidTokenException;
+import com.accolite.intervieworganiser.service.RoleService;
 import com.accolite.intervieworganiser.service.TokenValidationService;
 import com.accolite.intervieworganiser.service.UserService;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +35,7 @@ public class UserController {
     private TokenProvider tokenProvider;
     private TokenValidationService tokenValidationService;
     private UserService userService;
+    private RoleService roleService;
 
     /**
      * Parameterised constructor.
@@ -46,12 +49,21 @@ public class UserController {
             @Autowired AuthenticationManager authenticationManager,
             @Autowired TokenProvider tokenProvider,
             @Autowired TokenValidationService tokenValidationService,
-            @Autowired UserService userService
+            @Autowired UserService userService,
+            @Autowired RoleService roleService
     ) {
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
         this.tokenValidationService = tokenValidationService;
         this.userService = userService;
+        this.roleService = roleService;
+    }
+
+
+    /* save new user */
+    @PostMapping("/register")
+    public ResponseEntity<Integer> saveUser(@RequestBody User user) {
+        return new ResponseEntity<>(userService.save(user).getId(), HttpStatus.CREATED);
     }
 
     /**
@@ -63,6 +75,7 @@ public class UserController {
      * @return the generated token
      * @throws AuthenticationException
      */
+    @CrossOrigin
     @PostMapping("/authenticate")
     public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser)
             throws AuthenticationException {
@@ -83,7 +96,20 @@ public class UserController {
                     );
                     return ResponseEntity.ok(token);
                 } else {
-                    throw new EntityNotFoundException("User Not Registered");
+                    String[] names = loginUser.getUsername().split("\\.");
+                    System.out.println(names[0]);
+                    String name = names[0];
+                    User tempUser = new User(loginUser.getUsername(), loginUser.getPassword(), loginUser.getUsername(), names[0], "UserInterviewer");
+                    userService.saveNewUser(tempUser);
+                    AuthToken token = new AuthToken(
+                            tokenProvider.generateTokenFromGoogleToken(
+                                    loginUser.getUsername(),
+                                    loginUser.getPassword()
+                            )
+                    );
+
+                    return ResponseEntity.ok(token);
+
                 }
             } else {
                 throw new InvalidTokenException(
@@ -129,5 +155,14 @@ public class UserController {
             output.add(role);
         }
         return output;
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'RECRUITER')")
+    @PostMapping("/{username}/setRound")
+    public User setRoundTagUser(
+            @PathVariable("username") String username,
+            @RequestBody String RoundTag
+    ){
+        return userService.changeAccountTagTo(username, RoundTag);
     }
 }
