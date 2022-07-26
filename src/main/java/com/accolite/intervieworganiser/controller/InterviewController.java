@@ -1,11 +1,13 @@
 package com.accolite.intervieworganiser.controller;
 
 import com.accolite.intervieworganiser.dto.*;
+import com.accolite.intervieworganiser.dto.UserAvailWithStage;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.service.InterviewService;
 import com.accolite.intervieworganiser.service.UserService;
 import java.util.List;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -249,18 +251,20 @@ public class InterviewController {
     }
 
     @PostMapping("/interviewersAccurate")
-    public ResponseEntity<List<UserAvailability>> findInterviewersAccurate(
+    public ResponseEntity<List<UserAvailWithStage>> findInterviewersAccurate(
             @RequestBody FindInterviewersRequest findInterviewersRequest
     ) {
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println(findInterviewersRequest.getStartDate());
-        System.out.println(findInterviewersRequest.getEndDate());
-        System.out.println(findInterviewersRequest.getStartTime());
-        System.out.println(findInterviewersRequest.getEndTime());
-        System.out.println(findInterviewersRequest.getSkills());
-        return new ResponseEntity<List<UserAvailability>>(
+//        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//        System.out.println(findInterviewersRequest.getStartDate());
+//        System.out.println(findInterviewersRequest.getEndDate());
+//        System.out.println(findInterviewersRequest.getStartTime());
+//        System.out.println(findInterviewersRequest.getEndTime());
+//        System.out.println(findInterviewersRequest.getSkills());
+        ResponseEntity<List<UserAvailWithStage>> myAvail =  new ResponseEntity<List<UserAvailWithStage>>(
                 userService.getAvailableInterviewersAccurate(findInterviewersRequest),
                 HttpStatus.OK
-        );
+            );
+        System.out.println(myAvail);
+        return myAvail;
     }
 }

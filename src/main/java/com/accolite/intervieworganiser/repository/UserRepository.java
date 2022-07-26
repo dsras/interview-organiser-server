@@ -2,6 +2,8 @@ package com.accolite.intervieworganiser.repository;
 
 import com.accolite.intervieworganiser.entities.Role;
 import com.accolite.intervieworganiser.entities.User;
+
+import java.util.List;
 import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,5 +31,16 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("FROM User u " + "WHERE u.username = :username")
     User getUserDetailsByUsername(@Param("username") String username);
 
+    @Query(
+        value = "Select au.user_id " +
+                "from accolite_user au " +
+                "where au.user_id  in :list " +
+                "and au.account  in :tags ;",
+            nativeQuery = true
+    )
+    List<Integer> getUsersFromListWithTag(
+            @Param("list") List<Integer> list,
+            @Param("tags") List<String> tags
+    );
 
 }

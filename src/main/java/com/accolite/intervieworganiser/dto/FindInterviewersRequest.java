@@ -49,6 +49,10 @@ public class FindInterviewersRequest {
     @NotEmpty(message = "Please provide a list of required skill IDs")
     private List<Integer> skills;
 
+    @JsonProperty("stage")
+    @NotEmpty(message = "Please provide a required stage tag")
+    private String stage;
+
     public FindInterviewersRequest() {
     }
 
@@ -73,6 +77,10 @@ public class FindInterviewersRequest {
         this.startTime = startTime;
         this.endTime = endTime;
         this.skills = skillIds;
+    }
+
+    public String getStage() {
+        return stage;
     }
 
     /**

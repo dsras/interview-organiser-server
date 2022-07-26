@@ -1,11 +1,11 @@
 package com.accolite.intervieworganiser.repository;
 
+import com.accolite.intervieworganiser.dto.UserAvailWithStage;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

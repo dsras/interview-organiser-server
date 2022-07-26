@@ -4,6 +4,7 @@ import com.accolite.intervieworganiser.dto.FindInterviewersRequest;
 import com.accolite.intervieworganiser.dto.LoginUser;
 import com.accolite.intervieworganiser.entities.Role;
 import com.accolite.intervieworganiser.entities.User;
+import com.accolite.intervieworganiser.dto.UserAvailWithStage;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.repository.UserRepository;
 import java.util.*;
@@ -163,7 +164,7 @@ public class UserService implements UserDetailsService {
         );
     }
 
-    public List<UserAvailability> getAvailableInterviewersAccurate(
+    public List<UserAvailWithStage> getAvailableInterviewersAccurate(
             FindInterviewersRequest request
     ) {
         /* get users with required skills */
@@ -171,10 +172,39 @@ public class UserService implements UserDetailsService {
         List<Integer> potentialInterviewers = userSkillService.findBySkills(
             skills
         );
+        System.out.println("potential ids");
+        System.out.println(potentialInterviewers);
+        potentialInterviewers = getUsersInListHavingTag(potentialInterviewers, request.getStage());
+        System.out.println("potential ids");
+        System.out.println(potentialInterviewers);
         /* filter users to those available */
-        return availabilityService.getAvailableInterviewersAccurate(
-            potentialInterviewers,
-            request
+        List<UserAvailability> retData = availabilityService.getAvailableInterviewersAccurate(
+                potentialInterviewers,
+                request
         );
+        List<UserAvailWithStage> myList = new ArrayList<>();
+        for (UserAvailability retDatum : retData) {
+            myList.add(new UserAvailWithStage(retDatum, request.getStage()));
+
+        }
+        System.out.println("myList");
+        for (UserAvailWithStage userAvailWithStage : myList) {
+            System.out.println(userAvailWithStage.getStage());
+        }
+        return myList;
+    }
+
+    public List<Integer> getUsersInListHavingTag(List<Integer> inputIds, String tag){
+        List<String> tagsList = Arrays.asList("R1","R2","Sponsor");
+        List<String> myTags = new ArrayList<>();
+        for (String temp: tagsList) {
+            myTags.add(temp);
+            if(temp==tag){
+                break;
+            }
+        }
+        System.out.println("my tags");
+        System.out.println(myTags);
+        return userRepository.getUsersFromListWithTag(inputIds,myTags);
     }
 }

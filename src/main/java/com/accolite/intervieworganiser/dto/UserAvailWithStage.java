@@ -1,5 +1,7 @@
-package com.accolite.intervieworganiser.entities;
+package com.accolite.intervieworganiser.dto;
 
+import com.accolite.intervieworganiser.entities.User;
+import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
@@ -13,40 +15,28 @@ import javax.persistence.*;
  * which references {@link User}.
  * </p>
  */
-@Entity
-@Table(name = "user_availability")
-public class UserAvailability {
+public class UserAvailWithStage {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "availability_id", nullable = false)
     @JsonProperty("availabilityId")
     private Integer id;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @Column(name = "available_date", nullable = false)
     @JsonProperty("date")
     private LocalDate availableDate;
 
-    @Column(name = "available_from", nullable = false)
     @JsonProperty("startTime")
     private LocalTime availableFrom;
 
-    @Column(name = "available_to", nullable = false)
     @JsonProperty("endTime")
     private LocalTime availableTo;
 
-    @Transient
     @JsonProperty("interviewer")
     private String interviewer;
 
-    @Transient
     @JsonProperty("interviewerId")
     private Integer interviewerId;
+
+    @JsonProperty("stage")
+    private String stage;
 
 
     /**
@@ -60,21 +50,38 @@ public class UserAvailability {
      * @param availableFrom the availability start time
      * @param availableTo the availability end time
      */
-    public UserAvailability(
+    public UserAvailWithStage(
             User user,
             LocalDate availableDate,
             LocalTime availableFrom,
-            LocalTime availableTo
+            LocalTime availableTo,
+            String stage
     ) {
-        this.user = user;
         this.availableDate = availableDate;
         this.availableFrom = availableFrom;
         this.availableTo = availableTo;
         this.interviewer = user.getName();
         this.interviewerId = user.getId();
+        this.stage = stage;
+    }
+    public UserAvailWithStage(UserAvailability avail, String stage){
+        this.availableDate = avail.getAvailableDate();
+        this.availableFrom = avail.getAvailableFrom();
+        this.availableTo = avail.getAvailableTo();
+        this.interviewer = avail.getUser().getName();
+        this.interviewerId = avail.getUser().getId();
+        this.stage = stage;
     }
 
-    public UserAvailability() {
+    public UserAvailWithStage() {
+    }
+
+    public String getStage() {
+        return stage;
+    }
+
+    public void setStage(String stage) {
+        this.stage = stage;
     }
 
     /**
@@ -117,13 +124,6 @@ public class UserAvailability {
         return availableDate;
     }
 
-    /**
-     *
-     * @return the user whose availability this is
-     */
-    public User getUser() {
-        return user;
-    }
 
     /**
      *
@@ -133,13 +133,6 @@ public class UserAvailability {
         return id;
     }
 
-    /**
-     * Assigns ID and name of user to attributes.
-     */
-    public void setInterviewer() {
-        this.interviewer = user.getName();
-        this.interviewerId = user.getId();
-    }
 
     /**
      *

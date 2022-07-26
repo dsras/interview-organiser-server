@@ -4,6 +4,7 @@ import com.accolite.intervieworganiser.dto.AvailabilityWrapper;
 import com.accolite.intervieworganiser.dto.FindInterviewersRequest;
 import com.accolite.intervieworganiser.dto.InterviewRequestWrapper;
 import com.accolite.intervieworganiser.entities.User;
+import com.accolite.intervieworganiser.dto.UserAvailWithStage;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.repository.AvailabilityRepository;
 import java.time.LocalDate;
