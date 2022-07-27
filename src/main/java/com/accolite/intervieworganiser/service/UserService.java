@@ -8,6 +8,8 @@ import com.accolite.intervieworganiser.dto.UserAvailWithStage;
 import com.accolite.intervieworganiser.entities.UserAvailability;
 import com.accolite.intervieworganiser.repository.UserRepository;
 import java.util.*;
+
+import org.hibernate.engine.transaction.jta.platform.internal.SynchronizationRegistryBasedSynchronizationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -174,18 +176,36 @@ public class UserService implements UserDetailsService {
         );
         System.out.println("potential ids");
         System.out.println(potentialInterviewers);
-        potentialInterviewers = getUsersInListHavingTag(potentialInterviewers, request.getStage());
-        System.out.println("potential ids");
-        System.out.println(potentialInterviewers);
-        /* filter users to those available */
-        List<UserAvailability> retData = availabilityService.getAvailableInterviewersAccurate(
-                potentialInterviewers,
-                request
-        );
-        List<UserAvailWithStage> myList = new ArrayList<>();
-        for (UserAvailability retDatum : retData) {
-            myList.add(new UserAvailWithStage(retDatum, request.getStage()));
+        List<String> myTags = new ArrayList<>();
 
+        switch (request.getStage()){
+            case "R1":
+                myTags = Arrays.asList("R1", "R2", "Sponsor");
+                break;
+            case "R2":
+                myTags = Arrays.asList("R2", "Sponsor");
+                break;
+            case "Sponsor":
+                myTags = Arrays.asList("Sponsor");
+                break;
+            default:
+                break;
+        }
+        List<UserAvailWithStage> myList = new ArrayList<>();
+
+        for (String tag: myTags ) {
+            List<Integer>  newPotentialInterviewers = getUsersInListHavingTag(potentialInterviewers, tag);
+            System.out.println("potential ids");
+            System.out.println(newPotentialInterviewers);
+            /* filter users to those available */
+            List<UserAvailability> retData = availabilityService.getAvailableInterviewersAccurate(
+                    newPotentialInterviewers,
+                    request
+            );
+            for (UserAvailability retDatum : retData) {
+                myList.add(new UserAvailWithStage(retDatum, tag));
+
+            }
         }
         System.out.println("myList");
         for (UserAvailWithStage userAvailWithStage : myList) {
@@ -195,16 +215,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<Integer> getUsersInListHavingTag(List<Integer> inputIds, String tag){
-        List<String> tagsList = Arrays.asList("R1","R2","Sponsor");
-        List<String> myTags = new ArrayList<>();
-        for (String temp: tagsList) {
-            myTags.add(temp);
-            if(temp==tag){
-                break;
-            }
-        }
-        System.out.println("my tags");
-        System.out.println(myTags);
-        return userRepository.getUsersFromListWithTag(inputIds,myTags);
+        List<String> tagsList = Arrays.asList(tag);
+        return userRepository.getUsersFromListWithTag(inputIds,tagsList);
     }
 }
